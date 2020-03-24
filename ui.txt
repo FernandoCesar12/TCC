@@ -101,17 +101,20 @@ page <-  dashboardPage(skin = "green",
                                                         
                                                         fluidRow(
                                                           tabBox(
-                                                            side = "right", height = "350px", width = '90%',
-                                                            title = "Breve Descrição sobre o funcionamento dos processos",
+                                                            side = "right", height = "250px", width = '90%',
+                                                            title = "Funcionamento dos processos",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ","Os processos são ... ", height = "350px", width = '100%')
+                                                            tabPanel(" ",p("Os processos públicos administrados pela",em(strong("5ª Vara da Justiça Federal")),em("constituem cinquenta e cinco diferentes categorias de pleitos divididos em: Ações Civis Coletivas, Ações Populares, Buscas e Apreensões, Arrestos, Protestos e etc. Dessa maneira, a instituição possui como encargo a necessidade de triagem das fases processuais contabilizadas desde o recebimento até a conclusão do mesmo pleito, sendo tais etapas contabilizadas em trinta e oito estágios divididos em seis setores internos a instituição (Secretaria, Gabinete, Central de Mandados, Requerido, Requerente e Perito).", align = "center")),
+                                                                     
+                                                                     p("Cada uma das trinta e oito fases pré-definidas no quadro abaixo, possuem tempo limite de duração estruturado em artigos do Código de Processo Civil" ,em(strong("nº 297, 802, 896, 1.065, 1.106, 536 e 508")),em(". Necessitando-se assim da colaboração e compreensão dos advogados e servidores para realização das atividades dentro dos prazos delimitados, uma vez que nos termos das leis acima mencionadas, a principio não haverá nenhuma hipótese de prorrogação.", align = "left"))
+                                                                     , height = "350px", width = '100%')
                                                           ),
                                                           
                                                           tabBox(
                                                             side = "right", height = "1320px", width = '90%',
                                                             title = "Tabela com o tempo limite dos processos segundo a lei",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel("","Os prazos limites dos processos segundo a lei seriam ...", height = "350px", width = '100%'),
+                                                            tabPanel("","", height = "350px", width = '100%'),
                                                             fluidRow(
                                                               tableOutput("data1"))
                                                           )

@@ -1,6 +1,6 @@
 ############################################# Entrando com a Interface pessoal ############################################ 
 
-#Entrando com os pacotes necess√°rios para an√°lise
+#Entrando com os pacotes necess·rios para an·lise
 
 #install.packages("shiny")
 library(shiny)
@@ -33,28 +33,28 @@ library(tidyverse)
 #install.packages("plotly")
 library(plotly)
 
-#Cria√ß√£o da interface pessoal 
+#CriaÁ„o da interface pessoal 
 
 page <-  dashboardPage(skin = "green", 
-                       # Foi modificado a formata√ß√£o do texto no topo da p√°gina, adicionados links para sites externos e quadros de mensagens no topo da tela
+                       # Foi modificado a formataÁ„o do texto no topo da p·gina, adicionados links para sites externos e quadros de mensagens no topo da tela
                        
                        header <- dashboardHeader(title = span(
-                         "5¬™ Vara da Justi√ßa Federal", # T√≠tulo do Dashboard
+                         "5™ Vara da JustiÁa Federal", # TÌtulo do Dashboard
                          style = "font-family: Tahoma; font-weight: bold" 
                        ),titleWidth = "400px",
-                       tags$li(a(href = 'http://google.com.br', # p√°gina externa
+                       tags$li(a(href = 'http://google.com.br', # p·gina externa
                                  icon("wifi"),
-                                 title = "P√°gina interna"),
+                                 title = "P·gina interna"),
                                class = "dropdown"),
-                       tags$li(a(href = 'https://portal.trf1.jus.br/sjdf/', # p√°gina externa
+                       tags$li(a(href = 'https://portal.trf1.jus.br/sjdf/', # p·gina externa
                                  icon("link"),
-                                 #img(src = 'https://pbs.twimg.com/profile_images/865670431830818816/1l4aMf6A_400x400.jpg', # op√ß√£o de colocar uma foto no icone de acesso
-                                 title = "P√°gina da Justi√ßa Federal", height = "30px"),
+                                 #img(src = 'https://pbs.twimg.com/profile_images/865670431830818816/1l4aMf6A_400x400.jpg', # opÁ„o de colocar uma foto no icone de acesso
+                                 title = "P·gina da JustiÁa Federal", height = "30px"),
                                #style = "padding-top:10px; padding-bottom:10px;",
                                class = "dropdown"),
-                       dropdownMenu(type = "message", #Criando uma mensagem de notifica√ß√£o
-                                    messageItem(from = "Desenvolvedores", message = "Bem vindo a vers√£o Beta do Dashboard"), # Mensagem de Boas vindas
-                                    messageItem(from = "Desenvolvedores", message = "Em caso de erros informar ao desenvolvedor", icon = icon("r-project")) #Notifica√ß√£o de erro
+                       dropdownMenu(type = "message", #Criando uma mensagem de notificaÁ„o
+                                    messageItem(from = "Desenvolvedores", message = "Bem vindo a vers„o Beta do Dashboard"), # Mensagem de Boas vindas
+                                    messageItem(from = "Desenvolvedores", message = "Em caso de erros informar ao desenvolvedor", icon = icon("r-project")) #NotificaÁ„o de erro
                        )),
                        
                        sidebar <- dashboardSidebar( uiOutput("sidebarpanel")),
@@ -65,63 +65,66 @@ page <-  dashboardPage(skin = "green",
                                                 tabItem(tabName = "dashboard", # Adicionando as caixas de InfoBox na aba DashBoard 
                                                         
                                                         fluidRow(
-                                                          infoBox("Processos Encerrados",10,icon = icon("tags"),color = "aqua"), #Inserindo a tag com frequ√™ncia
-                                                          infoBox("Tempo m√©dio de Sobreviv√™ncia", paste0("15 dias") ,icon = icon("calculator"),color = "orange"),
-                                                          infoBox("Tempo de Sobreviv√™ncia", paste0("10 dias") ,icon = icon("thumbs-up", lib = "glyphicon"),color = "orange",fill = FALSE),
-                                                          infoBox("Vida m√©dia Residual", paste0("5 dias") ,icon = icon("list"),color = "purple"),
+                                                          infoBox("Processos Encerrados",10,icon = icon("tags"),color = "aqua"), #Inserindo a tag com frequÍncia
+                                                          infoBox("Tempo mÈdio de SobrevivÍncia", paste0("15 dias") ,icon = icon("calculator"),color = "orange"),
+                                                          infoBox("Tempo de SobrevivÍncia", paste0("10 dias") ,icon = icon("thumbs-up", lib = "glyphicon"),color = "orange",fill = FALSE),
+                                                          infoBox("Vida mÈdia Residual", paste0("5 dias") ,icon = icon("list"),color = "purple"),
                                                           infoBox("Taxa de Risco", paste0("40%") ,icon = icon("percent"),color = "green"),
-                                                          infoBox("Fun√ß√£o de Sobreviv√™ncia", paste0("60%") ,icon = icon("heart"),color = "red")),
+                                                          infoBox("FunÁ„o de SobrevivÍncia", paste0("60%") ,icon = icon("heart"),color = "red")),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogram1")), #Gr√°fico 1
-                                                          box(plotOutput("histogram2")), #Gr√°fico 2
-                                                          box(plotOutput("histogram3")), #Gr√°fico 3
-                                                          box(plotOutput("histogram4")) #Gr√°fico 4
+                                                          box(plotOutput("histogram1")), #Gr·fico 1
+                                                          box(plotOutput("histogram2")), #Gr·fico 2
+                                                          box(plotOutput("histogram3")), #Gr·fico 3
+                                                          box(plotOutput("histogram4")) #Gr·fico 4
                                                         )),
                                                 
                                                 tabItem(tabName = "Resumo", # Adicionando as caixas de InfoBox na aba Resumo 
                                                         
                                                         fluidRow(
-                                                          infoBox("Numero Total de Processos",nrow(Status),icon = icon("archive"),color = "aqua"), #Inserindo a tag com frequ√™ncia
-                                                          infoBox("N√∫mero Total de Encerrados", nrow(Status[Status[,4] == "Encerrado",]) ,icon = icon("folder-minus"),color = "purple"),
-                                                          infoBox("N√∫mero Total de Abertos", nrow(Status[Status[,4] == "Aberto",]) ,icon = icon("folder-open", lib = "glyphicon"),color = "orange",fill = FALSE),
-                                                          infoBox("N√∫mero Total Status (Ok)", nrow(Status[Status[,5] == "Ok",]) ,icon = icon("thumbs-up"),color = "green"),
-                                                          infoBox("N√∫mero Total Status (Alerta)", nrow(Status[Status[,5] == "Alerta",]) ,icon = icon("exclamation-triangle"),color = "yellow"),
-                                                          infoBox("N√∫mero Total Status (Atrasado)", nrow(Status[Status[,5] == "Atrasado",]) ,icon = icon("thumbs-down"),color = "red")),
+                                                          infoBox("Numero Total de Processos",nrow(Status),icon = icon("archive"),color = "aqua"), #Inserindo a tag com frequÍncia
+                                                          infoBox("N˙mero Total de Encerrados", nrow(Status[Status[,4] == "Encerrado",]) ,icon = icon("folder-minus"),color = "purple"),
+                                                          infoBox("N˙mero Total de Abertos", nrow(Status[Status[,4] == "Aberto",]) ,icon = icon("folder-open", lib = "glyphicon"),color = "orange",fill = FALSE),
+                                                          infoBox("N˙mero Total Status (Ok)", nrow(Status[Status[,5] == "Ok",]) ,icon = icon("thumbs-up"),color = "green"),
+                                                          infoBox("N˙mero Total Status (Alerta)", nrow(Status[Status[,5] == "Alerta",]) ,icon = icon("exclamation-triangle"),color = "yellow"),
+                                                          infoBox("N˙mero Total Status (Atrasado)", nrow(Status[Status[,5] == "Atrasado",]) ,icon = icon("thumbs-down"),color = "red")),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("Resumo1")), #Gr√°fico 1
-                                                          box(plotOutput("Resumo2")), #Gr√°fico 2
-                                                          box(plotOutput("Resumo3")), #Gr√°fico 3
-                                                          box(plotOutput("Resumo4")) #Gr√°fico 4
+                                                          box(plotOutput("Resumo1")), #Gr·fico 1
+                                                          box(plotOutput("Resumo2")), #Gr·fico 2
+                                                          box(plotOutput("Resumo3")), #Gr·fico 3
+                                                          box(plotOutput("Resumo4")) #Gr·fico 4
                                                         )),
                                                 
                                                 
-                                                tabItem(tabName = "Classes", # Adicionando as caixas de texto na aba An√°lise Processual 
+                                                tabItem(tabName = "Classes", # Adicionando as caixas de texto na aba An·lise Processual 
                                                         
                                                         fluidRow(
                                                           tabBox(
-                                                            side = "right", height = "350px", width = '90%',
-                                                            title = "Breve Descri√ß√£o sobre o funcionamento dos processos",
+                                                            side = "right", height = "250px", width = '90%',
+                                                            title = "Funcionamento dos processos",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ","Os processos s√£o ... ", height = "350px", width = '100%')
+                                                            tabPanel(" ",p("Os processos p˙blicos administrados pela",em(strong("5™ Vara da JustiÁa Federal")),em("constituem cinquenta e cinco diferentes categorias de pleitos divididos em: AÁıes Civis Coletivas, AÁıes Populares, Buscas e Apreensıes, Arrestos, Protestos e etc. Dessa maneira, a instituiÁ„o possui como encargo a necessidade de triagem das fases processuais contabilizadas desde o recebimento atÈ a conclus„o do mesmo pleito, sendo tais etapas contabilizadas em trinta e oito est·gios divididos em seis setores internos a instituiÁ„o (Secretaria, Gabinete, Central de Mandados, Requerido, Requerente e Perito).", align = "center")),
+                                                                     
+                                                                     p("Cada uma das trinta e oito fases prÈ-definidas no quadro abaixo, possuem tempo limite de duraÁ„o estruturado em artigos do CÛdigo de Processo Civil" ,em(strong("n∫ 297, 802, 896, 1.065, 1.106, 536 e 508")),em(". Necessitando-se assim da colaboraÁ„o e compreens„o dos advogados e servidores para realizaÁ„o das atividades dentro dos prazos delimitados, uma vez que nos termos das leis acima mencionadas, a principio n„o haver· nenhuma hipÛtese de prorrogaÁ„o.", align = "left"))
+                                                                     , height = "350px", width = '100%')
                                                           ),
                                                           
                                                           tabBox(
                                                             side = "right", height = "1320px", width = '90%',
                                                             title = "Tabela com o tempo limite dos processos segundo a lei",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel("","Os prazos limites dos processos segundo a lei seriam ...", height = "350px", width = '100%'),
+                                                            tabPanel("","", height = "350px", width = '100%'),
                                                             fluidRow(
                                                               tableOutput("data1"))
                                                           )
                                                         ),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogram5")), #Gr√°fico 1
-                                                          box(plotOutput("histogram61")), #Gr√°fico 2
-                                                          box(plotOutput("histogram6")), #Gr√°fico 3
-                                                          box(plotOutput("histogram62"))) #Gr√°fico 4
+                                                          box(plotOutput("histogram5")), #Gr·fico 1
+                                                          box(plotOutput("histogram61")), #Gr·fico 2
+                                                          box(plotOutput("histogram6")), #Gr·fico 3
+                                                          box(plotOutput("histogram62"))) #Gr·fico 4
                                                 ),
                                                 
                                                 tabItem(tabName = "Manual", # Adicionando as caixas de texto na aba Manual de uso  
@@ -129,16 +132,16 @@ page <-  dashboardPage(skin = "green",
                                                         fluidRow(
                                                           tabBox(
                                                             side = "right", height = "350px", width = '90%',
-                                                            title = "Breve Descri√ß√£o sobre o funcionamento do software",
+                                                            title = "Breve DescriÁ„o sobre o funcionamento do software",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
                                                             tabPanel(" ","O processo referencia ... ", height = "350px", width = '100%')
                                                           ),
                                                           
                                                           tabBox(
                                                             side = "right", height = "350px", width = '90%',
-                                                            title = "Explica√ß√£o sobre os gr√°ficos utilizados",
+                                                            title = "ExplicaÁ„o sobre os gr·ficos utilizados",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ","O gr√°fico referente a Fun√ß√£o de sobreviv√™ncia ...", height = "350px", width = '100%',
+                                                            tabPanel(" ","O gr·fico referente a FunÁ„o de sobrevivÍncia ...", height = "350px", width = '100%',
                                                                      tags$div(tags$ul(
                                                                        tags$li("Imagem 1 ..."),
                                                                        tags$li("Imagem 2 ..."),
@@ -147,15 +150,15 @@ page <-  dashboardPage(skin = "green",
                                                         ),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogramManual1")), #Gr√°fico 1
-                                                          box(plotOutput("histogramManual2")), #Gr√°fico 2
-                                                          box(plotOutput("histogramManual3")), #Gr√°fico 3
-                                                          box(plotOutput("histogramManual4")), #Gr√°fico 4
-                                                          box(plotOutput("histogramManual5")), #Gr√°fico 5
-                                                          box(plotOutput("histogramManual12")),#Gr√°fico 12
-                                                          box(plotOutput("histogramManual7")), #Gr√°fico 7
-                                                          box(plotOutput("histogramManual8")), #Gr√°fico 8
-                                                          box(plotOutput("histogramManual11")) #Gr√°fico 11
+                                                          box(plotOutput("histogramManual1")), #Gr·fico 1
+                                                          box(plotOutput("histogramManual2")), #Gr·fico 2
+                                                          box(plotOutput("histogramManual3")), #Gr·fico 3
+                                                          box(plotOutput("histogramManual4")), #Gr·fico 4
+                                                          box(plotOutput("histogramManual5")), #Gr·fico 5
+                                                          box(plotOutput("histogramManual12")),#Gr·fico 12
+                                                          box(plotOutput("histogramManual7")), #Gr·fico 7
+                                                          box(plotOutput("histogramManual8")), #Gr·fico 8
+                                                          box(plotOutput("histogramManual11")) #Gr·fico 11
                                                           
                                                         )
                                                 ),
@@ -165,17 +168,17 @@ page <-  dashboardPage(skin = "green",
                                                         fluidRow(
                                                           tabBox(
                                                             side = "right", height = "350px", width = '90%',
-                                                            title = "Breve explica√ß√£o sobre os pr√©-requisitos da an√°lise",
+                                                            title = "Breve explicaÁ„o sobre os prÈ-requisitos da an·lise",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ","Os pr√©-requisitos s√£o ... ", height = "350px", width = '100%')
+                                                            tabPanel(" ","Os prÈ-requisitos s„o ... ", height = "350px", width = '100%')
                                                           )),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogram9")), #Gr√°fico 1
-                                                          box(plotOutput("histogram10"))) #Gr√°fico 2
+                                                          box(plotOutput("histogram9")), #Gr·fico 1
+                                                          box(plotOutput("histogram10"))) #Gr·fico 2
                                                 ),
                                                 
-                                                # Eu ocultei a sa√≠da da visualiza√ß√£o dos processos por tempo decorrido
+                                                # Eu ocultei a saÌda da visualizaÁ„o dos processos por tempo decorrido
                                                 
                                                 #tabItem(
                                                 #  tabName = "visual",

@@ -1125,9 +1125,9 @@ shinyServer(function(input, output, session){
     
     ######################### Entrando com os bancos de dados para criação #################################
     
-    #dados <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base (2).xlsx", sheet=1, col_names=TRUE)
-    dadosP <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base (2).xlsx", sheet=2, col_names=TRUE)
-    Date <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base (2).xlsx", sheet=3, col_names=TRUE)
+    #dados <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base2.xlsx", sheet=1, col_names=TRUE)
+    dadosP <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base2.xlsx", sheet=2, col_names=TRUE)
+    Date <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base2.xlsx", sheet=3, col_names=TRUE)
     
     dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\completo.csv")
     AtuaP <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\output_prazos2.csv")
@@ -1472,7 +1472,7 @@ shinyServer(function(input, output, session){
     
     # Juntando as bases de datas atualizadas com o banco de tempos decorridos pelo processo
     
-    dadosData <- merge(dados,Date, by="Nº Processo")
+    dadosData <<- merge(dados,Date, by="Nº Processo")
     
     # Foram realizados loops para descobrir em qual periodo de tempo foi realizado a última movimentação no processo
     
@@ -1568,14 +1568,13 @@ shinyServer(function(input, output, session){
       ggsurvplot(
         fit,
         data = lung,
-        title = "                      Imagem 1",
         size = 1,                 # change line size
         palette =
           c("#E7B800", "#2E9FDF"),# custom color palettes
         conf.int = TRUE,          # Add confidence interval
         pval = TRUE,              # Add p-value
         legend.labs =
-          c("Encerrado", "Aberto"),  
+          c("Ok", "Alerta"),  
         ggtheme = theme_bw()     # Change ggplot2 theme
       )
     })
@@ -1610,7 +1609,7 @@ shinyServer(function(input, output, session){
         scale_color_manual(values = c("#999999", "orange")) +
         scale_size(range = c(0.5, 12))+  theme(axis.title.x=element_blank(),
                                                axis.text.x=element_text("Classe do processo"),
-                                               axis.ticks.x=element_blank())+ ggtitle("            Imagem 4")
+                                               axis.ticks.x=element_blank())
       
     })
     
@@ -1653,7 +1652,7 @@ shinyServer(function(input, output, session){
                       position=position_dodge(.9)) + theme(legend.position="bottom")+  theme(axis.title.x=element_blank(),
                                                                                              axis.text.x=element_text(df2$dose),
                                                                                              axis.ticks.x=element_blank())+
-        scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))+ ggtitle("           Imagem 3")
+        scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))
       
       
       
@@ -1672,34 +1671,32 @@ shinyServer(function(input, output, session){
       
       ggsurvplot(fit2, conf.int = TRUE, data = lung2,
                  palette = c("#E7B800", "#2E9FDF"),
-                 title = "                      Imagem 2",
                  fun = "event", legend.labs =
-                   c("Encerrado", "Aberto"),  
+                   c("Ok", "Alerta"),  
                  ggtheme = theme_bw()) # Change ggplot2 theme
     })
     
     output$histogramManual5 <- renderPlot({ ########################## Imagem 5 - Manual de Uso
-      resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
+      resumo1 <- data.frame(table(dados$`Classe do Processo`, by=dados$Status))
       
-      resumoab <- resumoab[-c(grep( "Em análise",resumoab$by)),]
+      resumo1 <- resumo1[-c(grep( "Em análise",resumo1$by)),]
       
-      names(resumoab)[names(resumoab) == "by"] <- "Status"
-      resumoab <- resumoab[resumoab$Freq != 0,]
-      resumoab <- resumoab[order(resumoab$Freq),]
+      names(resumo1)[names(resumo1) == "by"] <- "Status"
+      resumo1 <- resumo1[resumo1$Freq != 0,]
+      resumo1 <- resumo1[order(resumo1$Freq),]
       
-      resumoab$soma <- ave(resumoab$Freq, resumoab$Var1, FUN=cumsum)
+      resumo1$soma <- ave(resumo1$Freq, resumo1$Var1, FUN=cumsum)
       
-      ggplot(data=resumoab, aes(x=Var1, y=Freq, fill=Status)) +
+      ggplot(data=resumo1, aes(x=Var1, y=Freq, fill=Status)) +
         geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
         geom_text(aes(y=soma, label=Freq), vjust=1.1, 
                   color="white", size=5,hjust = 2)+
-        scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
-        theme_minimal()+ggtitle("          Imagem 5")+  theme(axis.title.x=element_blank(),
-                                                              axis.text.x=element_text(),
-                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                    axis.text.y=element_text(),
-                                                                                                    axis.ticks.y=element_blank())
-      
+        scale_fill_brewer(palette="Paired")+
+        theme_minimal()+  theme(axis.title.x=element_blank(),
+                                                                                                  axis.text.x=element_text(),
+                                                                                                  axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                        axis.text.y=element_text(),
+                                                                                                                                        axis.ticks.y=element_blank())
       
     })
     
@@ -1730,24 +1727,29 @@ shinyServer(function(input, output, session){
       ggplot(resumo2, aes(x=Classe, y=Media, group=Status)) +
         geom_line(aes(linetype=Status, color=Status), size=1)+
         geom_point(aes(color=Status),size=3)+theme_bw()+
-        theme(legend.position="bottom")+ggtitle("                     Imagem 11")
+        theme(legend.position="bottom")
       
     })
     
     output$histogramManual12 <- renderPlot({ ########################## Imagem 6 - Manual de Uso
+      resumo3 <- aggregate(Media ~ Classificação+`Classe do Processo`, data=dadosData, mean, na.rm=TRUE)
       
-      df <- data.frame(
-        group = c("Male", "Female", "Child"),
-        value = c(25, 25, 50)
-      )
+      resumo3 <- resumo3[resumo3$Classificação=="Aberto",]
       
-      bp<- ggplot(df, aes(x="", y=value, fill=group))+
-        geom_bar(width = 1, stat = "identity")
+      for (i in 1:nrow(resumo3)) {
+        resumo3[i,4] <- resumo3[i,3]/sum(resumo3[,3])
+      }
+      
+      names(resumo3) <- c("Status","Classe","Media", "Prop")
+      
+      bp<- ggplot(resumo3, aes(x="", y=Prop, fill=Classe))+
+        geom_bar(width = 1, stat = "identity") 
       
       pie <- bp + coord_polar("y", start=0)
       
-      pie + scale_fill_brewer(palette="Blues") + ggtitle("                         Imagem 6")+
-        theme_minimal()
+      pie + scale_fill_brewer(palette="Blues")+
+        theme_minimal()+geom_text(aes(label = paste(round(Prop, 1), "%")),
+                                                                                                       position = position_stack(vjust = 0.5)) 
       
     })
     
@@ -2373,60 +2375,358 @@ shinyServer(function(input, output, session){
         
         dadosData2 <- dadosData[dadosData$Mes == c(input$dashboard1),]
         dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
-        dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
+        dadosData4 <<- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,3] == "Aberto"){dadosData4[i,3] = 1}
-          else{dadosData4[i,3] = 0}
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
         }
         
-        dadosData4$Status <- as.character(dadosData4$Status)
-        
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Ok"){dadosData4[i,4] = 1}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
         }
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Alerta"){dadosData4[i,4] = 2}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
         }
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Atrasado"){dadosData4[i,4] = 3}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
         }
         
-        dadosData4$Classificação <- as.numeric(dadosData4$Classificação)
-        dadosData4$Status <- as.numeric(dadosData4$Status)
-        dadosData4$Soma <- as.numeric(dadosData4$Soma)
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
         
-        fit <- survfit(Surv(Soma, Classificação) ~ Status, data = dadosData4)
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,
-            data = dadosData4,
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
             size = 1,# change line size
-            palette =
-              c("#E7B800", "#2E9FDF", "red"),# custom color palettes
-            conf.int = TRUE,# Add p-value
-            legend.labs =
-              c("Alerta", "Atrasado","Ok"),  
+            conf.int = TRUE,# Add p-value 
             ggtheme = theme_bw()# Change ggplot2 theme
           )
-          
         })
         
         output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
-          
-          fit2 <- survfit(Surv(Soma, Classificação) ~ Status, data = dadosData4)
-          
-          ggsurvplot(fit2, conf.int = TRUE, data = dadosData4,
-                     palette = c("#E7B800", "#2E9FDF","red"),
-                     fun = "event", legend.labs =
-                       c("Alerta", "Atrasado","Ok"),  
-                     ggtheme = theme_bw()) # Change ggplot2 theme
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
         })
+        
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -2456,10 +2756,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -2696,6 +2996,7 @@ shinyServer(function(input, output, session){
         })
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
+          
           Ajuste <- coxph(Surv(Soma, Classificação) ~ Status, data = dadosData4)
           cox.zph(Ajuste)
           par(mfrow=c(2,1))
@@ -2717,58 +3018,356 @@ shinyServer(function(input, output, session){
         dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
         dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,3] == "Aberto"){dadosData4[i,3] = 1}
-          else{dadosData4[i,3] = 0}
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
         }
         
-        dadosData4$Status <- as.character(dadosData4$Status)
-        
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Ok"){dadosData4[i,4] = 1}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
         }
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Alerta"){dadosData4[i,4] = 2}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
         }
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Atrasado"){dadosData4[i,4] = 3}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
         }
         
-        dadosData4$Classificação <- as.numeric(dadosData4$Classificação)
-        dadosData4$Status <- as.numeric(dadosData4$Status)
-        dadosData4$Soma <- as.numeric(dadosData4$Soma)
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
         
-        fit <- survfit(Surv(Soma, Classificação) ~ Status, data = dadosData4)
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
         
-        output$histogram1 <- renderPlot({  # Imagem 1 - Dashboard
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,
-            data = dadosData4,
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
             size = 1,# change line size
-            palette =
-              c("#E7B800", "#2E9FDF", "red"),# custom color palettes
-            conf.int = TRUE,# Add p-value
-            legend.labs =
-              c("Alerta", "Atrasado","Ok"),  
+            conf.int = TRUE,# Add p-value 
             ggtheme = theme_bw()# Change ggplot2 theme
           )
-          
         })
         
         output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
-          
-          fit2 <- survfit(Surv(Soma, Classificação) ~ Status, data = dadosData4)
-          
-          ggsurvplot(fit2, conf.int = TRUE, data = dadosData4,
-                     palette = c("#E7B800", "#2E9FDF","red"),
-                     fun = "event", legend.labs =
-                       c("Alerta", "Atrasado","Ok"),  
-                     ggtheme = theme_bw()) # Change ggplot2 theme
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
         })
+        
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -2798,10 +3397,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -3059,58 +3658,356 @@ shinyServer(function(input, output, session){
         dadosData2 <- dadosData[dadosData$Mes == c(input$dashboard1),]
         dadosData4 <- dadosData2[dadosData2$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,3] == "Aberto"){dadosData4[i,3] = 1}
-          else{dadosData4[i,3] = 0}
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
         }
         
-        dadosData4$Status <- as.character(dadosData4$Status)
-        
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Ok"){dadosData4[i,4] = 1}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
         }
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Alerta"){dadosData4[i,4] = 2}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
         }
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Atrasado"){dadosData4[i,4] = 3}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
         }
         
-        dadosData4$Classificação <- as.numeric(dadosData4$Classificação)
-        dadosData4$Status <- as.numeric(dadosData4$Status)
-        dadosData4$Soma <- as.numeric(dadosData4$Soma)
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
         
-        fit <- survfit(Surv(Soma, Classificação) ~ Status, data = dadosData4)
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
         
-        output$histogram1 <- renderPlot({ # Imagem 1 - Dashboard
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,
-            data = dadosData4,
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
             size = 1,# change line size
-            palette =
-              c("#E7B800", "#2E9FDF", "red"),# custom color palettes
-            conf.int = TRUE,# Add p-value
-            legend.labs =
-              c("Alerta", "Atrasado","Ok"),  
+            conf.int = TRUE,# Add p-value 
             ggtheme = theme_bw()# Change ggplot2 theme
           )
-          
         })
         
         output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
-          
-          fit2 <- survfit(Surv(Soma, Classificação) ~ Status, data = dadosData4)
-          
-          ggsurvplot(fit2, conf.int = TRUE, data = dadosData4,
-                     palette = c("#E7B800", "#2E9FDF","red"),
-                     fun = "event", legend.labs =
-                       c("Alerta", "Atrasado","Ok"),  
-                     ggtheme = theme_bw()) # Change ggplot2 theme
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
         })
+        
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -3140,10 +4037,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -3400,58 +4297,356 @@ shinyServer(function(input, output, session){
         
         dadosData4 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,3] == "Aberto"){dadosData4[i,3] = 1}
-          else{dadosData4[i,3] = 0}
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
         }
         
-        dadosData4$Status <- as.character(dadosData4$Status)
-        
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Ok"){dadosData4[i,4] = 1}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
         }
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Alerta"){dadosData4[i,4] = 2}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
         }
         
-        for (i in 1:nrow(dadosData4)) {
-          if(dadosData4[i,4] == "Atrasado"){dadosData4[i,4] = 3}
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
         }
         
-        dadosData4$Classificação <- as.numeric(dadosData4$Classificação)
-        dadosData4$Status <- as.numeric(dadosData4$Status)
-        dadosData4$Soma <- as.numeric(dadosData4$Soma)
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
         
-        fit <- survfit(Surv(Soma, Classificação) ~ Status, data = dadosData4)
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
         
-        output$histogram1 <- renderPlot({ # Imagem 1 - Dashboard
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,
-            data = dadosData4,
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
             size = 1,# change line size
-            palette =
-              c("#E7B800", "#2E9FDF", "red"),# custom color palettes
-            conf.int = TRUE,# Add p-value
-            legend.labs =
-              c("Alerta", "Atrasado","Ok"),  
+            conf.int = TRUE,# Add p-value 
             ggtheme = theme_bw()# Change ggplot2 theme
           )
-          
         })
         
         output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
-          
-          fit2 <- survfit(Surv(Soma, Classificação) ~ Status, data = dadosData4)
-          
-          ggsurvplot(fit2, conf.int = TRUE, data = dadosData4,
-                     palette = c("#E7B800", "#2E9FDF","red"),
-                     fun = "event", legend.labs =
-                       c("Alerta", "Atrasado","Ok"),  
-                     ggtheme = theme_bw()) # Change ggplot2 theme
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
         })
+        
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -3481,10 +4676,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -3748,7 +4943,355 @@ shinyServer(function(input, output, session){
         dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
         dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
+        
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
+          ggsurvplot(
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -3778,10 +5321,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -4026,7 +5569,356 @@ shinyServer(function(input, output, session){
         dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
         dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
+        
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
+          ggsurvplot(
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -4056,10 +5948,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -4304,7 +6196,355 @@ shinyServer(function(input, output, session){
         dadosData2 <- dadosData[dadosData$Mes == c(input$dashboard1),]
         dadosData4 <- dadosData2[dadosData2$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
+        
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
+          ggsurvplot(
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -4334,10 +6574,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -4581,6 +6821,356 @@ shinyServer(function(input, output, session){
         
         dadosData4 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
         
+        # Pegando a parte da planilha que tenho interesse 
+        
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
+          ggsurvplot(
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
@@ -4609,10 +7199,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -4862,7 +7452,355 @@ shinyServer(function(input, output, session){
         dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
         dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
+        
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
+          ggsurvplot(
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -4892,10 +7830,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -5140,7 +8078,356 @@ shinyServer(function(input, output, session){
         dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
         dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
+        
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
+          ggsurvplot(
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -5170,10 +8457,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -5418,7 +8705,356 @@ shinyServer(function(input, output, session){
         dadosData2 <- dadosData[dadosData$Mes == c(input$dashboard1),]
         dadosData4 <- dadosData2[dadosData2$`Classe do Processo` == c(input$dashboard3),]
         
-        dadosData4$Classificação <- as.character(dadosData4$Classificação)
+        # Pegando a parte da planilha que tenho interesse 
+        
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
+          ggsurvplot(
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
         
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
@@ -5448,10 +9084,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
@@ -5695,6 +9331,356 @@ shinyServer(function(input, output, session){
         
         dadosData4 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
         
+        # Pegando a parte da planilha que tenho interesse 
+        
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
+          ggsurvplot(
+            fit,   pval = TRUE, 
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
         output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
@@ -5723,10 +9709,10 @@ shinyServer(function(input, output, session){
           
           
           ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.5)+
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
             guides(fill=FALSE) +
             theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_text(angle=60),
+                                                                                             axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
