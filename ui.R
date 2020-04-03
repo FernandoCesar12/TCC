@@ -1,6 +1,6 @@
 ############################################# Entrando com a Interface pessoal ############################################ 
 
-#Entrando com os pacotes necess�rios para an�lise
+#Entrando com os pacotes necessários para análise
 
 #install.packages("shiny")
 library(shiny)
@@ -33,28 +33,36 @@ library(tidyverse)
 #install.packages("plotly")
 library(plotly)
 
-#Cria��o da interface pessoal 
+#install.packages('rsconnect')
+rsconnect::setAccountInfo(name='fernandocesartcc',
+                          token='87E6637E8D04FDF555C54E9BBD22ABD3',
+                          secret='tU2+Jpe+M//mT+Q9NDn0LUNh92XCksAWn+quHjU6')
 
-page <-  dashboardPage(skin = "green", 
-                       # Foi modificado a formata��o do texto no topo da p�gina, adicionados links para sites externos e quadros de mensagens no topo da tela
+library(rsconnect)
+
+
+#Criação da interface pessoal 
+
+page <-  dashboardPage(skin = "green",
+                       # Foi modificado a formatação do texto no topo da página, adicionados links para sites externos e quadros de mensagens no topo da tela
                        
                        header <- dashboardHeader(title = span(
-                         "5� Vara da Justi�a Federal", # T�tulo do Dashboard
+                         "5ª Vara da Justiça Federal", # Título do Dashboard
                          style = "font-family: Tahoma; font-weight: bold" 
                        ),titleWidth = "400px",
-                       tags$li(a(href = 'http://google.com.br', # p�gina externa
+                       tags$li(a(href = 'http://google.com.br', # página externa
                                  icon("wifi"),
-                                 title = "P�gina interna"),
+                                 title = "Página interna"),
                                class = "dropdown"),
-                       tags$li(a(href = 'https://portal.trf1.jus.br/sjdf/', # p�gina externa
+                       tags$li(a(href = 'https://portal.trf1.jus.br/sjdf/', # página externa
                                  icon("link"),
-                                 #img(src = 'https://pbs.twimg.com/profile_images/865670431830818816/1l4aMf6A_400x400.jpg', # op��o de colocar uma foto no icone de acesso
-                                 title = "P�gina da Justi�a Federal", height = "30px"),
+                                 #img(src = 'https://pbs.twimg.com/profile_images/865670431830818816/1l4aMf6A_400x400.jpg', # opção de colocar uma foto no icone de acesso
+                                 title = "Página da Justiça Federal", height = "30px"),
                                #style = "padding-top:10px; padding-bottom:10px;",
                                class = "dropdown"),
-                       dropdownMenu(type = "message", #Criando uma mensagem de notifica��o
-                                    messageItem(from = "Desenvolvedores", message = "Bem vindo a vers�o Beta do Dashboard"), # Mensagem de Boas vindas
-                                    messageItem(from = "Desenvolvedores", message = "Em caso de erros informar ao desenvolvedor", icon = icon("r-project")) #Notifica��o de erro
+                       dropdownMenu(type = "message", #Criando uma mensagem de notificação
+                                    messageItem(from = "Desenvolvedores", message = "Bem vindo a versão Beta do Dashboard", href="https://shiny.rstudio.com/"), # Mensagem de Boas vindas
+                                    messageItem(from = "Desenvolvedores", message = "Em caso de erros informar ao desenvolvedor", icon = icon("r-project")) #Notificação de erro
                        )),
                        
                        sidebar <- dashboardSidebar( uiOutput("sidebarpanel")),
@@ -65,48 +73,50 @@ page <-  dashboardPage(skin = "green",
                                                 tabItem(tabName = "dashboard", # Adicionando as caixas de InfoBox na aba DashBoard 
                                                         
                                                         fluidRow(
-                                                          infoBox("Processos Encerrados",10,icon = icon("tags"),color = "aqua"), #Inserindo a tag com frequ�ncia
-                                                          infoBox("Tempo m�dio de Sobreviv�ncia", paste0("15 dias") ,icon = icon("calculator"),color = "orange"),
-                                                          infoBox("Tempo de Sobreviv�ncia", paste0("10 dias") ,icon = icon("thumbs-up", lib = "glyphicon"),color = "orange",fill = FALSE),
-                                                          infoBox("Vida m�dia Residual", paste0("5 dias") ,icon = icon("list"),color = "purple"),
-                                                          infoBox("Taxa de Risco", paste0("40%") ,icon = icon("percent"),color = "green"),
-                                                          infoBox("Fun��o de Sobreviv�ncia", paste0("60%") ,icon = icon("heart"),color = "red")),
+                                                          infoBoxOutput("Encerrados"),
+                                                          infoBoxOutput("Sobrevivencia"),
+                                                          infoBoxOutput("Risco_Acumulado"),
+                                                          infoBoxOutput("Risco"),
+                                                          infoBox("Tempo médio de Sobrevivência", paste0("15 dias") ,icon = icon("calculator"),color = "orange"),
+                                                          infoBox("Vida média Residual", paste0("5 dias") ,icon = icon("list"),color = "purple")),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogram1")), #Gr�fico 1
-                                                          box(plotOutput("histogram2")), #Gr�fico 2
-                                                          box(plotOutput("histogram3")), #Gr�fico 3
-                                                          box(plotOutput("histogram4")) #Gr�fico 4
+                                                          box(title = strong("Função de sobrevivência"), status = "primary",solidHeader = TRUE,plotOutput("histogram1")),#Gráfico 1
+                                                          box(title = strong("Função de risco"), status = "warning",solidHeader = TRUE,plotOutput("histogram2")),#Gráfico 2
+                                                          box(title = strong("Prazo médio de execução das tarefas (dias)"),status = "primary", solidHeader = TRUE,plotlyOutput("histogram3")),#Gráfico 3
+                                                          box(title = strong("Percentual do prazo médio de execução das tarefas (dias)"),status = "warning", solidHeader = TRUE,plotlyOutput("histogram4"))#Gráfico 4
+                                                          
                                                         )),
                                                 
                                                 tabItem(tabName = "Resumo", # Adicionando as caixas de InfoBox na aba Resumo 
                                                         
                                                         fluidRow(
-                                                          infoBox("Numero Total de Processos",nrow(Status),icon = icon("archive"),color = "aqua"), #Inserindo a tag com frequ�ncia
-                                                          infoBox("N�mero Total de Encerrados", nrow(Status[Status[,4] == "Encerrado",]) ,icon = icon("folder-minus"),color = "purple"),
-                                                          infoBox("N�mero Total de Abertos", nrow(Status[Status[,4] == "Aberto",]) ,icon = icon("folder-open", lib = "glyphicon"),color = "orange",fill = FALSE),
-                                                          infoBox("N�mero Total Status (Ok)", nrow(Status[Status[,5] == "Ok",]) ,icon = icon("thumbs-up"),color = "green"),
-                                                          infoBox("N�mero Total Status (Alerta)", nrow(Status[Status[,5] == "Alerta",]) ,icon = icon("exclamation-triangle"),color = "yellow"),
-                                                          infoBox("N�mero Total Status (Atrasado)", nrow(Status[Status[,5] == "Atrasado",]) ,icon = icon("thumbs-down"),color = "red")),
+                                                          infoBox("Numero Total de Processos",nrow(Status),icon = icon("archive"),color = "aqua"), #Inserindo a tag com frequência
+                                                          infoBox("Número Total de Encerrados", nrow(Status[Status[,4] == "Encerrado",]) ,icon = icon("folder-minus"),color = "purple"),
+                                                          infoBox("Número Total de Abertos", nrow(Status[Status[,4] == "Aberto",]) ,icon = icon("folder-open", lib = "glyphicon"),color = "orange",fill = FALSE),
+                                                          infoBox("Número Total Status (Ok)", nrow(Status[Status[,5] == "Ok",]) ,icon = icon("thumbs-up"),color = "green"),
+                                                          infoBox("Número Total Status (Alerta)", nrow(Status[Status[,5] == "Alerta",]) ,icon = icon("exclamation-triangle"),color = "yellow"),
+                                                          infoBox("Número Total Status (Atrasado)", nrow(Status[Status[,5] == "Atrasado",]) ,icon = icon("thumbs-down"),color = "red")),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("Resumo1")), #Gr�fico 1
-                                                          box(plotOutput("Resumo2")), #Gr�fico 2
-                                                          box(plotOutput("Resumo3")), #Gr�fico 3
-                                                          box(plotOutput("Resumo4")) #Gr�fico 4
+                                                          box(title = strong("Total de Processos Segundo sua Classificação"), status = "primary", solidHeader = TRUE, plotlyOutput("Resumo1")), #Gráfico 1
+                                                          box(title = strong("Total de Processos Segundo seu Status"), status = "warning", solidHeader = TRUE, plotlyOutput("Resumo2")), #Gráfico 2
+                                                          box(title = strong("Tempo médio de duração dos processos em dias"), status = "primary", solidHeader = TRUE, plotlyOutput("Resumo3")), #Gráfico 3
+                                                          box(title = strong("Percentual do tempo médio nos processos Abertos"), status = "warning", solidHeader = TRUE, plotlyOutput("Resumo4")) #Gráfico 4
+                                                          
                                                         )),
                                                 
                                                 
-                                                tabItem(tabName = "Classes", # Adicionando as caixas de texto na aba An�lise Processual 
+                                                tabItem(tabName = "Classes", # Adicionando as caixas de texto na aba Análise Processual 
                                                         
                                                         fluidRow(
                                                           tabBox(
-                                                            side = "right", height = "250px", width = '90%',
+                                                            side = "right", height = "200px", width = '90%',
                                                             title = "Funcionamento dos processos",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ",p("Os processos p�blicos administrados pela",em(strong("5� Vara da Justi�a Federal")),em("constituem cinquenta e cinco diferentes categorias de pleitos divididos em: A��es Civis Coletivas, A��es Populares, Buscas e Apreens�es, Arrestos, Protestos e etc. Dessa maneira, a institui��o possui como encargo a necessidade de triagem das fases processuais contabilizadas desde o recebimento at� a conclus�o do mesmo pleito, sendo tais etapas contabilizadas em trinta e oito est�gios divididos em seis setores internos a institui��o (Secretaria, Gabinete, Central de Mandados, Requerido, Requerente e Perito).", align = "center")),
+                                                            tabPanel(" ",p(em("Os processos públicos administrados pela"),em(strong("5ª Vara da Justiça Federal")),em("constituem cinquenta e cinco diferentes categorias de pleitos divididos em: Ações Civis Coletivas, Ações Populares, Buscas e Apreensões, Arrestos, Protestos e etc. Dessa maneira, a instituição possui como encargo a necessidade de triagem das fases processuais contabilizadas desde o recebimento até a conclusão do mesmo pleito, sendo tais etapas contabilizadas em trinta e oito estágios divididos em seis setores internos a instituição (Secretaria, Gabinete, Central de Mandados, Requerido, Requerente e Perito).", align = "center")),
                                                                      
-                                                                     p("Cada uma das trinta e oito fases pr�-definidas no quadro abaixo, possuem tempo limite de dura��o estruturado em artigos do C�digo de Processo Civil" ,em(strong("n� 297, 802, 896, 1.065, 1.106, 536 e 508")),em(". Necessitando-se assim da colabora��o e compreens�o dos advogados e servidores para realiza��o das atividades dentro dos prazos delimitados, uma vez que nos termos das leis acima mencionadas, a principio n�o haver� nenhuma hip�tese de prorroga��o.", align = "left"))
+                                                                     p(em("Cada uma das trinta e oito fases pré-definidas no quadro abaixo, possuem tempo limite de duração estruturado em artigos do Código de Processo Civil"),em(strong("nº 297, 802, 896, 1.065, 1.106, 536 e 508")),em(". Necessitando-se assim da colaboração e compreensão dos advogados e servidores para realização das atividades dentro dos prazos delimitados, uma vez que nos termos das leis acima mencionadas, a principio não haverá nenhuma hipótese de prorrogação.", align = "left"))
                                                                      , height = "350px", width = '100%')
                                                           ),
                                                           
@@ -115,50 +125,91 @@ page <-  dashboardPage(skin = "green",
                                                             title = "Tabela com o tempo limite dos processos segundo a lei",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
                                                             tabPanel("","", height = "350px", width = '100%'),
-                                                            fluidRow(
-                                                              tableOutput("data1"))
+                                                            fluidRow(align = "center",
+                                                                     tableOutput("data1"))
                                                           )
                                                         ),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogram5")), #Gr�fico 1
-                                                          box(plotOutput("histogram61")), #Gr�fico 2
-                                                          box(plotOutput("histogram6")), #Gr�fico 3
-                                                          box(plotOutput("histogram62"))) #Gr�fico 4
+                                                          box(title = strong("Aberturas e fechamento de processos"), status = "primary", solidHeader = TRUE, plotlyOutput("histogram5")),#Gráfico 1
+                                                          box(title = strong("Total de Processos segundo seu Status"), status = "warning", solidHeader = TRUE, plotlyOutput("histogram61")), #Gráfico 2
+                                                          box(title = strong("Tempo médio vs Prova Pericial"), status = "primary", solidHeader = TRUE, plotlyOutput("histogram6")),
+                                                          box(title = strong("Percentual do tempo médio nos processos Abertos"),status = "warning", solidHeader = TRUE, plotlyOutput("histogram62"))) #Gráfico 4
                                                 ),
                                                 
                                                 tabItem(tabName = "Manual", # Adicionando as caixas de texto na aba Manual de uso  
                                                         
                                                         fluidRow(
                                                           tabBox(
-                                                            side = "right", height = "350px", width = '90%',
-                                                            title = "Breve Descri��o sobre o funcionamento do software",
+                                                            side = "right", height = "800px", width = '90%',
+                                                            title = "Descrição sobre o funcionamento do software",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ","O processo referencia ... ", height = "350px", width = '100%')
+                                                            tabPanel(" ",p(em("Com o intuito de criar medidas descritivas capazes de informar os advogados e servidores da instituição sobre os prazos remanescentes para elaboração e estruturação dos processos descritos como de interesse, desenvolveu-se com parceria da "),em(strong("5ª Vara da Justiça Federal")),em("um sistema automatizado por meio  do software R em conjunto com o pacote Shiny, produzindo-se assim um layout gráfico robusto e de simples manuseio para a instituição.", align = "center")), height = "350px", width = '100%'),
+                                                            p(em("O sistema consiste de 10 abas com diferentes funcionalidades e denominações (Análise processual, Manual de uso, Quadro resumo, Visualização dos dados, Seleção dos prazos, Atualização dos prazos, Criação dos dados, Atualização dos dados, Dashboard e Pré-requisitos). Dessa maneira, será descrito abaixo a finalidade de cada uma dessas abas.")),
+                                                            tags$br(),
+                                                            tags$div(tags$ul(
+                                                              tags$li(a(span(icon("user-tie"), style = "color:black")),strong(span("Análise Processual: ", style = "color:black")),em("Serve para informar o usuário sobre os prazos limites de cada umas das etapas, conjuntamente com o nome do setor interno responsável por esta. Além de disponibilizar algumas médias descritivas com seleção de filtros para classe do processo, mês e ano.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon("tasks"), style = "color:black")),strong(span("Manual de uso: ", style = "color:black")),em("Informa o utilizador da página a respeito de informações referentes as demais abas existentes no sistema, além instruir em relação as interpretações de saídas gráficas disponibilizadas pelo software.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon("chart-line"), style = "color:black")),strong(span("Quadro resumo: ", style = "color:black")),em("Apresenta um conjunto de medidas descritivas referentes ao banco de dados como um todo. Nessa aba não foram disponibilizados filtros para análise pontual.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon("street-view"), style = "color:black")),strong(span("Visualização dos dados: ", style = "color:black")),em("Mostra a diferença de tempo entre os termos adentrados no sistema para o banco de dados referente aos prazos limites do processo e o conjunto de valores já decorrido do mesmo processo.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon("calendar"), style = "color:black")),strong(span("Seleção de prazos: ", style = "color:black")),em("Serve para adicionar ao sistema o prazo referente ao processo criado, possibilitando também, um breve aumento ou diminuição do tempo limite pré-estabelecido para cada etapa processual.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon("cog"), style = "color:black")),strong(span("Atualização dos prazos: ", style = "color:black")),em("EEm casos de necessidade, essa aba possibilita o acréscimo ou redução do prazo para determinadas etapas do processo. Vale ressaltar que tais mudanças não devem ser feitas por livre arbítrio.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon("database"), style = "color:black")),strong(span("Criação dos dados: ", style = "color:black")),em("Nessa aba ocorre a possibilidade de adentrar com novos processos já existentes na instituição ao sistema. Vale ressaltar a necessidade de preenchimento simultâneo com a aba Seleção de prazos.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon("sync"), style = "color:black")),strong(span("Atualização dos dados: ", style = "color:black")),em("Em casos de necessidade, essa aba possibilita a mudança nas datas de termino das atividades internas referentes a instituição para as determinadas classes de processos. Vale ressaltar que tais mudanças não devem ser feitas por livre arbítrio.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon("dashboard"), style = "color:black")),strong(span("Dashboard: ", style = "color:black")),em("Mostra algumas informações referentes a análise de sobrevivência para as classes de processos em interesse. Como por exemplo, a probabilidade do processo ser encerrado antes de ser finalizado ou o tempo médio que a classe processual leva para sua conclusão.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon("calculator"), style = "color:black")),strong(span("Pré-requisitos: ", style = "color:black")),em("Serve para informar sobre a qualidade de ajuste dos dados ao modelo proposto na análise de sobrevivência na aba Dashboard."))),  style = "font-size: 15px")
                                                           ),
                                                           
                                                           tabBox(
-                                                            side = "right", height = "350px", width = '90%',
-                                                            title = "Explica��o sobre os gr�ficos utilizados",
+                                                            side = "right", height = "710px", width = '90%',
+                                                            title = "Explicação sobre os gráficos utilizados",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ","O gr�fico referente a Fun��o de sobreviv�ncia ...", height = "350px", width = '100%',
+                                                            tabPanel(" ",p(em("As saídas gráficas apresentadas nessa aba representam um resumo de todos os Plots contidos no sistema. Dessa maneira, será descrito abaixo de maneira simples e sucinta como se discorre a usabilidade e interpretabilidade de cada um dos gráficos."), height = "350px", width = '100%'),
+                                                                     tags$br(),
                                                                      tags$div(tags$ul(
-                                                                       tags$li("Imagem 1 ..."),
-                                                                       tags$li("Imagem 2 ..."),
-                                                                       tags$li("Imagem 3 ...")),  style = "font-size: 15px"))
+                                                                       
+                                                                       tags$li(a(span(icon("chart-pie"), style = "color:black")),strong(span("Função de Sobrevivência: ", style = "color:black")),em("Serve para comparar as probabilidades de sobrevivência ao longo do tempo entre dois grupos distintos (processos que apresentam seu status “ok” e processos com o status “Alerta”). Ou seja, calcula a chance de que uma classe processual não seja encerrada antes de sua conclusão efetiva para um determinado período de tempo.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-line"), style = "color:black")),strong(span("Função de risco Acumulado: ", style = "color:black")),em("Representa o risco acumulado de um processo ser encerrado naquele período de tempo sem que necessariamente este seja concluído efetivamente.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-area"), style = "color:black")),strong(span("Gráfico de colunas: ", style = "color:black")),em("Descreve o número de observações entre as classes de processos selecionadas que possuem classificação aberta ou encerrada dentre as delimitações impostas pelos filtros.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-bar"), style = "color:black")),strong(span("Gráfico de bolhas: ", style = "color:black")),em("Mostra que para uma determinada fase do processo, qual seria o tempo médio de duração das classes processuais segundo sua classificação em Aberto e Encerrado. As bolhas que apresentam menores comprimentos são aquelas que possuem melhores resultados.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("project-diagram"), style = "color:black")),strong(span("Gráfico de barras: ", style = "color:black")),em("Demonstra a frequência de observações entre as classes processuais para os status de Ok, Alerta e Atrasado. Leva-se em consideração as delimitações impostas pelos filtros.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-pie"), style = "color:black")),strong(span("Gráfico de setores: ", style = "color:black")),em("Representado numa escala percentual, o Plot descreve qual das classes processuais demandou da instituição um maior período de tempo até sua conclusão.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-line"), style = "color:black")),strong(span("Imagem: ", style = "color:black")),em("")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-area"), style = "color:black")),strong(span("Resíduos de Schoenfeld: ", style = "color:black")),em("Serve para verificar a suposição de riscos proporcionais na análise de sobrevivência. Caso o modelo seja apropriado, não deverá haver tendências nos tempos analisados.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-bar"), style = "color:black")),strong(span("Gráfico de barras: ", style = "color:black")),em("Representa o tempo médio de duração em dias das atividades internas da instituição segundo a fase de cada processo.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("project-diagram"), style = "color:black")),strong(span("Gráfico de linhas: ", style = "color:black")),em("Descreve o tempo médio de duração das classes processuais segundo sua classificação em Aberto ou Encerrado."))),  style = "font-size: 15px"))
                                                           )
                                                         ),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogramManual1")), #Gr�fico 1
-                                                          box(plotOutput("histogramManual2")), #Gr�fico 2
-                                                          box(plotOutput("histogramManual3")), #Gr�fico 3
-                                                          box(plotOutput("histogramManual4")), #Gr�fico 4
-                                                          box(plotOutput("histogramManual5")), #Gr�fico 5
-                                                          box(plotOutput("histogramManual12")),#Gr�fico 12
-                                                          box(plotOutput("histogramManual7")), #Gr�fico 7
-                                                          box(plotOutput("histogramManual8")), #Gr�fico 8
-                                                          box(plotOutput("histogramManual11")) #Gr�fico 11
+                                                          box(title = "Função de Sobrevivência", status = "primary", solidHeader = TRUE, plotOutput("histogramManual1")), #Gráfico 1
+                                                          box(title = "Função de risco Acumulado", status = "warning", solidHeader = TRUE,plotOutput("histogramManual2")), #Gráfico 2
+                                                          box(title = "Gráfico de colunas", status = "primary", solidHeader = TRUE,plotlyOutput("histogramManual3")), #Gráfico 3
+                                                          box(title = "Gráfico de bolhas", status = "warning", solidHeader = TRUE,plotlyOutput("histogramManual4")), #Gráfico 4
+                                                          box(title = "Gráfico de barras", status = "primary", solidHeader = TRUE,plotlyOutput("histogramManual5")), #Gráfico 5
+                                                          box(title = "Gráfico de setores", status = "warning", solidHeader = TRUE,plotlyOutput("histogramManual12")),#Gráfico 12
+                                                          box(title = "Imagem", status = "primary", solidHeader = TRUE,plotOutput("histogramManual7")), #Gráfico 7
+                                                          box(title = "Resíduos de Schoenfeld", status = "warning", solidHeader = TRUE,plotOutput("histogramManual8")), #Gráfico 8
+                                                          box(title = "Gráfico de barras", status = "primary", solidHeader = TRUE,plotlyOutput("histogramManual9")), #Gráfico 9
+                                                          box(title = "Gráfico de linhas", status = "warning", solidHeader = TRUE,plotlyOutput("histogramManual11")) #Gráfico 11
                                                           
                                                         )
                                                 ),
@@ -168,17 +219,17 @@ page <-  dashboardPage(skin = "green",
                                                         fluidRow(
                                                           tabBox(
                                                             side = "right", height = "350px", width = '90%',
-                                                            title = "Breve explica��o sobre os pr�-requisitos da an�lise",
+                                                            title = "Breve explicação sobre os pré-requisitos da análise",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ","Os pr�-requisitos s�o ... ", height = "350px", width = '100%')
+                                                            tabPanel(" ","Os pré-requisitos são ... ", height = "350px", width = '100%')
                                                           )),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogram9")), #Gr�fico 1
-                                                          box(plotOutput("histogram10"))) #Gr�fico 2
+                                                          box(plotOutput("histogram9")), #Gráfico 1
+                                                          box(plotOutput("histogram10"))) #Gráfico 2
                                                 ),
                                                 
-                                                # Eu ocultei a sa�da da visualiza��o dos processos por tempo decorrido
+                                                # Eu ocultei a saída da visualização dos processos por tempo decorrido
                                                 
                                                 #tabItem(
                                                 #  tabName = "visual",
@@ -223,5 +274,6 @@ page <-  dashboardPage(skin = "green",
                                               )
                        )
 )
+
 
 ui <- dashboardPage(header,sidebar, body)

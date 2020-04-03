@@ -63,7 +63,7 @@ shinyServer(function(input, output, session){
                                selectInput("Classe1", "Selecione o mês de análise:", choices=c("Janeiro","Fevereiro","Março","Abril","Maio",
                                                                                                "Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro","Todos os meses"),multiple = TRUE, selected = TRUE), tabName = "Classes"),
                    menuSubItem(icon = NULL,
-                               selectInput("Classe2", "Selecione o ano de análise:", choices=c("2019","2020","2021","Todos os anos"),multiple = TRUE, selected = TRUE), tabName = "Classes"),
+                               selectInput("Classe2", "Selecione o ano de análise:", choices=c("2017","2018","2019","2020","Todos os anos"),multiple = TRUE, selected = TRUE), tabName = "Classes"),
                    
                    menuSubItem(icon = NULL,
                                selectInput("Classe3", "Selecione a classe do processo:", choices=c("Ação Civil Coletiva","Ação Civil de Improbabilidade Administrativa","Ação Civil Pública Cível","Ação de Exigir Contas","Ação Popular","Alimentos - Lei Especial nº 5.478/68","Alvará Judicial","Arresto","Busca e Apreensão","Busca e Apreensão em Alien.",
@@ -1087,7 +1087,7 @@ shinyServer(function(input, output, session){
                                                                                                   "Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro","Todos os meses"),multiple = TRUE, selected = TRUE), tabName = "dashboard"),
                    
                    menuSubItem(icon = NULL,
-                               selectInput("dashboard2", "Selecione o ano de análise:", choices=c("2019","2020","2021","Todos os anos"),multiple = TRUE, selected = TRUE), tabName = "dashboard"),
+                               selectInput("dashboard2", "Selecione o ano de análise:", choices=c("2017","2018","2019","2020","Todos os anos"),multiple = TRUE, selected = TRUE), tabName = "dashboard"),
                    
                    menuSubItem(icon = NULL,
                                selectInput("dashboard4", "Selecione a classificação:", choices=c("Aberto","Encerrado","Ambos"),multiple = TRUE, selected = TRUE), tabName = "dashboard"),
@@ -1129,14 +1129,14 @@ shinyServer(function(input, output, session){
     dadosP <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base2.xlsx", sheet=2, col_names=TRUE)
     Date <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base2.xlsx", sheet=3, col_names=TRUE)
     
-    dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\completo.csv")
-    AtuaP <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\output_prazos2.csv")
-    Date2 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Data.csv")
-    Date4 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Data2.csv")
-    Prazo <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\output_prazos.csv")
-    dados2 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\output.csv")
-    dados5 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\output2.csv")
-    Status <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\output.csv")
+    dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\completo.csv")
+    AtuaP <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output_prazos2.csv")
+    Date2 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Data.csv")
+    Date4 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Data2.csv")
+    Prazo <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output_prazos.csv")
+    dados2 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output.csv")
+    dados5 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output2.csv")
+    Status <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output.csv")
     
     dados <- dados[,-1]
     Prazo <<- Prazo[,-1]
@@ -1145,6 +1145,16 @@ shinyServer(function(input, output, session){
     Date2 <<- Date2[,-1]
     Date4 <<- Date4[,-1]
     AtuaP <<- AtuaP[,-1]
+    
+    # Serve para atualizar os selectinput na Ui enquanto o sistema roda 
+    
+    updateSelectInput(session, "AtuaPra1",
+                      choices = sort(as.character(Status[,3]))
+    )
+    
+    updateSelectInput(session, "Entradas1",
+                      choices = sort(as.character(Status[,3]))
+    )
     
     
     names(dados) <- c("Nº Processo","Apelido","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
@@ -1571,15 +1581,15 @@ shinyServer(function(input, output, session){
         size = 1,                 # change line size
         palette =
           c("#E7B800", "#2E9FDF"),# custom color palettes
-        conf.int = TRUE,          # Add confidence interval
-        pval = TRUE,              # Add p-value
+        conf.int = TRUE,           # Add p-value
         legend.labs =
           c("Ok", "Alerta"),  
         ggtheme = theme_bw()     # Change ggplot2 theme
       )
+      
     })
     
-    output$histogramManual4 <- renderPlot({ ########################## Imagem 4 - Manual de Uso
+    output$histogramManual4 <- renderPlotly({ ########################## Imagem 4 - Manual de Uso
       
       supp <- c("OJ","OJ","OJ","VC","VC","VC","VC")
       dose <- c(0.5,0.5,0.5,1,1,1,2)
@@ -1604,16 +1614,23 @@ shinyServer(function(input, output, session){
       
       df4 <- rbind(sf22,sf33)
       df4$`Data de uma Ação de interesse Y`[13] <- 20
-      ggplot(df4, aes(x = dose, y = `Data de uma Ação de interesse Y`)) +
-        geom_point(aes(color = Status, size = `Tempo de vida`), alpha = 0.5) +
+      
+      names(df4)[names(df4) == "Tempo de vida"] <- "Duracao"
+      names(df4)[names(df4) == "dose"] <- "Nº_Processo"
+      names(df4)[names(df4) == "Data de uma Ação de interesse Y"] <- "Duração da Ação de interesse Y"
+      
+      d <- ggplot(df4, aes(x = Nº_Processo, y = `Duração da Ação de interesse Y`)) +
+        geom_point(aes(color = Status, size = Duracao), alpha = 0.5) +
         scale_color_manual(values = c("#999999", "orange")) +
         scale_size(range = c(0.5, 12))+  theme(axis.title.x=element_blank(),
                                                axis.text.x=element_text("Classe do processo"),
                                                axis.ticks.x=element_blank())
       
+
+      ggplotly(d)
     })
     
-    output$histogramManual3 <- renderPlot({ ########################## Imagem 3 - Manual de Uso
+    output$histogramManual3 <- renderPlotly({ ########################## Imagem 3 - Manual de Uso
       
       # make some data
       df <- ToothGrowth
@@ -1643,19 +1660,20 @@ shinyServer(function(input, output, session){
         if(df2$dose[i]==0.5){df2$dose[i] = "Processo 1"} else if(df2$dose[i]==1){df2$dose[i] = "Processo 2"} else{df2$dose[i] = "Processo 3"}
       }
       
-      names(df2) <- c("Processo", "dose", "Número de processos", "Tempo de vida")
+      names(df2) <- c("Status", "Nº_Processo", "Frequencia", "Tempo de vida")
       # Convert dose to a factor variable
-      df2$dose=as.factor(df2$dose)
-      ggplot(df2, aes(x=dose, y=`Número de processos`, fill=Processo)) +
-        geom_bar(stat="identity", color="black", position=position_dodge()) +
-        geom_errorbar(aes(ymin=`Número de processos`, ymax=`Número de processos`+`Tempo de vida`), width=.2,
+      df2$Nº_Processo=as.factor(df2$Nº_Processo)
+     
+       c <- ggplot(df2, aes(x=Nº_Processo, y=Frequencia, fill=Status)) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_errorbar(aes(ymin=Frequencia, ymax=Frequencia+`Tempo de vida`), width=.2, alpha=0.5,
                       position=position_dodge(.9)) + theme(legend.position="bottom")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x=element_text(df2$dose),
+                                                                                             axis.text.x=element_text(df2$Nº_Processo),
                                                                                              axis.ticks.x=element_blank())+
         scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))
       
       
-      
+      ggplotly(c)
     })
     
     output$histogramManual2 <- renderPlot({ ########################## Imagem 2 - Manual de Uso
@@ -1676,7 +1694,7 @@ shinyServer(function(input, output, session){
                  ggtheme = theme_bw()) # Change ggplot2 theme
     })
     
-    output$histogramManual5 <- renderPlot({ ########################## Imagem 5 - Manual de Uso
+    output$histogramManual5 <- renderPlotly({ ########################## Imagem 5 - Manual de Uso
       resumo1 <- data.frame(table(dados$`Classe do Processo`, by=dados$Status))
       
       resumo1 <- resumo1[-c(grep( "Em análise",resumo1$by)),]
@@ -1687,16 +1705,19 @@ shinyServer(function(input, output, session){
       
       resumo1$soma <- ave(resumo1$Freq, resumo1$Var1, FUN=cumsum)
       
-      ggplot(data=resumo1, aes(x=Var1, y=Freq, fill=Status)) +
+      names(resumo1)[names(resumo1) == "Var1"] <- "Processo"
+      names(resumo1)[names(resumo1) == "Freq"] <- "Frequencia"
+      
+      b <- ggplot(data=resumo1, aes(x=Processo, y=Frequencia, fill=Status)) +
         geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-        geom_text(aes(y=soma, label=Freq), vjust=1.1, 
-                  color="white", size=5,hjust = 2)+
+        geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0, max(resumo1$Frequencia)+30)+
         scale_fill_brewer(palette="Paired")+
         theme_minimal()+  theme(axis.title.x=element_blank(),
-                                                                                                  axis.text.x=element_text(),
-                                                                                                  axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                        axis.text.y=element_text(),
-                                                                                                                                        axis.ticks.y=element_blank())
+                                axis.text.x=element_text(),
+                                axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                      axis.text.y=element_text(),
+                                                                      axis.ticks.y=element_blank())
+      ggplotly(b)
       
     })
     
@@ -1707,31 +1728,54 @@ shinyServer(function(input, output, session){
     
     output$histogramManual8 <- renderPlot({ ########################## Imagem 8 - Manual de Uso
       lung2 <- lung
-      names(lung2) <- c("inst","time","status1","Tempo de vida", "Status")
-      Ajuste <-coxph(Surv(time, status1) ~ Status + `Tempo de vida`, data = lung2)
+      names(lung2) <- c("inst","time","status1","Ok", "Alerta")
+      Ajuste <-coxph(Surv(time, status1) ~ Alerta + Ok, data = lung2)
       cox.zph(Ajuste)
       
       par(mfrow=c(2,1))
       ggcoxzph(cox.zph(Ajuste))
     })
     
-    output$histogramManual11 <- renderPlot({ ########################## Imagem 11 - Manual de Uso
+    output$histogramManual9 <- renderPlotly({ ########################## Imagem 9 - Manual de Uso
+      
+      level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
+                       "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
+                       "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
+                       "Expedição de intimação (Requerido)","Provas","Cumprimento  da intimação","Expedição de intimação (Requerente)","Ato ordinatório (Provas)","Réplica","Cumprimento da intimação","Expedição de intimação","Ato ordinatório (Réplica)",
+                       "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
+                       "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
+      
+      Etapa <- factor(modelo$processo, level = level_order)
+      
+      p <- ggplot(data=modelo, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+        geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
+        guides(fill=FALSE) +
+        theme_minimal()+  theme(axis.title.x=element_blank(),
+                                axis.text.x = element_blank(),
+                                axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                      axis.text.y=element_text(),
+                                                                      axis.ticks.y=element_blank())
+      ggplotly(p)
+    })
+    
+    output$histogramManual11 <- renderPlotly({ ########################## Imagem 11 - Manual de Uso
       
       Classe <- c("Desapropriação","Desapropriação","Ação Civil Coletiva","Ação Civil Coletiva","Busca e Apreensão","Busca e Apreensão")
       Status <- c("Aberto","Encerrado","Aberto","Encerrado","Aberto","Encerrado")
       Media <- c(10,8.7,15,12,19,18)
       resumo2 <- data.frame(Status,Classe,Media)
       
-      names(resumo2) <- c("Status","Classe","Media")
+      names(resumo2) <- c("Status","Processo","Media")
       
-      ggplot(resumo2, aes(x=Classe, y=Media, group=Status)) +
+      a <- ggplot(resumo2, aes(x=Processo, y=Media, group=Status)) +
         geom_line(aes(linetype=Status, color=Status), size=1)+
         geom_point(aes(color=Status),size=3)+theme_bw()+
         theme(legend.position="bottom")
       
+      ggplotly(a)
     })
     
-    output$histogramManual12 <- renderPlot({ ########################## Imagem 6 - Manual de Uso
+    output$histogramManual12 <- renderPlotly({ ########################## Imagem 6 - Manual de Uso
       resumo3 <- aggregate(Media ~ Classificação+`Classe do Processo`, data=dadosData, mean, na.rm=TRUE)
       
       resumo3 <- resumo3[resumo3$Classificação=="Aberto",]
@@ -1742,40 +1786,41 @@ shinyServer(function(input, output, session){
       
       names(resumo3) <- c("Status","Classe","Media", "Prop")
       
-      bp<- ggplot(resumo3, aes(x="", y=Prop, fill=Classe))+
-        geom_bar(width = 1, stat = "identity") 
+      fig <- plot_ly(type='pie', labels=resumo3$Classe, values=resumo3$Prop, 
+                     textinfo='label+percent', 
+                     insidetextorientation='radial') %>% layout(title=" ", font="Courier New")
+      fig
+
       
-      pie <- bp + coord_polar("y", start=0)
-      
-      pie + scale_fill_brewer(palette="Blues")+
-        theme_minimal()+geom_text(aes(label = paste(round(Prop, 1), "%")),
-                                                                                                       position = position_stack(vjust = 0.5)) 
+     
       
     })
     
     ############################# Estruturando os Gráficos para a Aba Quadro Resumo ###########################
     
-    output$Resumo1 <- renderPlot({ ########################## Imagem 1 - Quadro Resumo
+    output$Resumo1 <- renderPlotly({ ########################## Imagem 1 - Quadro Resumo
       
       resumo <- data.frame(table(dados$`Classe do Processo`, by=dados$Classificação))
       
       names(resumo)[names(resumo) == "by"] <- "Status"
+      names(resumo)[names(resumo) == "Var1"] <- "Processo"
+      names(resumo)[names(resumo) == "Freq"] <- "Frequencia"
       
-      ggplot(data=resumo, aes(x=Var1, y=Freq, fill=Status)) +
+      a1 <- ggplot(data=resumo, aes(x=Processo, y=Frequencia, fill=Status)) +
         geom_bar(stat="identity")+
-        geom_text(aes(y=Freq, label=Freq), vjust=1.6, 
+        geom_text(aes(y=Frequencia, label=Frequencia), vjust=1.6, 
                   color="white", size=5)+
         scale_fill_brewer(palette="Paired")+
-        theme_minimal()+ggtitle("           Número total de Processos Segundo sua Classificação")+  theme(axis.title.x=element_blank(),
+        theme_minimal()+  theme(axis.title.x=element_blank(),
                                                                                                           axis.text.x=element_text(),
                                                                                                           axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                                 axis.text.y=element_text(),
                                                                                                                                                 axis.ticks.y=element_blank())
-      
+      ggplotly(a1)
     })
     
     
-    output$Resumo2 <- renderPlot({ ########################## Imagem 2 - Quadro Resumo
+    output$Resumo2 <- renderPlotly({ ########################## Imagem 2 - Quadro Resumo
       
       resumo1 <- data.frame(table(dados$`Classe do Processo`, by=dados$Status))
       
@@ -1787,33 +1832,36 @@ shinyServer(function(input, output, session){
       
       resumo1$soma <- ave(resumo1$Freq, resumo1$Var1, FUN=cumsum)
       
-      ggplot(data=resumo1, aes(x=Var1, y=Freq, fill=Status)) +
+      names(resumo1)[names(resumo1) == "Var1"] <- "Processo"
+      names(resumo1)[names(resumo1) == "Freq"] <- "Frequencia"
+      
+      a2 <- ggplot(data=resumo1, aes(x=Processo, y=Frequencia, fill=Status)) +
         geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-        geom_text(aes(y=soma, label=Freq), vjust=1.1, 
-                  color="white", size=5,hjust = 2)+
-        scale_fill_brewer(palette="Paired")+
-        theme_minimal()+ggtitle("          Número total de Processos Segundo seu Status")+  theme(axis.title.x=element_blank(),
+        geom_text(aes(x=Processo, y=soma, label=Frequencia), color="white",position=position_stack(0.3))+
+        scale_fill_brewer(palette="Paired")+ ylim(0, max(resumo1$Frequencia)+30)+
+        theme_minimal()+  theme(axis.title.x=element_blank(),
                                                                                                   axis.text.x=element_text(),
                                                                                                   axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                         axis.text.y=element_text(),
                                                                                                                                         axis.ticks.y=element_blank())
-      
+      ggplotly(a2)
     })
     
-    output$Resumo3 <- renderPlot({ ########################## Imagem 3 - Quadro Resumo
+    output$Resumo3 <- renderPlotly({ ########################## Imagem 3 - Quadro Resumo
       
       resumo2 <- aggregate(Media ~ Classificação+`Classe do Processo`, data=dadosData, mean, na.rm=TRUE)
       
-      names(resumo2) <- c("Status","Classe","Media")
+      names(resumo2) <- c("Status","Processo","Media")
       
-      ggplot(resumo2, aes(x=Classe, y=Media, group=Status)) +
+      a3 <- ggplot(resumo2, aes(x=Processo, y=Media, group=Status)) +
         geom_line(aes(linetype=Status, color=Status), size=1)+
         geom_point(aes(color=Status),size=3)+theme_bw()+
-        theme(legend.position="bottom")+ggtitle("          Tempo médio de duração dos processos em dias")
+        theme(legend.position="bottom")
       
+      ggplotly(a3)
     })
     
-    output$Resumo4 <- renderPlot({ ########################## Imagem 4 - Quadro Resumo
+    output$Resumo4 <- renderPlotly({ ########################## Imagem 4 - Quadro Resumo
       
       resumo3 <- aggregate(Media ~ Classificação+`Classe do Processo`, data=dadosData, mean, na.rm=TRUE)
       
@@ -1825,14 +1873,11 @@ shinyServer(function(input, output, session){
       
       names(resumo3) <- c("Status","Classe","Media", "Prop")
       
-      bp<- ggplot(resumo3, aes(x="", y=Prop, fill=Classe))+
-        geom_bar(width = 1, stat = "identity") 
+      fig <- plot_ly(type='pie', labels=resumo3$Classe, values=resumo3$Prop, 
+                     textinfo='label+percent', 
+                     insidetextorientation='radial') %>% layout(title=" ", font="Courier New")
+      fig
       
-      pie <- bp + coord_polar("y", start=0)
-      
-      pie + scale_fill_brewer(palette="Blues")+
-        theme_minimal()+ggtitle("          Percentual do tempo médio nos processos Abertos")+geom_text(aes(label = paste(round(Prop, 1), "%")),
-                                                                                                       position = position_stack(vjust = 0.5)) 
       
     })
     
@@ -1846,7 +1891,7 @@ shinyServer(function(input, output, session){
       
       if(input$Classe1 != "Todos os meses" & input$Classe2 != "Todos os anos"){
         
-        output$histogram5 <- renderPlot({ 
+        output$histogram5 <- renderPlotly({ 
           dadosData2 <- subset(dadosData, dadosData$Mes == input$Classe1)
           dadosData3 <- subset(dadosData2, dadosData2$Ano == input$Classe2)
           dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
@@ -1856,23 +1901,27 @@ shinyServer(function(input, output, session){
           dat2$Var1 <- as.factor(dat2$Var1)
           dat2 <- dat2[dat2$Freq != 0,]
           
-          
-          ggplot(dat2, aes(x=Var1, y=Freq, fill=by)) +
-            geom_bar(stat="identity", color="black", position=position_dodge()) +
-            geom_errorbar(aes(ymin=Freq, ymax=Freq+0.2), width=.2,
+          names(dat2)[names(dat2) == "Var1"] <- "Processo"
+          names(dat2)[names(dat2) == "Freq"] <- "Frequencia"
+          names(dat2)[names(dat2) == "by"] <- "status"
+            
+          a4 <- ggplot(dat2, aes(x=Processo, y=Frequencia, fill=status)) +
+            geom_bar(stat="identity", position=position_dodge()) +
+            geom_errorbar(aes(ymin=Frequencia, ymax=Frequencia+0.2), width=.2, alpha=0.5,
                           position=position_dodge(.9)) + theme(legend.position="bottom")+  theme(axis.title.x=element_blank(),
                                                                                                  axis.text.x=element_text(dat2$Var1),
                                                                                                  axis.ticks.x=element_blank())+
-            scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))+ ggtitle("    Aberturas e fechamento de processos")
+            scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))
           
           
+          ggplotly(a4)
         })}
       
       ############################################# Imagem número 1
       
       if(input$Classe1 == "Todos os meses" & input$Classe2 != "Todos os anos"){
         
-        output$histogram5 <- renderPlot({ 
+        output$histogram5 <- renderPlotly({ 
           
           dadosData3 <- dadosData[dadosData$Ano == c(input$Classe2),]
           dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
@@ -1882,22 +1931,27 @@ shinyServer(function(input, output, session){
           dat2$Var1 <- as.factor(dat2$Var1)
           dat2 <- dat2[dat2$Freq != 0,]
           
-          ggplot(dat2, aes(x=Var1, y=Freq, fill=by)) +
-            geom_bar(stat="identity", color="black", position=position_dodge()) +
-            geom_errorbar(aes(ymin=Freq, ymax=Freq+0.2), width=.2,
+          names(dat2)[names(dat2) == "Var1"] <- "Processo"
+          names(dat2)[names(dat2) == "Freq"] <- "Frequencia"
+          names(dat2)[names(dat2) == "by"] <- "status"
+          
+          a5 <- ggplot(dat2, aes(x=Processo, y=Frequencia, fill=status)) +
+            geom_bar(stat="identity", position=position_dodge()) +
+            geom_errorbar(aes(ymin=Frequencia, ymax=Frequencia+0.2), width=.2, alpha=0.5,
                           position=position_dodge(.9)) + theme(legend.position="bottom")+  theme(axis.title.x=element_blank(),
                                                                                                  axis.text.x=element_text(dat2$Var1),
                                                                                                  axis.ticks.x=element_blank())+
-            scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))+ ggtitle("    Aberturas e fechamento de processos")
+            scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))
           
           
+          ggplotly(a5) 
         })}
       
       ############################################# Imagem número 1
       
       if(input$Classe1 != "Todos os meses" & input$Classe2 == "Todos os anos"){
         
-        output$histogram5 <- renderPlot({ 
+        output$histogram5 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData4 <- subset(dadosData2, dadosData2$`Classe do Processo` == (input$Classe3)[1] | dadosData2$`Classe do Processo` == (input$Classe3)[2] | dadosData2$`Classe do Processo` == (input$Classe3)[3])
@@ -1907,22 +1961,27 @@ shinyServer(function(input, output, session){
           dat2$Var1 <- as.factor(dat2$Var1)
           dat2 <- dat2[dat2$Freq != 0,]
           
-          ggplot(dat2, aes(x=Var1, y=Freq, fill=by)) +
-            geom_bar(stat="identity", color="black", position=position_dodge()) +
-            geom_errorbar(aes(ymin=Freq, ymax=Freq+0.2), width=.2,
-                          position=position_dodge(.9)) + theme(legend.position="bottom")+  theme(axis.title.x=element_blank(),
-                                                                                                 axis.text.x=element_text(dat2$Var1),
-                                                                                                 axis.ticks.x=element_blank())+
-            scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))+ ggtitle("    Aberturas e fechamento de processos")
+          names(dat2)[names(dat2) == "Var1"] <- "Processo"
+          names(dat2)[names(dat2) == "Freq"] <- "Frequencia"
+          names(dat2)[names(dat2) == "by"] <- "status"
           
-          
+         a6 <- ggplot(dat2, aes(x=Processo, y=Frequencia, fill=status)) +
+           geom_bar(stat="identity", position=position_dodge()) +
+           geom_errorbar(aes(ymin=Frequencia, ymax=Frequencia+0.2), width=.2, alpha=0.5,
+                         position=position_dodge(.9)) + theme(legend.position="bottom")+  theme(axis.title.x=element_blank(),
+                                                                                                axis.text.x=element_text(dat2$Var1),
+                                                                                                axis.ticks.x=element_blank())+
+           scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))
+         
+         
+         ggplotly(a6)
         })}    
       
       ############################################# Imagem número 1
       
       if(input$Classe1 == "Todos os meses" & input$Classe2 == "Todos os anos"){
         
-        output$histogram5 <- renderPlot({
+        output$histogram5 <- renderPlotly({
           
           dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3])
           
@@ -1931,22 +1990,27 @@ shinyServer(function(input, output, session){
           dat2$Var1 <- as.factor(dat2$Var1)
           dat2 <- dat2[dat2$Freq != 0,]
           
-          ggplot(dat2, aes(x=Var1, y=Freq, fill=by)) +
-            geom_bar(stat="identity", color="black", position=position_dodge()) +
-            geom_errorbar(aes(ymin=Freq, ymax=Freq+0.2), width=.2,
-                          position=position_dodge(.9)) + theme(legend.position="bottom")+  theme(axis.title.x=element_blank(),
-                                                                                                 axis.text.x=element_text(dat2$Var1),
-                                                                                                 axis.ticks.x=element_blank())+
-            scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))+ ggtitle("    Aberturas e fechamento de processos")
+          names(dat2)[names(dat2) == "Var1"] <- "Processo"
+          names(dat2)[names(dat2) == "Freq"] <- "Frequencia"
+          names(dat2)[names(dat2) == "by"] <- "status"
           
-          
+         a7 <- ggplot(dat2, aes(x=Processo, y=Frequencia, fill=status)) +
+           geom_bar(stat="identity", position=position_dodge()) +
+           geom_errorbar(aes(ymin=Frequencia, ymax=Frequencia+0.2), width=.2, alpha=0.5,
+                         position=position_dodge(.9)) + theme(legend.position="bottom")+  theme(axis.title.x=element_blank(),
+                                                                                                axis.text.x=element_text(dat2$Var1),
+                                                                                                axis.ticks.x=element_blank())+
+           scale_fill_manual("Status", values = c("Aberto" = "#999999", "Encerrado" = "orange"))
+         
+         
+         ggplotly(a7)
         })}
       
       ############################################# Imagem número 3
       
       if(input$Classe1 != "Todos os meses" & input$Classe2 != "Todos os anos"){
         
-        output$histogram6 <- renderPlot({ 
+        output$histogram6 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData3 <- dadosData2[dadosData2$Ano == c(input$Classe2),]
@@ -1961,22 +2025,26 @@ shinyServer(function(input, output, session){
           names(pericia) <- c("grupo1","Status","Tempo médio da (Prova pericial)","Média")
           pericia$grupo1 <- as.factor(pericia$grupo1)
           
-          pericia %>%
+          names(pericia)[names(pericia) == "grupo1"] <- "Processo"
+          
+          a8 <-  pericia %>%
             arrange(desc(Média)) %>%
-            ggplot(aes(x=grupo1, y=`Tempo médio da (Prova pericial)`, size=Média, color=Status)) +
+            ggplot(aes(x=Processo, y=`Tempo médio da (Prova pericial)`, size=Média, color=Status)) +
             scale_color_manual(values = c("orange","#999999")) +
             geom_point(alpha=0.5) +
             scale_size(range = c(20, 14))+  theme(axis.title.x=element_blank(),
                                                   axis.text.x=element_text("Classe do processo"),
-                                                  axis.ticks.x=element_blank())+ ggtitle("Tempo médio de duração vs Tempo médio em (Prova Pericial)")
-        })}
+                                                  axis.ticks.x=element_blank())
+        
+          ggplotly(a8)
+          })}
       
       
       ############################################# Imagem número 3
       
       if(input$Classe1 == "Todos os meses" & input$Classe2 != "Todos os anos"){
         
-        output$histogram6 <- renderPlot({ 
+        output$histogram6 <- renderPlotly({ 
           
           dadosData3 <- dadosData[dadosData$Ano == c(input$Classe2),]
           dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
@@ -1990,21 +2058,26 @@ shinyServer(function(input, output, session){
           names(pericia) <- c("grupo1","Status","Tempo médio da (Prova pericial)","Média")
           pericia$grupo1 <- as.factor(pericia$grupo1)
           
-          pericia %>%
+          names(pericia)[names(pericia) == "grupo1"] <- "Processo"
+          
+          a9 <- pericia %>%
             arrange(desc(Média)) %>%
-            ggplot(aes(x=grupo1, y=`Tempo médio da (Prova pericial)`, size=Média, color=Status)) +
+            ggplot(aes(x=Processo, y=`Tempo médio da (Prova pericial)`, size=Média, color=Status)) +
             scale_color_manual(values = c("orange","#999999")) +
             geom_point(alpha=0.5) +
             scale_size(range = c(10, 24))+  theme(axis.title.x=element_blank(),
                                                   axis.text.x=element_text("Classe do processo"),
-                                                  axis.ticks.x=element_blank())+ ggtitle("Tempo médio de duração vs Tempo médio em (Prova Pericial)")
-        })}
+                                                  axis.ticks.x=element_blank())
+        
+          ggplotly(a9)
+          
+          })}
       
       ############################################# Imagem número 3
       
       if(input$Classe1 != "Todos os meses" & input$Classe2 == "Todos os anos"){
         
-        output$histogram6 <- renderPlot({ 
+        output$histogram6 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData4 <- subset(dadosData2, dadosData2$`Classe do Processo` == (input$Classe3)[1] | dadosData2$`Classe do Processo` == (input$Classe3)[2] | dadosData2$`Classe do Processo` == (input$Classe3)[3])
@@ -2018,21 +2091,25 @@ shinyServer(function(input, output, session){
           names(pericia) <- c("grupo1","Status","Tempo médio da (Prova pericial)","Média")
           pericia$grupo1 <- as.factor(pericia$grupo1)
           
-          pericia %>%
+          names(pericia)[names(pericia) == "grupo1"] <- "Processo"
+          
+         a10 <- pericia %>%
             arrange(desc(Média)) %>%
-            ggplot(aes(x=grupo1, y=`Tempo médio da (Prova pericial)`, size=Média, color=Status)) +
+            ggplot(aes(x=Processo, y=`Tempo médio da (Prova pericial)`, size=Média, color=Status)) +
             scale_color_manual(values = c("orange","#999999")) +
             geom_point(alpha=0.5) +
             scale_size(range = c(10, 24))+  theme(axis.title.x=element_blank(),
                                                   axis.text.x=element_text("Classe do processo"),
-                                                  axis.ticks.x=element_blank())+ ggtitle("Tempo médio de duração vs Tempo médio em (Prova Pericial)")
-        })}
+                                                  axis.ticks.x=element_blank())
+        
+         ggplotly(a10)
+         })}
       
       ############################################# Imagem número 3
       
       if(input$Classe1 == "Todos os meses" & input$Classe2 == "Todos os anos"){
         
-        output$histogram6 <- renderPlot({ 
+        output$histogram6 <- renderPlotly({ 
           
           dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3])
           
@@ -2045,22 +2122,27 @@ shinyServer(function(input, output, session){
           names(pericia) <- c("grupo1","Status","Tempo médio da (Prova pericial)","Média")
           pericia$grupo1 <- as.factor(pericia$grupo1)
           
-          pericia %>%
+          names(pericia)[names(pericia) == "grupo1"] <- "Processo"
+          
+          a11 <- pericia %>%
             arrange(desc(Média)) %>%
-            ggplot(aes(x=grupo1, y=`Tempo médio da (Prova pericial)`, size=Média, color=Status)) +
+            ggplot(aes(x=Processo, y=`Tempo médio da (Prova pericial)`, size=Média, color=Status)) +
             scale_color_manual(values = c("orange","#999999")) +
             geom_point(alpha=0.5) +
             scale_size(range = c(10, 24))+  theme(axis.title.x=element_blank(),
                                                   axis.text.x=element_text("Classe do processo"),
-                                                  axis.ticks.x=element_blank())+ ggtitle("Tempo médio de duração vs Tempo médio em (Prova Pericial)")
-        })}
+                                                  axis.ticks.x=element_blank())
+        
+          ggplotly(a11)
+          
+          })}
       
       
       ############################################# Imagem número 2
       
       if(input$Classe1 != "Todos os meses" & input$Classe2 != "Todos os anos"){
         
-        output$histogram61 <- renderPlot({ 
+        output$histogram61 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData3 <- dadosData2[dadosData2$Ano == c(input$Classe2),]
@@ -2069,7 +2151,8 @@ shinyServer(function(input, output, session){
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
           
-          resumoab <- resumoab[-c(grep( "Em análise",resumoab$by)),]
+          if(length(grep( "Em análise",resumoab$by)) != 0){
+          resumoab <- resumoab[-c(grep( "Em análise",resumoab$by)),]}
           
           names(resumoab)[names(resumoab) == "by"] <- "Status"
           resumoab <- resumoab[resumoab$Freq != 0,]
@@ -2077,17 +2160,20 @@ shinyServer(function(input, output, session){
           
           resumoab$soma <- ave(resumoab$Freq, resumoab$Var1, FUN=cumsum)
           
-          ggplot(data=resumoab, aes(x=Var1, y=Freq, fill=Status)) +
-            geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-            geom_text(aes(y=soma, label=Freq), vjust=1.1, 
-                      color="white", size=5,hjust = 2)+
-            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
-            theme_minimal()+ggtitle("          Número total de Processos Segundo seu Status")+  theme(axis.title.x=element_blank(),
-                                                                                                      axis.text.x=element_text(),
-                                                                                                      axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                            axis.text.y=element_text(),
-                                                                                                                                            axis.ticks.y=element_blank())
+          names(resumoab)[names(resumoab) == "Var1"] <- "Processo"
+          names(resumoab)[names(resumoab) == "Freq"] <- "Frequencia"
           
+          a12 <- ggplot(data=resumoab, aes(x=Processo, y=Frequencia, fill=Status)) +
+            geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
+            geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0,max(resumoab$Frequencia)+5)+
+            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
+            theme_minimal()+  theme(axis.title.x=element_blank(),
+                                    axis.text.x=element_text(), 
+                                    axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                          axis.text.y=element_text(),
+                                                                          axis.ticks.y=element_blank())
+          
+          ggplotly(a12)
           
         })}
       
@@ -2096,7 +2182,7 @@ shinyServer(function(input, output, session){
       
       if(input$Classe1 == "Todos os meses" & input$Classe2 != "Todos os anos"){
         
-        output$histogram61 <- renderPlot({ 
+        output$histogram61 <- renderPlotly({ 
           
           dadosData3 <- dadosData[dadosData$Ano == c(input$Classe2),]
           dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
@@ -2104,7 +2190,8 @@ shinyServer(function(input, output, session){
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
           
-          resumoab <- resumoab[-c(grep( "Em análise",resumoab$by)),]
+          if(length(grep( "Em análise",resumoab$by)) != 0){
+            resumoab <- resumoab[-c(grep( "Em análise",resumoab$by)),]}
           
           names(resumoab)[names(resumoab) == "by"] <- "Status"
           resumoab <- resumoab[resumoab$Freq != 0,]
@@ -2112,25 +2199,27 @@ shinyServer(function(input, output, session){
           
           resumoab$soma <- ave(resumoab$Freq, resumoab$Var1, FUN=cumsum)
           
-          ggplot(data=resumoab, aes(x=Var1, y=Freq, fill=Status)) +
-            geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-            geom_text(aes(y=soma, label=Freq), vjust=1.1, 
-                      color="white", size=5,hjust = 2)+
-            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
-            theme_minimal()+ggtitle("          Número total de Processos Segundo seu Status")+  theme(axis.title.x=element_blank(),
-                                                                                                      axis.text.x=element_text(),
-                                                                                                      axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                            axis.text.y=element_text(),
-                                                                                                                                            axis.ticks.y=element_blank())
+          names(resumoab)[names(resumoab) == "Var1"] <- "Processo"
+          names(resumoab)[names(resumoab) == "Freq"] <- "Frequencia"
           
-          
+         a13 <-  ggplot(data=resumoab, aes(x=Processo, y=Frequencia, fill=Status)) +
+           geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
+           geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0,max(resumoab$Frequencia)+5)+
+           scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
+           theme_minimal()+  theme(axis.title.x=element_blank(),
+                                   axis.text.x=element_text(), 
+                                   axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                         axis.text.y=element_text(),
+                                                                         axis.ticks.y=element_blank())
+         ggplotly(a13)
+         
         })}
       
       ############################################# Imagem número 2
       
       if(input$Classe1 != "Todos os meses" & input$Classe2 == "Todos os anos"){
         
-        output$histogram61 <- renderPlot({ 
+        output$histogram61 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData4 <- subset(dadosData2, dadosData2$`Classe do Processo` == (input$Classe3)[1] | dadosData2$`Classe do Processo` == (input$Classe3)[2] | dadosData2$`Classe do Processo` == (input$Classe3)[3])
@@ -2138,7 +2227,8 @@ shinyServer(function(input, output, session){
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
           
-          resumoab <- resumoab[-c(grep( "Em análise",resumoab$by)),]
+          if(length(grep( "Em análise",resumoab$by)) != 0){
+            resumoab <- resumoab[-c(grep( "Em análise",resumoab$by)),]}
           
           names(resumoab)[names(resumoab) == "by"] <- "Status"
           resumoab <- resumoab[resumoab$Freq != 0,]
@@ -2146,17 +2236,19 @@ shinyServer(function(input, output, session){
           
           resumoab$soma <- ave(resumoab$Freq, resumoab$Var1, FUN=cumsum)
           
-          ggplot(data=resumoab, aes(x=Var1, y=Freq, fill=Status)) +
-            geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-            geom_text(aes(y=soma, label=Freq), vjust=1.1, 
-                      color="white", size=5,hjust = 2)+
-            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
-            theme_minimal()+ggtitle("          Número total de Processos Segundo seu Status")+  theme(axis.title.x=element_blank(),
-                                                                                                      axis.text.x=element_text(),
-                                                                                                      axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                            axis.text.y=element_text(),
-                                                                                                                                            axis.ticks.y=element_blank())
+          names(resumoab)[names(resumoab) == "Var1"] <- "Processo"
+          names(resumoab)[names(resumoab) == "Freq"] <- "Frequencia"
           
+          a14 <- ggplot(data=resumoab, aes(x=Processo, y=Frequencia, fill=Status)) +
+            geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
+            geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0,max(resumoab$Frequencia)+5)+
+            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
+            theme_minimal()+  theme(axis.title.x=element_blank(),
+                                    axis.text.x=element_text(), 
+                                    axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                          axis.text.y=element_text(),
+                                                                          axis.ticks.y=element_blank())
+          ggplotly(a14)
           
         })}
       
@@ -2164,14 +2256,15 @@ shinyServer(function(input, output, session){
       
       if(input$Classe1 == "Todos os meses" & input$Classe2 == "Todos os anos"){
         
-        output$histogram61 <- renderPlot({ 
+        output$histogram61 <- renderPlotly({ 
           
           dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3])
           
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
           
-          resumoab <- resumoab[-c(grep( "Em análise",resumoab$by)),]
+          if(length(grep( "Em análise",resumoab$by)) != 0){
+            resumoab <- resumoab[-c(grep( "Em análise",resumoab$by)),]}
           
           names(resumoab)[names(resumoab) == "by"] <- "Status"
           resumoab <- resumoab[resumoab$Freq != 0,]
@@ -2179,25 +2272,27 @@ shinyServer(function(input, output, session){
           
           resumoab$soma <- ave(resumoab$Freq, resumoab$Var1, FUN=cumsum)
           
-          ggplot(data=resumoab, aes(x=Var1, y=Freq, fill=Status)) +
-            geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-            geom_text(aes(y=soma, label=Freq), vjust=1.1, 
-                      color="white", size=5,hjust = 2)+
-            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
-            theme_minimal()+ggtitle("          Número total de Processos Segundo seu Status")+  theme(axis.title.x=element_blank(),
-                                                                                                      axis.text.x=element_text(),
-                                                                                                      axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                            axis.text.y=element_text(),
-                                                                                                                                            axis.ticks.y=element_blank())
+          names(resumoab)[names(resumoab) == "Var1"] <- "Processo"
+          names(resumoab)[names(resumoab) == "Freq"] <- "Frequencia"
           
-          
+         a15 <- ggplot(data=resumoab, aes(x=Processo, y=Frequencia, fill=Status)) +
+           geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
+           geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0,max(resumoab$Frequencia)+5)+
+           scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
+           theme_minimal()+  theme(axis.title.x=element_blank(),
+                                   axis.text.x=element_text(), 
+                                   axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                         axis.text.y=element_text(),
+                                                                         axis.ticks.y=element_blank())
+         ggplotly(a15)
+         
         })}
       
       ############################################# Imagem número 4
       
       if(input$Classe1 != "Todos os meses" & input$Classe2 != "Todos os anos"){
         
-        output$histogram62 <- renderPlot({ 
+        output$histogram62 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData3 <- dadosData2[dadosData2$Ano == c(input$Classe2),]
@@ -2215,14 +2310,10 @@ shinyServer(function(input, output, session){
           
           names(resumorp) <- c("Status","Classe","Media", "Prop")
           
-          bp<- ggplot(resumorp, aes(x="", y=Prop, fill=Classe))+
-            geom_bar(width = 1, stat = "identity") 
-          
-          pie <- bp + coord_polar("y", start=0)
-          
-          pie + scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
-            theme_minimal()+ggtitle("          Percentual do tempo médio nos processos Abertos")+geom_text(aes(label = paste(round(Prop, 1), "%")),
-                                                                                                           position = position_stack(vjust = 0.5)) 
+          fig <- plot_ly(type='pie', labels=resumorp$Classe, values=resumorp$Prop, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font="Courier New")
+          fig
           
         })}
       
@@ -2231,7 +2322,7 @@ shinyServer(function(input, output, session){
       
       if(input$Classe1 == "Todos os meses" & input$Classe2 != "Todos os anos"){
         
-        output$histogram62 <- renderPlot({ 
+        output$histogram62 <- renderPlotly({ 
           
           dadosData3 <- dadosData[dadosData$Ano == c(input$Classe2),]
           dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
@@ -2248,14 +2339,10 @@ shinyServer(function(input, output, session){
           
           names(resumorp) <- c("Status","Classe","Media", "Prop")
           
-          bp<- ggplot(resumorp, aes(x="", y=Prop, fill=Classe))+
-            geom_bar(width = 1, stat = "identity") 
-          
-          pie <- bp + coord_polar("y", start=0)
-          
-          pie + scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
-            theme_minimal()+ggtitle("          Percentual do tempo médio nos processos Abertos")+geom_text(aes(label = paste(round(Prop, 1), "%")),
-                                                                                                           position = position_stack(vjust = 0.5)) 
+          fig <- plot_ly(type='pie', labels=resumorp$Classe, values=resumorp$Prop, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font="Courier New")
+          fig
           
         })}
       
@@ -2263,7 +2350,7 @@ shinyServer(function(input, output, session){
       
       if(input$Classe1 != "Todos os meses" & input$Classe2 == "Todos os anos"){
         
-        output$histogram62 <- renderPlot({ 
+        output$histogram62 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData4 <- subset(dadosData2, dadosData2$`Classe do Processo` == (input$Classe3)[1] | dadosData2$`Classe do Processo` == (input$Classe3)[2] | dadosData2$`Classe do Processo` == (input$Classe3)[3])
@@ -2280,14 +2367,10 @@ shinyServer(function(input, output, session){
           
           names(resumorp) <- c("Status","Classe","Media", "Prop")
           
-          bp<- ggplot(resumorp, aes(x="", y=Prop, fill=Classe))+
-            geom_bar(width = 1, stat = "identity") 
-          
-          pie <- bp + coord_polar("y", start=0)
-          
-          pie + scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
-            theme_minimal()+ggtitle("          Percentual do tempo médio nos processos Abertos")+geom_text(aes(label = paste(round(Prop, 1), "%")),
-                                                                                                           position = position_stack(vjust = 0.5)) 
+          fig <- plot_ly(type='pie', labels=resumorp$Classe, values=resumorp$Prop, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font="Courier New")
+          fig
           
         })}
       
@@ -2295,7 +2378,7 @@ shinyServer(function(input, output, session){
       
       if(input$Classe1 == "Todos os meses" & input$Classe2 == "Todos os anos"){
         
-        output$histogram62 <- renderPlot({ 
+        output$histogram62 <- renderPlotly({ 
           
           dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3])
           
@@ -2311,14 +2394,10 @@ shinyServer(function(input, output, session){
           
           names(resumorp) <- c("Status","Classe","Media", "Prop")
           
-          bp<- ggplot(resumorp, aes(x="", y=Prop, fill=Classe))+
-            geom_bar(width = 1, stat = "identity") 
-          
-          pie <- bp + coord_polar("y", start=0)
-          
-          pie + scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
-            theme_minimal()+ggtitle("          Percentual do tempo médio nos processos Abertos")+geom_text(aes(label = paste(round(Prop, 1), "%")),
-                                                                                                           position = position_stack(vjust = 0.5)) 
+          fig <- plot_ly(type='pie', labels=resumorp$Classe, values=resumorp$Prop, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font="Courier New")
+          fig
           
         })}
       
@@ -2329,44 +2408,6 @@ shinyServer(function(input, output, session){
     
     observeEvent(input$dashboard5, { # saídas referentes ao DASHBOARD e Pré-Requisitos
       
-      ################################# Estruturando os Info Box do Dashboard #################################
-      
-      
-      # Número de Processos Encerrados 
-      
-      if(input$dashboard1 != "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
-        
-        Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
-        Encerrados2 <- Encerrados1[Encerrados1$Ano == c(input$dashboard2),]
-        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
-        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
-        
-      }
-      
-      if(input$dashboard1 == "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
-        
-        Encerrados2 <- dadosData[dadosData$Ano == c(input$dashboard2),]
-        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
-        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
-      }
-      
-      if(input$dashboard1 != "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Ambos"){
-        
-        Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
-        Encerrados3 <- Encerrados1[Encerrados1$`Classe do Processo` == c(input$dashboard3),]
-        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
-        
-      }
-      
-      if(input$dashboard1 == "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Ambos"){
-        
-        Encerrados3 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
-        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
-        
-      }
-      
-      
-      
       ########################################## Classificação igual AMBOS ######################################
       
       ############################################# Caso número 1
@@ -2374,647 +2415,6 @@ shinyServer(function(input, output, session){
       if(input$dashboard1 != "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
         
         dadosData2 <- dadosData[dadosData$Mes == c(input$dashboard1),]
-        dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
-        dadosData4 <<- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
-        
-        # Pegando a parte da planilha que tenho interesse 
-        
-        dadoscens <- dadosData4[,7:44]
-        
-        # Transformando todos os períodos em um unico vetor
-        
-        vetor1 <- as.vector(t(as.matrix(dadoscens)))
-        
-        # Calculando os termos que são ou não censura
-        
-        matriz <- data.frame()
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
-            matriz[i,1] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
-            matriz[i,1] = 0
-            matriz[i,2] = 1  
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
-            matriz[i,1:2] = 0
-            matriz[i,3] = 1  
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
-            matriz[i,1:3] = 0
-            matriz[i,4] = 1   
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
-            matriz[i,1:4] = 0
-            matriz[i,5] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
-            matriz[i,1:5] = 0
-            matriz[i,6] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
-            matriz[i,1:6] = 0
-            matriz[i,7] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
-            matriz[i,1:7] = 0
-            matriz[i,8] = 1  
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
-            matriz[i,1:8] = 0
-            matriz[i,9] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
-            matriz[i,1:9] = 0
-            matriz[i,10] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
-            matriz[i,1:10] = 0
-            matriz[i,11] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
-            matriz[i,1:11] = 0
-            matriz[i,12] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
-            matriz[i,1:12] = 0
-            matriz[i,13] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
-            matriz[i,1:13] = 0
-            matriz[i,14] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
-            matriz[i,1:14] = 0
-            matriz[i,15] = 1   
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
-            matriz[i,1:15] = 0
-            matriz[i,16] = 1   
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
-            matriz[i,1:16] = 0
-            matriz[i,17] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
-            matriz[i,1:17] = 0
-            matriz[i,18] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
-            matriz[i,1:18] = 0
-            matriz[i,19] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
-            matriz[i,1:19] = 0
-            matriz[i,20] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
-            matriz[i,1:20] = 0
-            matriz[i,21] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
-            matriz[i,1:21] = 0
-            matriz[i,22] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
-            matriz[i,1:22] = 0
-            matriz[i,23] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
-            matriz[i,1:23] = 0
-            matriz[i,24] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
-            matriz[i,1:24] = 0
-            matriz[i,25] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
-            matriz[i,1:25] = 0
-            matriz[i,26] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
-            matriz[i,1:26] = 0
-            matriz[i,27] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
-            matriz[i,1:27] = 0
-            matriz[i,28] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
-            matriz[i,1:28] = 0
-            matriz[i,29] = 1 
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
-            matriz[i,1:29] = 0
-            matriz[i,30] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
-            matriz[i,1:30] = 0
-            matriz[i,31] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
-            matriz[i,1:31] = 0
-            matriz[i,32] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
-            matriz[i,1:32] = 0
-            matriz[i,33] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
-            matriz[i,1:33] = 0
-            matriz[i,34] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
-            matriz[i,1:34] = 0
-            matriz[i,35] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
-            matriz[i,1:35] = 0
-            matriz[i,36] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
-            matriz[i,1:36] = 0
-            matriz[i,37] = 1
-          }
-        }
-        
-        for (i in 1:nrow(dadoscens)) {
-          if(dadoscens[i,38] != 0){
-            matriz[i,1:37] = 0
-            matriz[i,38] = 1
-          }
-        }
-        
-        # Juntando os bancos em um único
-        
-        dadoscensura <- as.data.frame(vetor1)
-        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
-        
-        nome <- data.frame()
-        fator <- as.character(dadosData4[,4])
-        
-        for (i in 1:length(fator)) {
-          nome[i,1:38] <- rep(fator[i],38)
-        }
-        
-        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
-        
-        names(dadoscensura) <- c("valor","censura","status")
-        
-        for (i in 1:nrow(dadoscensura)) {
-          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
-          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
-          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
-        }
-        
-        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
-        
-        #Removendo os NA
-        
-        if(length(which(is.na(dadoscensura$censura))) != 0){
-          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
-        }
-        
-        #Arrumando a ordem da legenda
-        
-        caso1 <- grep("Ok",fator)
-        caso2 <- grep("Alerta",fator)
-        caso3 <- grep("Atrasado",fator)
-        
-        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
-        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
-        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
-        
-        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
-        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
-        
-        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
-        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
-        
-        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
-        
-        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
-          ggsurvplot(
-            fit,   pval = TRUE, 
-            data = dadoscensura,
-            legend.labs = rotulos,
-            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
-            size = 1,# change line size
-            conf.int = TRUE,# Add p-value 
-            ggtheme = theme_bw()# Change ggplot2 theme
-          )
-        })
-        
-        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
-          ggsurvplot(
-            fit,
-            data = dadoscensura, fun = "event", 
-            legend.labs = rotulos,
-            palette =
-              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
-            size = 1,# change line size
-            conf.int = TRUE,# Add p-value 
-            ggtheme = theme_bw()# Change ggplot2 theme
-          )
-        })
-        
-        
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
-          
-          medias <- colMeans(dadosData4[,7:44])
-          medias <- as.data.frame(medias)
-          
-          layout <- c("Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
-                      "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
-                      "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação 1","Provas 1","Decisão saneamento",
-                      "Expedição de intimação (Requerente) 1","Cumprimento da intimação 2","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido) 1","Cumprimento da intimação 3","Pedido de esclarecimento ou solicitação de ajustes 1",
-                      "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente) 2","Cumprimento da intimação 4","Alegações finais","Expedição de intimação (Requerido) 2","Cumprimento da intimação 5","Alegações finais 1",
-                      "Recebimento e conclusão do processo","Sentença")
-          
-          banco <- data.frame(layout,medias[,1])
-          banco[,3] <- 1
-          
-          names(banco) <- c("processo","tempo", "cor")
-          
-          banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
-          
-          level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
-                           "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
-                           "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
-                           "Expedição de intimação (Requerido)","Provas","Cumprimento  da intimação","Expedição de intimação (Requerente)","Ato ordinatório (Provas)","Réplica","Cumprimento da intimação","Expedição de intimação","Ato ordinatório (Réplica)",
-                           "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
-                           "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
-          
-          
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
-          
-        })
-        
-        
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
-          
-          medias <- colMeans(dadosData4[,7:44])
-          medias <- as.data.frame(medias)
-          
-          layout <- c("Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
-                      "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
-                      "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação 1","Provas 1","Decisão saneamento",
-                      "Expedição de intimação (Requerente) 1","Cumprimento da intimação 2","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido) 1","Cumprimento da intimação 3","Pedido de esclarecimento ou solicitação de ajustes 1",
-                      "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente) 2","Cumprimento da intimação 4","Alegações finais","Expedição de intimação (Requerido) 2","Cumprimento da intimação 5","Alegações finais 1",
-                      "Recebimento e conclusão do processo","Sentença")
-          
-          banco <- data.frame(layout,medias[,1])
-          
-          names(banco) <- c("processo","tempo")
-          banco$processo <- as.character(banco$processo)
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Recebimento, triagem e conclusão do processo"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Despacho para notificação do Requerido"){banco[i,1] <- "Gabinete"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Expedição de notificação"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Cumprimento da notificação"){banco[i,1] <- "Central de Mandados"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Oferecimento de manifestação por escrito"){banco[i,1] <- "Requerido"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Decisão rejeição da ação ou recebimento pet. inicial"){banco[i,1] <- "Gabinete"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Expedição de intimação e/ou citação"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Cumprimento da intimação e/ou citação"){banco[i,1] <- "Central de Mandados"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Contestação e/ou agravo de instrumento"){banco[i,1] <- "Requerido / Requerente"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Ato ordinatório (Réplica)"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Expedição de intimação"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Cumprimento da intimação"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Réplica"){banco[i,1] <- "Requerente"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Ato ordinatório (Provas)"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Expedição de intimação (Requerente)"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Cumprimento  da intimação"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Provas"){banco[i,1] <- "Requerente"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Expedição de intimação (Requerido)"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Cumprimento da intimação 1"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Provas 1"){banco[i,1] <- "Requerido"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Decisão saneamento"){banco[i,1] <- "Gabinete"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Expedição de intimação (Requerente) 1"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Cumprimento da intimação 2"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Pedido de esclarecimento ou solicitação de ajustes"){banco[i,1] <- "Requerente"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Expedição de intimação (Requerido) 1"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Cumprimento da intimação 3"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Pedido de esclarecimento ou solicitação de ajustes 1"){banco[i,1] <- "Requerido"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Prova pericial"){banco[i,1] <- "Perito"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Prova oral (audiência de instrução e julgamento)"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Ato ordinário (Alegações finais)"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Expedição de intimação (Requerente) 2"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Cumprimento da intimação 4"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Alegações finais"){banco[i,1] <- "Requerente"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Expedição de intimação (Requerido) 2"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Cumprimento da intimação 5"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Alegações finais 1"){banco[i,1] <- "Requerido"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Recebimento e conclusão do processo"){banco[i,1] <- "Secretaria"}
-            
-          }
-          
-          for (i in 1:nrow(banco)) {
-            if(banco[i,1] == "Sentença"){banco[i,1] <- "Gabinete"}
-            
-          }
-          
-          df11 <- aggregate(tempo ~ processo, data=banco, mean, na.rm=TRUE)
-          
-          total <- sum(df11$tempo)
-          for (i in 1:nrow(df11)) {
-            df11[i,2] <- (df11[i,2]/total)*100
-          }
-          
-          df11$tempo <- round((df11$tempo))
-          
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
-          
-          pie <- bp + coord_polar("y", start=0)
-          
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
-          
-          
-        })
-        
-        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
-          
-          Ajuste <- coxph(Surv(Soma, Classificação) ~ Status, data = dadosData4)
-          cox.zph(Ajuste)
-          par(mfrow=c(2,1))
-          ggcoxzph(cox.zph(Ajuste))
-        })
-        
-        
-        output$histogram9 <- renderPlot({ # Imagem 1 - Pré requisitos
-          
-          qqPlot(Ajuste$residuals, xlab = "", ylab = "", col = c("black"),col.lines="red",lwd = 1.5)
-        })
-        
-      }
-      
-      ############################################# Caso número 2
-      
-      if(input$dashboard1 == "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
-        
         dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
         dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
         
@@ -3343,9 +2743,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit,
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -3369,7 +2774,7 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -3388,6 +2793,8 @@ shinyServer(function(input, output, session){
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
           
+          modelo <<- banco
+          
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
                            "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
@@ -3395,20 +2802,23 @@ shinyServer(function(input, output, session){
                            "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
+          Etapa <- factor(banco$processo, level = level_order)
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
+         b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+ theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
                                                                                              axis.text.x = element_blank(),
                                                                                              axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                                                                                    axis.text.y=element_text(),
                                                                                                                                    axis.ticks.y=element_blank())
           
-        })
+        ggplotly(b2)
+        
+         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -3624,23 +3034,677 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
-          
-          pie <- bp + coord_polar("y", start=0)
-          
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
-          
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
           
         })
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
-          Ajuste <- coxph(Surv(Soma, Classificação) ~ Status, data = dadosData4)
+          
+          
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
           cox.zph(Ajuste)
-          par(mfrow=c(2,1))
+          par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
+          
+        })
+        
+        
+        output$histogram9 <- renderPlot({ # Imagem 1 - Pré requisitos
+          
+          qqPlot(Ajuste$residuals, xlab = "", ylab = "", col = c("black"),col.lines="red",lwd = 1.5)
+        })
+        
+      }
+      
+      ############################################# Caso número 2
+
+      if(input$dashboard1 == "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
+        
+        dadosData3 <- dadosData[dadosData$Ano == c(input$dashboard2),]
+        dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
+        
+        # Pegando a parte da planilha que tenho interesse 
+        
+        dadoscens <- dadosData4[,7:44]
+        
+        # Transformando todos os períodos em um unico vetor
+        
+        vetor1 <- as.vector(t(as.matrix(dadoscens)))
+        
+        # Calculando os termos que são ou não censura
+        
+        matriz <- data.frame()
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,1] != 0 & dadoscens[i,2] == 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0){
+            matriz[i,1] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,2] != 0 & dadoscens[i,3] == 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0){
+            matriz[i,1] = 0
+            matriz[i,2] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,3] != 0 & dadoscens[i,4] == 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 ){
+            matriz[i,1:2] = 0
+            matriz[i,3] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,4] != 0 & dadoscens[i,5] == 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0){
+            matriz[i,1:3] = 0
+            matriz[i,4] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,5] != 0 & dadoscens[i,6] == 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0){
+            matriz[i,1:4] = 0
+            matriz[i,5] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,6] != 0 & dadoscens[i,7] == 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0){
+            matriz[i,1:5] = 0
+            matriz[i,6] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,7] != 0 & dadoscens[i,8] == 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0){
+            matriz[i,1:6] = 0
+            matriz[i,7] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,8] != 0 & dadoscens[i,9] == 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0){
+            matriz[i,1:7] = 0
+            matriz[i,8] = 1  
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,9] != 0 & dadoscens[i,10] == 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0){
+            matriz[i,1:8] = 0
+            matriz[i,9] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,10] != 0 & dadoscens[i,11] == 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0){
+            matriz[i,1:9] = 0
+            matriz[i,10] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,11] != 0 & dadoscens[i,12] == 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0){
+            matriz[i,1:10] = 0
+            matriz[i,11] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,12] != 0 & dadoscens[i,13] == 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0){
+            matriz[i,1:11] = 0
+            matriz[i,12] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,13] != 0 & dadoscens[i,14] == 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0){
+            matriz[i,1:12] = 0
+            matriz[i,13] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,14] != 0 & dadoscens[i,15] == 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0){
+            matriz[i,1:13] = 0
+            matriz[i,14] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,15] != 0 & dadoscens[i,16] == 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0){
+            matriz[i,1:14] = 0
+            matriz[i,15] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,16] != 0 & dadoscens[i,17] == 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0){
+            matriz[i,1:15] = 0
+            matriz[i,16] = 1   
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,17] != 0 & dadoscens[i,18] == 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0){
+            matriz[i,1:16] = 0
+            matriz[i,17] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,18] != 0 & dadoscens[i,19] == 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0){
+            matriz[i,1:17] = 0
+            matriz[i,18] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,19] != 0 & dadoscens[i,20] == 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0){
+            matriz[i,1:18] = 0
+            matriz[i,19] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,20] != 0 & dadoscens[i,21] == 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0){
+            matriz[i,1:19] = 0
+            matriz[i,20] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,21] != 0 & dadoscens[i,22] == 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0){
+            matriz[i,1:20] = 0
+            matriz[i,21] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,22] != 0 & dadoscens[i,23] == 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0){
+            matriz[i,1:21] = 0
+            matriz[i,22] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,23] != 0 & dadoscens[i,24] == 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0){
+            matriz[i,1:22] = 0
+            matriz[i,23] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,24] != 0 & dadoscens[i,25] == 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0){
+            matriz[i,1:23] = 0
+            matriz[i,24] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,25] != 0 & dadoscens[i,26] == 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0){
+            matriz[i,1:24] = 0
+            matriz[i,25] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,26] != 0 & dadoscens[i,27] == 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0){
+            matriz[i,1:25] = 0
+            matriz[i,26] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,27] != 0 & dadoscens[i,28] == 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 ){
+            matriz[i,1:26] = 0
+            matriz[i,27] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,28] != 0 & dadoscens[i,29] == 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0){
+            matriz[i,1:27] = 0
+            matriz[i,28] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,29] != 0 & dadoscens[i,30] == 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0){
+            matriz[i,1:28] = 0
+            matriz[i,29] = 1 
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,30] != 0 & dadoscens[i,31] == 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0){
+            matriz[i,1:29] = 0
+            matriz[i,30] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,31] != 0 & dadoscens[i,32] == 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0){
+            matriz[i,1:30] = 0
+            matriz[i,31] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,32] != 0 & dadoscens[i,33] == 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0){
+            matriz[i,1:31] = 0
+            matriz[i,32] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,33] != 0 & dadoscens[i,34] == 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0){
+            matriz[i,1:32] = 0
+            matriz[i,33] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,34] != 0 & dadoscens[i,35] == 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0){
+            matriz[i,1:33] = 0
+            matriz[i,34] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,35] != 0 & dadoscens[i,36] == 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:34] = 0
+            matriz[i,35] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,36] != 0 & dadoscens[i,37] == 0 & dadoscens[i,38] == 0){
+            matriz[i,1:35] = 0
+            matriz[i,36] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,37] != 0 & dadoscens[i,38] == 0){
+            matriz[i,1:36] = 0
+            matriz[i,37] = 1
+          }
+        }
+        
+        for (i in 1:nrow(dadoscens)) {
+          if(dadoscens[i,38] != 0){
+            matriz[i,1:37] = 0
+            matriz[i,38] = 1
+          }
+        }
+        
+        # Juntando os bancos em um único
+        
+        dadoscensura <- as.data.frame(vetor1)
+        dadoscensura[,2]<- as.vector(t(as.matrix(matriz)))
+        
+        nome <- data.frame()
+        fator <- as.character(dadosData4[,4])
+        
+        for (i in 1:length(fator)) {
+          nome[i,1:38] <- rep(fator[i],38)
+        }
+        
+        dadoscensura[,3]<- as.vector(t(as.matrix(nome)))
+        
+        names(dadoscensura) <- c("valor","censura","status")
+        
+        for (i in 1:nrow(dadoscensura)) {
+          if(dadoscensura[i,3] == "Ok"){dadoscensura[i,3] = 1}
+          if(dadoscensura[i,3] == "Alerta"){dadoscensura[i,3] = 2}
+          if(dadoscensura[i,3] == "Atrasado"){dadoscensura[i,3] = 3}
+        }
+        
+        dadoscensura[,3] <- as.numeric(dadoscensura[,3])
+        
+        #Removendo os NA
+        
+        if(length(which(is.na(dadoscensura$censura))) != 0){
+          dadoscensura <- dadoscensura[-which(is.na(dadoscensura$censura)),]
+        }
+        
+        #Arrumando a ordem da legenda
+        
+        caso1 <- grep("Ok",fator)
+        caso2 <- grep("Alerta",fator)
+        caso3 <- grep("Atrasado",fator)
+        
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) == 0){rotulos <- c("Ok")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Ok","Alerta")}
+        if(length(caso1) != 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Ok","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) == 0){rotulos <- c("Alerta")}
+        if(length(caso1) == 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Alerta","Atrasado")}
+        
+        if(length(caso1) == 0 & length(caso2) == 0 & length(caso3) != 0){rotulos <- c("Atrasado")}
+        if(length(caso1) != 0 & length(caso2) != 0 & length(caso3) != 0){rotulos <- c("Ok","Alerta","Atrasado")}
+        
+        fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
+        
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
+        output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
+          ggsurvplot(
+            fit,  
+            data = dadoscensura,
+            legend.labs = rotulos,
+            palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        output$histogram2 <- renderPlot({ # Imagem 2 - Dashboard
+          ggsurvplot(
+            fit,
+            data = dadoscensura, fun = "event", 
+            legend.labs = rotulos,
+            palette =
+              c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+            size = 1,# change line size
+            conf.int = TRUE,# Add p-value 
+            ggtheme = theme_bw()# Change ggplot2 theme
+          )
+        })
+        
+        
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
+          
+          medias <- colMeans(dadosData4[,7:44])
+          medias <- as.data.frame(medias)
+          
+          layout <- c("Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
+                      "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
+                      "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação 1","Provas 1","Decisão saneamento",
+                      "Expedição de intimação (Requerente) 1","Cumprimento da intimação 2","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido) 1","Cumprimento da intimação 3","Pedido de esclarecimento ou solicitação de ajustes 1",
+                      "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente) 2","Cumprimento da intimação 4","Alegações finais","Expedição de intimação (Requerido) 2","Cumprimento da intimação 5","Alegações finais 1",
+                      "Recebimento e conclusão do processo","Sentença")
+          
+          banco <- data.frame(layout,medias[,1])
+          banco[,3] <- 1
+          
+          names(banco) <- c("processo","tempo", "cor")
+          
+          banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
+          
+          level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
+                           "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
+                           "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
+                           "Expedição de intimação (Requerido)","Provas","Cumprimento  da intimação","Expedição de intimação (Requerente)","Ato ordinatório (Provas)","Réplica","Cumprimento da intimação","Expedição de intimação","Ato ordinatório (Réplica)",
+                           "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
+                           "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
+          
+          Etapa <- factor(banco$processo, level = level_order)
+          
+          b5 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
+            guides(fill=FALSE) +
+            theme_minimal()+  theme(axis.title.x=element_blank(),
+                                                                                             axis.text.x = element_blank(),
+                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                   axis.text.y=element_text(),
+                                                                                                                                   axis.ticks.y=element_blank())
+          
+          ggplotly(b5)
+        })
+        
+        
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
+          
+          medias <- colMeans(dadosData4[,7:44])
+          medias <- as.data.frame(medias)
+          
+          layout <- c("Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
+                      "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
+                      "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação 1","Provas 1","Decisão saneamento",
+                      "Expedição de intimação (Requerente) 1","Cumprimento da intimação 2","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido) 1","Cumprimento da intimação 3","Pedido de esclarecimento ou solicitação de ajustes 1",
+                      "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente) 2","Cumprimento da intimação 4","Alegações finais","Expedição de intimação (Requerido) 2","Cumprimento da intimação 5","Alegações finais 1",
+                      "Recebimento e conclusão do processo","Sentença")
+          
+          banco <- data.frame(layout,medias[,1])
+          
+          names(banco) <- c("processo","tempo")
+          banco$processo <- as.character(banco$processo)
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Recebimento, triagem e conclusão do processo"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Despacho para notificação do Requerido"){banco[i,1] <- "Gabinete"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Expedição de notificação"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Cumprimento da notificação"){banco[i,1] <- "Central de Mandados"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Oferecimento de manifestação por escrito"){banco[i,1] <- "Requerido"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Decisão rejeição da ação ou recebimento pet. inicial"){banco[i,1] <- "Gabinete"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Expedição de intimação e/ou citação"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Cumprimento da intimação e/ou citação"){banco[i,1] <- "Central de Mandados"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Contestação e/ou agravo de instrumento"){banco[i,1] <- "Requerido / Requerente"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Ato ordinatório (Réplica)"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Expedição de intimação"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Cumprimento da intimação"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Réplica"){banco[i,1] <- "Requerente"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Ato ordinatório (Provas)"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Expedição de intimação (Requerente)"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Cumprimento  da intimação"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Provas"){banco[i,1] <- "Requerente"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Expedição de intimação (Requerido)"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Cumprimento da intimação 1"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Provas 1"){banco[i,1] <- "Requerido"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Decisão saneamento"){banco[i,1] <- "Gabinete"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Expedição de intimação (Requerente) 1"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Cumprimento da intimação 2"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Pedido de esclarecimento ou solicitação de ajustes"){banco[i,1] <- "Requerente"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Expedição de intimação (Requerido) 1"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Cumprimento da intimação 3"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Pedido de esclarecimento ou solicitação de ajustes 1"){banco[i,1] <- "Requerido"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Prova pericial"){banco[i,1] <- "Perito"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Prova oral (audiência de instrução e julgamento)"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Ato ordinário (Alegações finais)"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Expedição de intimação (Requerente) 2"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Cumprimento da intimação 4"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Alegações finais"){banco[i,1] <- "Requerente"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Expedição de intimação (Requerido) 2"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Cumprimento da intimação 5"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Alegações finais 1"){banco[i,1] <- "Requerido"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Recebimento e conclusão do processo"){banco[i,1] <- "Secretaria"}
+            
+          }
+          
+          for (i in 1:nrow(banco)) {
+            if(banco[i,1] == "Sentença"){banco[i,1] <- "Gabinete"}
+            
+          }
+          
+          df11 <- aggregate(tempo ~ processo, data=banco, mean, na.rm=TRUE)
+          
+          total <- sum(df11$tempo)
+          for (i in 1:nrow(df11)) {
+            df11[i,2] <- (df11[i,2]/total)*100
+          }
+          
+          df11$tempo <- round((df11$tempo))
+          
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
+        })
+        
+        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
+          
+          
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          cox.zph(Ajuste)
+          par(mfrow=c(3,1))
+          ggcoxzph(cox.zph(Ajuste))
+          
         })
         
         
@@ -3983,9 +4047,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit, 
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -4009,7 +4078,7 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -4035,20 +4104,22 @@ shinyServer(function(input, output, session){
                            "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
+          Etapa <- factor(banco$processo, level = level_order)
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
           
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -4264,23 +4335,26 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
-          
-          pie <- bp + coord_polar("y", start=0)
-          
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
-          
-          
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig 
         })
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
-          Ajuste <- coxph(Surv(Soma, Classificação) ~ Status, data = dadosData4)
+          
+          
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
           cox.zph(Ajuste)
-          par(mfrow=c(2,1))
+          par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
+          
         })
         
         
@@ -4597,7 +4671,7 @@ shinyServer(function(input, output, session){
         }
         
         dadoscensura[,3] <- as.numeric(dadoscensura[,3])
-        
+        teste <<- dadoscensura
         #Removendo os NA
         
         if(length(which(is.na(dadoscensura$censura))) != 0){
@@ -4622,9 +4696,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit,  
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -4648,7 +4727,7 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -4674,20 +4753,22 @@ shinyServer(function(input, output, session){
                            "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
+          Etapa <- factor(banco$processo, level = level_order)
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
           
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -4903,23 +4984,27 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
-          
-          pie <- bp + coord_polar("y", start=0)
-          
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
-          
-          
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
         })
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
-          Ajuste <- coxph(Surv(Soma, Classificação) ~ Status, data = dadosData4)
+          
+          
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
+          
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
           cox.zph(Ajuste)
-          par(mfrow=c(2,1))
+          par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
+          
         })
         
         
@@ -5268,9 +5353,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit,   
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -5293,7 +5383,7 @@ shinyServer(function(input, output, session){
           )
         })
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -5320,19 +5410,22 @@ shinyServer(function(input, output, session){
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          Etapa <- factor(banco$processo, level = level_order)
           
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
+          
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -5548,15 +5641,25 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
+        })
+        
+        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
-          pie <- bp + coord_polar("y", start=0)
           
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
           
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          cox.zph(Ajuste)
+          par(mfrow=c(3,1))
+          ggcoxzph(cox.zph(Ajuste))
           
         })
         
@@ -5566,7 +5669,7 @@ shinyServer(function(input, output, session){
       
       if(input$dashboard1 == "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Aberto"){
         
-        dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
+        dadosData3 <- dadosData[dadosData$Ano == c(input$dashboard2),]
         dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
         
         # Pegando a parte da planilha que tenho interesse 
@@ -5894,9 +5997,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit,   
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -5920,7 +6028,7 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -5946,20 +6054,22 @@ shinyServer(function(input, output, session){
                            "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
+          Etapa <- factor(banco$processo, level = level_order)
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
           
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -6175,15 +6285,25 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
+        })
+        
+        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
-          pie <- bp + coord_polar("y", start=0)
           
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
           
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          cox.zph(Ajuste)
+          par(mfrow=c(3,1))
+          ggcoxzph(cox.zph(Ajuste))
           
         })
         
@@ -6521,9 +6641,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit, 
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -6546,7 +6671,7 @@ shinyServer(function(input, output, session){
           )
         })
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -6572,20 +6697,22 @@ shinyServer(function(input, output, session){
                            "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
+          Etapa <- factor(banco$processo, level = level_order)
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
           
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -6801,15 +6928,25 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
+        })
+        
+        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
-          pie <- bp + coord_polar("y", start=0)
           
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
           
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          cox.zph(Ajuste)
+          par(mfrow=c(3,1))
+          ggcoxzph(cox.zph(Ajuste))
           
         })
         
@@ -7146,9 +7283,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit, 
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -7171,7 +7313,7 @@ shinyServer(function(input, output, session){
           )
         })
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -7197,20 +7339,22 @@ shinyServer(function(input, output, session){
                            "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
+          Etapa <- factor(banco$processo, level = level_order)
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
           
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -7426,15 +7570,25 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
+        })
+        
+        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
-          pie <- bp + coord_polar("y", start=0)
           
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
           
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          cox.zph(Ajuste)
+          par(mfrow=c(3,1))
+          ggcoxzph(cox.zph(Ajuste))
           
         })
         
@@ -7777,9 +7931,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit,  
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -7802,7 +7961,7 @@ shinyServer(function(input, output, session){
           )
         })
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -7828,20 +7987,22 @@ shinyServer(function(input, output, session){
                            "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
+          Etapa <- factor(banco$processo, level = level_order)
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
           
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -8057,15 +8218,25 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
+        })
+        
+        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
-          pie <- bp + coord_polar("y", start=0)
           
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
           
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          cox.zph(Ajuste)
+          par(mfrow=c(3,1))
+          ggcoxzph(cox.zph(Ajuste))
           
         })
         
@@ -8075,7 +8246,7 @@ shinyServer(function(input, output, session){
       
       if(input$dashboard1 == "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Encerrado"){
         
-        dadosData3 <- dadosData2[dadosData2$Ano == c(input$dashboard2),]
+        dadosData3 <- dadosData[dadosData$Ano == c(input$dashboard2),]
         dadosData4 <- dadosData3[dadosData3$`Classe do Processo` == c(input$dashboard3),]
         
         # Pegando a parte da planilha que tenho interesse 
@@ -8403,9 +8574,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit,  
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -8429,7 +8605,7 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -8455,20 +8631,22 @@ shinyServer(function(input, output, session){
                            "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
+          Etapa <- factor(banco$processo, level = level_order)
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
           
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -8684,15 +8862,25 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
+        })
+        
+        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
-          pie <- bp + coord_polar("y", start=0)
           
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
           
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          cox.zph(Ajuste)
+          par(mfrow=c(3,1))
+          ggcoxzph(cox.zph(Ajuste))
           
         })
         
@@ -9030,9 +9218,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit,  
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -9056,7 +9249,7 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -9083,19 +9276,22 @@ shinyServer(function(input, output, session){
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          Etapa <- factor(banco$processo, level = level_order)
           
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
+          
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -9311,15 +9507,25 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
+        })
+        
+        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
-          pie <- bp + coord_polar("y", start=0)
           
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
           
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          cox.zph(Ajuste)
+          par(mfrow=c(3,1))
+          ggcoxzph(cox.zph(Ajuste))
           
         })
         
@@ -9656,9 +9862,14 @@ shinyServer(function(input, output, session){
         
         fit <- survfit(Surv(valor, censura) ~ status,type="kaplan-meier",conf.type="log",data = dadoscensura)
         
+        fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
+        Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
+        Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
-            fit,   pval = TRUE, 
+            fit,  
             data = dadoscensura,
             legend.labs = rotulos,
             palette =c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
@@ -9681,7 +9892,7 @@ shinyServer(function(input, output, session){
           )
         })
         
-        output$histogram3 <- renderPlot({ # Imagem 3 - Dashboard
+        output$histogram3 <- renderPlotly({ # Imagem 3 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -9707,20 +9918,22 @@ shinyServer(function(input, output, session){
                            "Contestação e/ou agravo de instrumento","Cumprimento da intimação e/ou citação","Expedição de intimação e/ou citação","Decisão rejeição da ação ou recebimento pet. inicial","Oferecimento de manifestação por escrito",
                            "Cumprimento da notificação","Expedição de notificação","Despacho para notificação do Requerido","Recebimento, triagem e conclusão do processo")
           
+          Etapa <- factor(banco$processo, level = level_order)
           
-          ggplot(data=banco, aes(factor(processo, level = level_order), y=tempo, fill=cor))  + coord_flip() +
-            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = 0)+
-            guides(fill=FALSE) +
-            theme_minimal()+ggtitle("   Prazo médio de execução das Tarefas (dias)")+  theme(axis.title.x=element_blank(),
-                                                                                             axis.text.x = element_blank(),
-                                                                                             axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
-                                                                                                                                   axis.text.y=element_text(),
-                                                                                                                                   axis.ticks.y=element_blank())
+          b2 <- ggplot(data=banco, aes(Etapa, y=tempo, fill=cor))  + coord_flip() +
+            geom_bar(stat="identity") + geom_text(aes(y = tempo, label = tempo), color = "black",size=3,hjust = -0.8)+
+            guides(fill=FALSE) + 
+            theme_minimal()+  theme(plot.title = element_text(hjust = 0.5, vjust=-4)) + theme(axis.title.x=element_blank(),
+                                                                                                                                        axis.text.x = element_blank(),
+                                                                                                                                        axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
+                                                                                                                                                                              axis.text.y=element_text(),
+                                                                                                                                                                              axis.ticks.y=element_blank())
           
+          ggplotly(b2)
         })
         
         
-        output$histogram4 <- renderPlot({ # Imagem 4 - Dashboard
+        output$histogram4 <- renderPlotly({ # Imagem 4 - Dashboard
           
           medias <- colMeans(dadosData4[,7:44])
           medias <- as.data.frame(medias)
@@ -9936,23 +10149,116 @@ shinyServer(function(input, output, session){
           
           df11$tempo <- round((df11$tempo))
           
-          bp<- ggplot(df11, aes(x="", y=tempo, fill=processo))+
-            geom_bar(width = 1, stat = "identity") 
+          fig <- plot_ly(type='pie', labels=df11$processo, values=df11$tempo, 
+                         textinfo='label+percent', 
+                         insidetextorientation='radial') %>% layout(title=" ", font=list(family = "Courier New"))
+          fig
+        })
+        
+        output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
-          pie <- bp + coord_polar("y", start=0)
           
-          pie + scale_fill_brewer(palette="Blues")+
-            theme_minimal()+ggtitle("      Percentual do prazo médio de execução (dias) - Unidades Responsáveis")+geom_text(aes(label = paste(round(tempo, 1), "%"), x = 1.6) ,size=3.5,
-                                                                                                                            position = position_stack(vjust = 0.6)) 
+          for (i in 1:nrow(dadoscensura)) {
+            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
+            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
+            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          }
           
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          cox.zph(Ajuste)
+          par(mfrow=c(3,1))
+          ggcoxzph(cox.zph(Ajuste))
           
         })
         
         
       }
       
+      
+      ################################# Estruturando os Info Box do Dashboard #################################
+      
+      ############################################### OPÇÃO AMBOS ############################################
+      
+      # Número de Processos Encerrados 
+      
+      if(input$dashboard1 != "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
+        
+        Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
+        Encerrados2 <- Encerrados1[Encerrados1$Ano == c(input$dashboard2),]
+        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        
+      }
+      
+      if(input$dashboard1 == "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
+        
+        Encerrados2 <- dadosData[dadosData$Ano == c(input$dashboard2),]
+        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        
+      }
+      
+      if(input$dashboard1 != "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Ambos"){
+        
+        Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
+        Encerrados3 <- Encerrados1[Encerrados1$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        
+      }
+      
+      if(input$dashboard1 == "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Ambos"){
+        
+        Encerrados3 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        
+      }
+      
+      output$Encerrados <- renderInfoBox({ #Infobox de Processos Encerrados
+        
+        if(nrow(Encerrados4) > 10){
+          infoBox(
+            "Processos Encerrados", nrow(Encerrados4),icon = icon("folder-open"),color = "green")}
+        
+        else{
+          infoBox(
+            "Processos Encerrados", nrow(Encerrados4),icon = icon("folder"),color = "red")}
+      })
+      
+      output$Sobrevivencia <- renderInfoBox({ #Infobox da Função de Sobrevivência
+        
+        if(round(Sobrevivencia,2)*100 >= 60){
+          infoBox(
+            "Função de Sobrevivência", paste(round(Sobrevivencia,2)*100,"%"),icon = icon("heartbeat"),color = "green")}
+        
+        else{
+          infoBox(
+            "Função de Sobrevivência", paste(round(Sobrevivencia,2)*100,"%"),icon = icon("heart-broken"),color = "red")}
+      })
+      
+      output$Risco_Acumulado <- renderInfoBox({ #Infobox da Taxa de Risco Acumulada
+        
+        if(round(Risco_Acumulado,2)*100 < 40){
+          infoBox(
+            "Taxa de falha acumuada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("exclamation"),color = "green")}
+        
+        else{
+          infoBox(
+            "Taxa de falha acumuada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("exclamation-triangle"),color = "red")}
+      })
+      
+      output$Risco <- renderInfoBox({ #Infobox da Taxa de Risco Acumulada
+        
+        if(round(Risco,2)*100 < 40){
+          infoBox(
+            "Taxa de risco", paste(round(Risco,4)*100,"%"),icon = icon("thumbs-up"),color = "green")}
+        
+        else{
+          infoBox(
+            "Taxa de risco", paste(round(Risco,4)*100,"%"),icon = icon("thumbs-down"),color = "red")}
+      })
+      
+      
     })
-    
     
     
     
@@ -10066,7 +10372,11 @@ shinyServer(function(input, output, session){
       
       output$table5 <- DT::renderDataTable(dadosAtuap, escape = FALSE, extensions = c('FixedColumns',"FixedHeader","Buttons","ColReorder","Scroller"),
                                            options = list(dom = 'Bfrtip', colReorder = TRUE,searchHighlight = TRUE,
-                                                          buttons = c('copy', 'print'),lengthMenu = c(5, 10), pageLength = 15, scrollX = TRUE,
+                                                          buttons = list('copy', 'print', list(
+                                                            extend = 'collection',
+                                                            buttons = c('csv', 'excel', 'pdf'),
+                                                            text = 'Download'
+                                                          )),lengthMenu = c(5, 10), pageLength = 15, scrollX = TRUE,
                                                           fixedHeader=TRUE, fixedColumns = list(leftColumns = 3, rightColumns = 0),paging = TRUE, searching = TRUE, info = FALSE,sort = FALSE,
                                                           initComplete = JS("function(settings, json) {",
                                                                             "$(this.api().table().header()).css({'background-color': '#f2f5f9', 'color': 'black'});",
@@ -10074,10 +10384,7 @@ shinyServer(function(input, output, session){
                                            ))
     })
     
-    
-    
-    
-    
+   
     observeEvent(input$Entradai39, { # Tabela de Prazos
       
       dadosi <- data.frame(input$Entradai1,input$Entradai2,input$Entradai4,input$Entradai5,input$Entradai6,
@@ -10120,14 +10427,19 @@ shinyServer(function(input, output, session){
       rownames(dadosi) <- NULL
       
       output$table4 <- DT::renderDataTable(dadosi, escape = FALSE, extensions = c('FixedColumns',"FixedHeader","Buttons","ColReorder","Scroller"),
-                                           options = list(dom = 'Bfrtip', colReorder = TRUE,searchHighlight = TRUE,
-                                                          buttons = c('copy', 'print'),lengthMenu = c(5, 10), pageLength = 15, scrollX = TRUE, scrollY  = 500,
+                                           options = list(dom = 'Blfrtip', colReorder = TRUE,searchHighlight = TRUE,autoWidth=TRUE, lengthMenu = list(c(10, 25 ,50, 75, -1), c('10','25' ,'50', '75','All')),
+                                                          buttons = list('copy', 'print', list(
+                                                            extend = 'collection',
+                                                            buttons = c('csv', 'excel', 'pdf'),
+                                                            text = 'Download'
+                                                          )),lengthMenu = c(5, 10), scrollX = TRUE, scrollY  = 500,
                                                           fixedHeader=TRUE, fixedColumns = list(leftColumns = 3, rightColumns = 0),paging = TRUE, searching = TRUE, info = FALSE,sort = FALSE,
                                                           initComplete = JS("function(settings, json) {",
                                                                             "$(this.api().table().header()).css({'background-color': '#f2f5f9', 'color': 'black'});",
                                                                             "}")
                                            ))
     })
+
     
     observeEvent(input$Entrada45, { # Tabela de Criação
       
@@ -10193,9 +10505,13 @@ shinyServer(function(input, output, session){
                                    "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação","Provas","Decisão saneamento",
                                    "Expedição de intimação (Requerente)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes",
                                    "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
-                                   "Recebimento e conclusão do processo","Sentença"), escape = FALSE, extensions = c('FixedColumns',"FixedHeader","Buttons","ColReorder","Scroller"),filter = "top",
-                  options = list(dom = 'Bfrtip', colReorder = TRUE,searchHighlight = TRUE,
-                                 buttons = c('copy', 'print'),lengthMenu = c(5, 10), pageLength = 15, scrollX = TRUE, scrollY  = 500,
+                                   "Recebimento e conclusão do processo","Sentença"), escape = FALSE, extensions = c('FixedColumns',"FixedHeader","Buttons","ColReorder","Scroller"),
+                  options = list(dom = 'Blfrtip', colReorder = TRUE,searchHighlight = TRUE,autoWidth=TRUE, lengthMenu = list(c(10, 25 ,50, 75, -1), c('10','25' ,'50', '75','All')),
+                                 buttons = list('copy', 'print', list(
+                                   extend = 'collection',
+                                   buttons = c('csv', 'excel', 'pdf'),
+                                   text = 'Download'
+                                 )),lengthMenu = c(5, 10), scrollX = TRUE, scrollY  = 500,
                                  fixedHeader=TRUE, fixedColumns = list(leftColumns = 3, rightColumns = 0),paging = TRUE, searching = TRUE, info = FALSE,sort = FALSE,
                                  initComplete = JS("function(settings, json) {",
                                                    "$(this.api().table().header()).css({'background-color': '#f2f5f9', 'color': 'black'});",
@@ -10213,7 +10529,6 @@ shinyServer(function(input, output, session){
       }
       )
     })
-    
     
     observeEvent(input$Entradas81, { # Tabela de atualização
       
@@ -10420,7 +10735,11 @@ shinyServer(function(input, output, session){
                                    "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
                                    "Recebimento e conclusão do processo","Sentença"), escape = FALSE, extensions = c('FixedColumns',"FixedHeader","Buttons","ColReorder","Scroller"),
                   options = list(dom = 'Bfrtip', colReorder = TRUE,searchHighlight = TRUE,
-                                 buttons = c('copy', 'print'),lengthMenu = c(5, 10), pageLength = 15, scrollX = TRUE,
+                                 buttons = list('copy', 'print', list(
+                                   extend = 'collection',
+                                   buttons = c('csv', 'excel', 'pdf'),
+                                   text = 'Download'
+                                 )),lengthMenu = c(5, 10), pageLength = 15, scrollX = TRUE,
                                  fixedHeader=TRUE, fixedColumns = list(leftColumns = 3, rightColumns = 0),paging = TRUE, searching = TRUE, info = FALSE,sort = FALSE,
                                  initComplete = JS("function(settings, json) {",
                                                    "$(this.api().table().header()).css({'background-color': '#f2f5f9', 'color': 'black'});",
@@ -10435,8 +10754,6 @@ shinyServer(function(input, output, session){
       )
       
     })
-    
-    
     
     isolate({
       
@@ -10744,9 +11061,13 @@ shinyServer(function(input, output, session){
                                       "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação","Provas","Decisão saneamento",
                                       "Expedição de intimação (Requerente)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes",
                                       "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
-                                      "Recebimento e conclusão do processo","Sentença"),  extensions = c('FixedColumns',"FixedHeader","Buttons","ColReorder","Scroller"),filter = "top",
-                options = list(dom = 'Bfrtip', colReorder = TRUE, 
-                               buttons = c('copy', 'print'),lengthMenu = c(5, 10), pageLength = 15, scrollX = TRUE, scrollY  = 500,
+                                      "Recebimento e conclusão do processo","Sentença"),  extensions = c('FixedColumns',"FixedHeader","Buttons","ColReorder","Scroller"), 
+                options = list(dom = 'Blfrtip', colReorder = TRUE, autoWidth=TRUE, lengthMenu = list(c(10, 25 ,50, 75, -1), c('10','25' ,'50', '75','All')),
+                               buttons = list('copy', 'print', list(
+                                 extend = 'collection',
+                                 buttons = c('csv', 'excel', 'pdf'),
+                                 text = 'Download'
+                               )),lengthMenu = c(5, 10),scrollX = TRUE, scrollY  = 500, 
                                fixedHeader=TRUE, fixedColumns = list(leftColumns = 3, rightColumns = 0),
                                initComplete = JS("function(settings, json) {",
                                                  "$(this.api().table().header()).css({'background-color': '#f2f5f9', 'color': 'black'});",
@@ -10858,7 +11179,7 @@ shinyServer(function(input, output, session){
     
     invalidateLater(200000, session)
     
-    comparacao <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\completo.csv")
+    comparacao <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\completo.csv")
     comparacao <- comparacao[,-1]
     
     dadosteste <- dados2[nrow(dados2),]
@@ -10866,12 +11187,12 @@ shinyServer(function(input, output, session){
     linhas_tabela_limpeza_Prazos <- grep(dadosteste$Apelido,comparacao$Apelido, fixed=TRUE)
     
     if(length(linhas_tabela_limpeza_Prazos) == 0){
-      dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\teste.csv")
+      dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\teste.csv")
       dados <- dados[,-1]
     }
     
     if(length(linhas_tabela_limpeza_Prazos) != 0){
-      dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\completo.csv")
+      dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\completo.csv")
       dados <- dados[,-1]
       
       ####################### Entrando com o banco de dados para Atualização #############################
