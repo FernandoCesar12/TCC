@@ -39,7 +39,8 @@ rsconnect::setAccountInfo(name='fernandocesartcc',
                           secret='tU2+Jpe+M//mT+Q9NDn0LUNh92XCksAWn+quHjU6')
 
 library(rsconnect)
-
+setwd("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta")
+#deployApp()
 
 #Criação da interface pessoal 
 
@@ -77,8 +78,8 @@ page <-  dashboardPage(skin = "green",
                                                           infoBoxOutput("Sobrevivencia"),
                                                           infoBoxOutput("Risco_Acumulado"),
                                                           infoBoxOutput("Risco"),
-                                                          infoBox("Tempo médio de Sobrevivência", paste0("15 dias") ,icon = icon("calculator"),color = "orange"),
-                                                          infoBox("Vida média Residual", paste0("5 dias") ,icon = icon("list"),color = "purple")),
+                                                          infoBoxOutput("Tempo_medio"),
+                                                          infoBoxOutput("Vida_media")),
                                                         
                                                         fluidRow(
                                                           box(title = strong("Função de sobrevivência"), status = "primary",solidHeader = TRUE,plotOutput("histogram1")),#Gráfico 1
@@ -225,8 +226,21 @@ page <-  dashboardPage(skin = "green",
                                                           )),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogram9")), #Gráfico 1
-                                                          box(plotOutput("histogram10"))) #Gráfico 2
+                                                          box(width = 6,
+                                                              title = "Algum teste",
+                                                              status = "primary",
+                                                              solidHeader = TRUE,
+                                                              collapsible = FALSE,
+                                                              height = '600px',
+                                                              plotOutput("histogram9",height = '540px')), #Gráfico 1
+                                                         
+                                                           box(width = 6,
+                                                              title = "Resíduos de Schoenfeld",
+                                                              status = "warning",
+                                                              solidHeader = TRUE,
+                                                              collapsible = FALSE,
+                                                              height = '600px',
+                                                              plotOutput("histogram10",height = '540px'))) #Gráfico 2
                                                 ),
                                                 
                                                 # Eu ocultei a saída da visualização dos processos por tempo decorrido

@@ -33,6 +33,15 @@ library(tidyverse)
 #install.packages("plotly")
 library(plotly)
 
+#install.packages('rsconnect')
+rsconnect::setAccountInfo(name='fernandocesartcc',
+                          token='87E6637E8D04FDF555C54E9BBD22ABD3',
+                          secret='tU2+Jpe+M//mT+Q9NDn0LUNh92XCksAWn+quHjU6')
+
+library(rsconnect)
+setwd("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta")
+#deployApp()
+
 #Criação da interface pessoal 
 
 page <-  dashboardPage(skin = "green",
@@ -69,8 +78,8 @@ page <-  dashboardPage(skin = "green",
                                                           infoBoxOutput("Sobrevivencia"),
                                                           infoBoxOutput("Risco_Acumulado"),
                                                           infoBoxOutput("Risco"),
-                                                          infoBox("Tempo médio de Sobrevivência", paste0("15 dias") ,icon = icon("calculator"),color = "orange"),
-                                                          infoBox("Vida média Residual", paste0("5 dias") ,icon = icon("list"),color = "purple")),
+                                                          infoBoxOutput("Tempo_medio"),
+                                                          infoBoxOutput("Vida_media")),
                                                         
                                                         fluidRow(
                                                           box(title = strong("Função de sobrevivência"), status = "primary",solidHeader = TRUE,plotOutput("histogram1")),#Gráfico 1
@@ -95,7 +104,7 @@ page <-  dashboardPage(skin = "green",
                                                           box(title = strong("Total de Processos Segundo seu Status"), status = "warning", solidHeader = TRUE, plotlyOutput("Resumo2")), #Gráfico 2
                                                           box(title = strong("Tempo médio de duração dos processos em dias"), status = "primary", solidHeader = TRUE, plotlyOutput("Resumo3")), #Gráfico 3
                                                           box(title = strong("Percentual do tempo médio nos processos Abertos"), status = "warning", solidHeader = TRUE, plotlyOutput("Resumo4")) #Gráfico 4
-                                                   
+                                                          
                                                         )),
                                                 
                                                 
@@ -118,7 +127,7 @@ page <-  dashboardPage(skin = "green",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
                                                             tabPanel("","", height = "350px", width = '100%'),
                                                             fluidRow(align = "center",
-                                                              tableOutput("data1"))
+                                                                     tableOutput("data1"))
                                                           )
                                                         ),
                                                         
@@ -139,7 +148,7 @@ page <-  dashboardPage(skin = "green",
                                                             tabPanel(" ",p(em("Com o intuito de criar medidas descritivas capazes de informar os advogados e servidores da instituição sobre os prazos remanescentes para elaboração e estruturação dos processos descritos como de interesse, desenvolveu-se com parceria da "),em(strong("5ª Vara da Justiça Federal")),em("um sistema automatizado por meio  do software R em conjunto com o pacote Shiny, produzindo-se assim um layout gráfico robusto e de simples manuseio para a instituição.", align = "center")), height = "350px", width = '100%'),
                                                             p(em("O sistema consiste de 10 abas com diferentes funcionalidades e denominações (Análise processual, Manual de uso, Quadro resumo, Visualização dos dados, Seleção dos prazos, Atualização dos prazos, Criação dos dados, Atualização dos dados, Dashboard e Pré-requisitos). Dessa maneira, será descrito abaixo a finalidade de cada uma dessas abas.")),
                                                             tags$br(),
-                                                             tags$div(tags$ul(
+                                                            tags$div(tags$ul(
                                                               tags$li(a(span(icon("user-tie"), style = "color:black")),strong(span("Análise Processual: ", style = "color:black")),em("Serve para informar o usuário sobre os prazos limites de cada umas das etapas, conjuntamente com o nome do setor interno responsável por esta. Além de disponibilizar algumas médias descritivas com seleção de filtros para classe do processo, mês e ano.")),
                                                               tags$br(),
                                                               tags$li(a(span(icon("tasks"), style = "color:black")),strong(span("Manual de uso: ", style = "color:black")),em("Informa o utilizador da página a respeito de informações referentes as demais abas existentes no sistema, além instruir em relação as interpretações de saídas gráficas disponibilizadas pelo software.")),
@@ -167,27 +176,27 @@ page <-  dashboardPage(skin = "green",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
                                                             tabPanel(" ",p(em("As saídas gráficas apresentadas nessa aba representam um resumo de todos os Plots contidos no sistema. Dessa maneira, será descrito abaixo de maneira simples e sucinta como se discorre a usabilidade e interpretabilidade de cada um dos gráficos."), height = "350px", width = '100%'),
                                                                      tags$br(),
-                                                                       tags$div(tags$ul(
-                                                                         
-                                                                         tags$li(a(span(icon("chart-pie"), style = "color:black")),strong(span("Função de Sobrevivência: ", style = "color:black")),em("Serve para comparar as probabilidades de sobrevivência ao longo do tempo entre dois grupos distintos (processos que apresentam seu status “ok” e processos com o status “Alerta”). Ou seja, calcula a chance de que uma classe processual não seja encerrada antes de sua conclusão efetiva para um determinado período de tempo.")),
-                                                                         tags$br(),
-                                                                         tags$li(a(span(icon("chart-line"), style = "color:black")),strong(span("Função de risco Acumulado: ", style = "color:black")),em("Representa o risco acumulado de um processo ser encerrado naquele período de tempo sem que necessariamente este seja concluído efetivamente.")),
-                                                                         tags$br(),
-                                                                         tags$li(a(span(icon("chart-area"), style = "color:black")),strong(span("Gráfico de colunas: ", style = "color:black")),em("Descreve o número de observações entre as classes de processos selecionadas que possuem classificação aberta ou encerrada dentre as delimitações impostas pelos filtros.")),
-                                                                         tags$br(),
-                                                                         tags$li(a(span(icon("chart-bar"), style = "color:black")),strong(span("Gráfico de bolhas: ", style = "color:black")),em("Mostra que para uma determinada fase do processo, qual seria o tempo médio de duração das classes processuais segundo sua classificação em Aberto e Encerrado. As bolhas que apresentam menores comprimentos são aquelas que possuem melhores resultados.")),
-                                                                         tags$br(),
-                                                                         tags$li(a(span(icon("project-diagram"), style = "color:black")),strong(span("Gráfico de barras: ", style = "color:black")),em("Demonstra a frequência de observações entre as classes processuais para os status de Ok, Alerta e Atrasado. Leva-se em consideração as delimitações impostas pelos filtros.")),
-                                                                         tags$br(),
-                                                                         tags$li(a(span(icon("chart-pie"), style = "color:black")),strong(span("Gráfico de setores: ", style = "color:black")),em("Representado numa escala percentual, o Plot descreve qual das classes processuais demandou da instituição um maior período de tempo até sua conclusão.")),
-                                                                         tags$br(),
-                                                                         tags$li(a(span(icon("chart-line"), style = "color:black")),strong(span("Imagem: ", style = "color:black")),em("")),
-                                                                         tags$br(),
-                                                                         tags$li(a(span(icon("chart-area"), style = "color:black")),strong(span("Resíduos de Schoenfeld: ", style = "color:black")),em("Serve para verificar a suposição de riscos proporcionais na análise de sobrevivência. Caso o modelo seja apropriado, não deverá haver tendências nos tempos analisados.")),
-                                                                         tags$br(),
-                                                                         tags$li(a(span(icon("chart-bar"), style = "color:black")),strong(span("Gráfico de barras: ", style = "color:black")),em("Representa o tempo médio de duração em dias das atividades internas da instituição segundo a fase de cada processo.")),
-                                                                         tags$br(),
-                                                                         tags$li(a(span(icon("project-diagram"), style = "color:black")),strong(span("Gráfico de linhas: ", style = "color:black")),em("Descreve o tempo médio de duração das classes processuais segundo sua classificação em Aberto ou Encerrado."))),  style = "font-size: 15px"))
+                                                                     tags$div(tags$ul(
+                                                                       
+                                                                       tags$li(a(span(icon("chart-pie"), style = "color:black")),strong(span("Função de Sobrevivência: ", style = "color:black")),em("Serve para comparar as probabilidades de sobrevivência ao longo do tempo entre dois grupos distintos (processos que apresentam seu status “ok” e processos com o status “Alerta”). Ou seja, calcula a chance de que uma classe processual não seja encerrada antes de sua conclusão efetiva para um determinado período de tempo.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-line"), style = "color:black")),strong(span("Função de risco Acumulado: ", style = "color:black")),em("Representa o risco acumulado de um processo ser encerrado naquele período de tempo sem que necessariamente este seja concluído efetivamente.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-area"), style = "color:black")),strong(span("Gráfico de colunas: ", style = "color:black")),em("Descreve o número de observações entre as classes de processos selecionadas que possuem classificação aberta ou encerrada dentre as delimitações impostas pelos filtros.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-bar"), style = "color:black")),strong(span("Gráfico de bolhas: ", style = "color:black")),em("Mostra que para uma determinada fase do processo, qual seria o tempo médio de duração das classes processuais segundo sua classificação em Aberto e Encerrado. As bolhas que apresentam menores comprimentos são aquelas que possuem melhores resultados.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("project-diagram"), style = "color:black")),strong(span("Gráfico de barras: ", style = "color:black")),em("Demonstra a frequência de observações entre as classes processuais para os status de Ok, Alerta e Atrasado. Leva-se em consideração as delimitações impostas pelos filtros.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-pie"), style = "color:black")),strong(span("Gráfico de setores: ", style = "color:black")),em("Representado numa escala percentual, o Plot descreve qual das classes processuais demandou da instituição um maior período de tempo até sua conclusão.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-line"), style = "color:black")),strong(span("Imagem: ", style = "color:black")),em("")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-area"), style = "color:black")),strong(span("Resíduos de Schoenfeld: ", style = "color:black")),em("Serve para verificar a suposição de riscos proporcionais na análise de sobrevivência. Caso o modelo seja apropriado, não deverá haver tendências nos tempos analisados.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("chart-bar"), style = "color:black")),strong(span("Gráfico de barras: ", style = "color:black")),em("Representa o tempo médio de duração em dias das atividades internas da instituição segundo a fase de cada processo.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon("project-diagram"), style = "color:black")),strong(span("Gráfico de linhas: ", style = "color:black")),em("Descreve o tempo médio de duração das classes processuais segundo sua classificação em Aberto ou Encerrado."))),  style = "font-size: 15px"))
                                                           )
                                                         ),
                                                         
@@ -217,8 +226,21 @@ page <-  dashboardPage(skin = "green",
                                                           )),
                                                         
                                                         fluidRow(
-                                                          box(plotOutput("histogram9")), #Gráfico 1
-                                                          box(plotOutput("histogram10"))) #Gráfico 2
+                                                          box(width = 6,
+                                                              title = "Algum teste",
+                                                              status = "primary",
+                                                              solidHeader = TRUE,
+                                                              collapsible = FALSE,
+                                                              height = '600px',
+                                                              plotOutput("histogram9",height = '540px')), #Gráfico 1
+                                                         
+                                                           box(width = 6,
+                                                              title = "Resíduos de Schoenfeld",
+                                                              status = "warning",
+                                                              solidHeader = TRUE,
+                                                              collapsible = FALSE,
+                                                              height = '600px',
+                                                              plotOutput("histogram10",height = '540px'))) #Gráfico 2
                                                 ),
                                                 
                                                 # Eu ocultei a saída da visualização dos processos por tempo decorrido

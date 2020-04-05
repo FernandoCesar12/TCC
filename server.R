@@ -1125,18 +1125,18 @@ shinyServer(function(input, output, session){
     
     ######################### Entrando com os bancos de dados para criação #################################
     
-    #dados <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base2.xlsx", sheet=1, col_names=TRUE)
-    dadosP <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base2.xlsx", sheet=2, col_names=TRUE)
-    Date <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Base2.xlsx", sheet=3, col_names=TRUE)
+    #dados <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\Base2.xlsx", sheet=1, col_names=TRUE)
+    dadosP <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\Base2.xlsx", sheet=2, col_names=TRUE)
+    Date <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\Base2.xlsx", sheet=3, col_names=TRUE)
     
-    dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\completo.csv")
-    AtuaP <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output_prazos2.csv")
-    Date2 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Data.csv")
-    Date4 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Data2.csv")
-    Prazo <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output_prazos.csv")
-    dados2 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output.csv")
-    dados5 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output2.csv")
-    Status <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\output.csv")
+    dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
+    AtuaP <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\output_prazos2.csv")
+    Date2 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\Data.csv")
+    Date4 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\Data2.csv")
+    Prazo <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\output_prazos.csv")
+    dados2 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\output.csv")
+    dados5 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\output2.csv")
+    Status <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\output.csv")
     
     dados <- dados[,-1]
     Prazo <<- Prazo[,-1]
@@ -1894,7 +1894,7 @@ shinyServer(function(input, output, session){
         output$histogram5 <- renderPlotly({ 
           dadosData2 <- subset(dadosData, dadosData$Mes == input$Classe1)
           dadosData3 <- subset(dadosData2, dadosData2$Ano == input$Classe2)
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dat1 <- dadosData4[,c(3,5)]
           dat2 <- data.frame(table(dat1$`Classe do Processo`,by=dat1$Classificação))
@@ -1924,7 +1924,7 @@ shinyServer(function(input, output, session){
         output$histogram5 <- renderPlotly({ 
           
           dadosData3 <- dadosData[dadosData$Ano == c(input$Classe2),]
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dat1 <- dadosData4[,c(3,5)]
           dat2 <- data.frame(table(dat1$`Classe do Processo`,by=dat1$Classificação))
@@ -1954,7 +1954,7 @@ shinyServer(function(input, output, session){
         output$histogram5 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
-          dadosData4 <- subset(dadosData2, dadosData2$`Classe do Processo` == (input$Classe3)[1] | dadosData2$`Classe do Processo` == (input$Classe3)[2] | dadosData2$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dat1 <- dadosData4[,c(3,5)]
           dat2 <- data.frame(table(dat1$`Classe do Processo`,by=dat1$Classificação))
@@ -1983,7 +1983,7 @@ shinyServer(function(input, output, session){
         
         output$histogram5 <- renderPlotly({
           
-          dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dat1 <- dadosData4[,c(3,5)]
           dat2 <- data.frame(table(dat1$`Classe do Processo`,by=dat1$Classificação))
@@ -2014,7 +2014,7 @@ shinyServer(function(input, output, session){
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData3 <- dadosData2[dadosData2$Ano == c(input$Classe2),]
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dadosData4$media2 <- rowMeans(dadosData4[,7:34])
           pericia <- dadosData4$`Classe do Processo`
@@ -2047,7 +2047,7 @@ shinyServer(function(input, output, session){
         output$histogram6 <- renderPlotly({ 
           
           dadosData3 <- dadosData[dadosData$Ano == c(input$Classe2),]
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dadosData4$media2 <- rowMeans(dadosData4[,7:34])
           pericia <- dadosData4$`Classe do Processo`
@@ -2080,7 +2080,7 @@ shinyServer(function(input, output, session){
         output$histogram6 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
-          dadosData4 <- subset(dadosData2, dadosData2$`Classe do Processo` == (input$Classe3)[1] | dadosData2$`Classe do Processo` == (input$Classe3)[2] | dadosData2$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dadosData4$media2 <- rowMeans(dadosData4[,7:34])
           pericia <- dadosData4$`Classe do Processo`
@@ -2111,7 +2111,7 @@ shinyServer(function(input, output, session){
         
         output$histogram6 <- renderPlotly({ 
           
-          dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dadosData4$media2 <- rowMeans(dadosData4[,7:34])
           pericia <- dadosData4$`Classe do Processo`
@@ -2146,7 +2146,7 @@ shinyServer(function(input, output, session){
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData3 <- dadosData2[dadosData2$Ano == c(input$Classe2),]
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
@@ -2185,7 +2185,7 @@ shinyServer(function(input, output, session){
         output$histogram61 <- renderPlotly({ 
           
           dadosData3 <- dadosData[dadosData$Ano == c(input$Classe2),]
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
@@ -2222,7 +2222,7 @@ shinyServer(function(input, output, session){
         output$histogram61 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
-          dadosData4 <- subset(dadosData2, dadosData2$`Classe do Processo` == (input$Classe3)[1] | dadosData2$`Classe do Processo` == (input$Classe3)[2] | dadosData2$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- ssubset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
@@ -2258,7 +2258,7 @@ shinyServer(function(input, output, session){
         
         output$histogram61 <- renderPlotly({ 
           
-          dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
@@ -2296,7 +2296,7 @@ shinyServer(function(input, output, session){
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData3 <- dadosData2[dadosData2$Ano == c(input$Classe2),]
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           resumorp <- dadosData4 %>% 
             group_by(Classificação,`Classe do Processo`) %>% 
@@ -2325,7 +2325,7 @@ shinyServer(function(input, output, session){
         output$histogram62 <- renderPlotly({ 
           
           dadosData3 <- dadosData[dadosData$Ano == c(input$Classe2),]
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           resumorp <- dadosData4 %>% 
             group_by(Classificação,`Classe do Processo`) %>% 
@@ -2353,7 +2353,7 @@ shinyServer(function(input, output, session){
         output$histogram62 <- renderPlotly({ 
           
           dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
-          dadosData4 <- subset(dadosData2, dadosData2$`Classe do Processo` == (input$Classe3)[1] | dadosData2$`Classe do Processo` == (input$Classe3)[2] | dadosData2$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           resumorp <- dadosData4 %>% 
             group_by(Classificação,`Classe do Processo`) %>% 
@@ -2380,7 +2380,7 @@ shinyServer(function(input, output, session){
         
         output$histogram62 <- renderPlotly({ 
           
-          dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3])
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           resumorp <- dadosData4 %>% 
             group_by(Classificação,`Classe do Processo`) %>% 
@@ -2746,7 +2746,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -3043,14 +3043,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -3400,7 +3414,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -3693,14 +3707,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -4050,7 +4078,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -4343,14 +4371,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -4369,7 +4411,7 @@ shinyServer(function(input, output, session){
       
       if(input$dashboard1 == "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Ambos"){
         
-        dadosData4 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
+        dadosData4 <<- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
         
         # Pegando a parte da planilha que tenho interesse 
         
@@ -4699,7 +4741,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <<- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -4992,15 +5034,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
+          #Removendo os NA
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -5356,7 +5411,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -5649,14 +5704,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -6000,7 +6069,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -6293,14 +6362,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -6644,7 +6727,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -6936,14 +7019,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -7286,7 +7383,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -7578,14 +7675,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -7934,7 +8045,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -8226,14 +8337,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -8577,7 +8702,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -8870,14 +8995,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -9221,7 +9360,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -9515,14 +9654,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -9865,7 +10018,7 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((100 - 50) * summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -10157,14 +10310,28 @@ shinyServer(function(input, output, session){
         
         output$histogram10 <- renderPlot({ # Imagem 2 - Pré requisitos
           
+          teste <- dadoscensura  
           
-          for (i in 1:nrow(dadoscensura)) {
-            if(dadoscensura[i,3] == 1){dadoscensura[i,3] = "Ok"}
-            if(dadoscensura[i,3] == 2){dadoscensura[i,3] = "Alerta"}
-            if(dadoscensura[i,3] == 3){dadoscensura[i,3] = "Atrasado"}
+          for (i in 1:nrow(teste)) {
+            if(teste[i,3] == 1){teste[i,3] = "Ok"}
+            if(teste[i,3] == 2){teste[i,3] = "Alerta"}
+            if(teste[i,3] == 3){teste[i,3] = "Atrasado"}
           }
           
-          Ajuste <- coxph(Surv(valor, censura) ~ status, data = dadoscensura)
+          #Removendo os NA
+          
+          if(length(which(is.na(teste$censura))) != 0){
+            teste <- teste[-which(is.na(teste$censura)),]
+          }
+          
+          teste_modelo <- data.frame(sample(teste$valor,20),c(rep(0,9),1,rep(0,9),1),rep("aaa",20)) # Arrumando o problema de não plotar o termo Alerta
+          names(teste_modelo) <- c("valor","censura","status")
+          
+          teste <- rbind(teste,teste_modelo)
+          
+          teste$status <- as.factor(teste$status)
+          
+          Ajuste <- coxph(Surv(valor, censura) ~ status, data = teste)
           cox.zph(Ajuste)
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
@@ -10217,18 +10384,18 @@ shinyServer(function(input, output, session){
         
         if(nrow(Encerrados4) > 10){
           infoBox(
-            "Processos Encerrados", nrow(Encerrados4),icon = icon("folder-open"),color = "green")}
+            "Processos Encerrados", nrow(Encerrados4),icon = icon("file-excel"),color = "olive")}
         
         else{
           infoBox(
-            "Processos Encerrados", nrow(Encerrados4),icon = icon("folder"),color = "red")}
+            "Processos Encerrados", nrow(Encerrados4),icon = icon("file-contract"),color = "purple")}
       })
       
       output$Sobrevivencia <- renderInfoBox({ #Infobox da Função de Sobrevivência
         
         if(round(Sobrevivencia,2)*100 >= 60){
           infoBox(
-            "Função de Sobrevivência", paste(round(Sobrevivencia,2)*100,"%"),icon = icon("heartbeat"),color = "green")}
+            "Função de Sobrevivência", paste(round(Sobrevivencia,2)*100,"%"),icon = icon("heartbeat"),color = "blue")}
         
         else{
           infoBox(
@@ -10239,22 +10406,46 @@ shinyServer(function(input, output, session){
         
         if(round(Risco_Acumulado,2)*100 < 40){
           infoBox(
-            "Taxa de falha acumuada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("exclamation"),color = "green")}
+            "Taxa de falha acumulada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("exclamation-triangle"),color = "purple")}
         
         else{
           infoBox(
-            "Taxa de falha acumuada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("exclamation-triangle"),color = "red")}
+            "Taxa de falha acumulada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("exclamation-circle"),color = "red")}
       })
       
       output$Risco <- renderInfoBox({ #Infobox da Taxa de Risco Acumulada
         
         if(round(Risco,2)*100 < 40){
           infoBox(
-            "Taxa de risco", paste(round(Risco,4)*100,"%"),icon = icon("thumbs-up"),color = "green")}
+            "Taxa de risco", paste(round(Risco,2)*100,"%"),icon = icon("skull"),color = "orange")}
         
         else{
           infoBox(
-            "Taxa de risco", paste(round(Risco,4)*100,"%"),icon = icon("thumbs-down"),color = "red")}
+            "Taxa de risco", paste(round(Risco,2)*100,"%"),icon = icon("radiation-alt"),color = "purple")}
+      })
+      
+      output$Tempo_medio <- renderInfoBox({ #Infobox do Tempo médio de Vida
+        Tempo_medio <- 15
+        
+        if(round(Tempo_medio,2)*100 < 40){
+          infoBox(
+            "Tempo médio de sobrevivência", paste(round(Tempo_medio,0),"dias"),icon = icon("calculator"),color = "olive")}
+        
+        else{
+          infoBox(
+            "Tempo médio de sobrevivência", paste(round(Tempo_medio,0),"dias"),icon = icon("square-root-alt"),color = "red")}
+      })
+      
+      output$Vida_media <- renderInfoBox({ #Infobox da Vida média residual
+        Vida_media <- 40
+        
+        if(round(Vida_media,2)*100 < 40){
+          infoBox(
+            "Vida média residual", paste(round(Vida_media,0),"dias"),icon = icon("file-contract"),color = "blue")}
+        
+        else{
+          infoBox(
+            "Vida média residual", paste(round(Vida_media,0),"dias"),icon = icon("file-signature"),color = "green")}
       })
       
       
@@ -11179,7 +11370,7 @@ shinyServer(function(input, output, session){
     
     invalidateLater(200000, session)
     
-    comparacao <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\completo.csv")
+    comparacao <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
     comparacao <- comparacao[,-1]
     
     dadosteste <- dados2[nrow(dados2),]
@@ -11187,12 +11378,12 @@ shinyServer(function(input, output, session){
     linhas_tabela_limpeza_Prazos <- grep(dadosteste$Apelido,comparacao$Apelido, fixed=TRUE)
     
     if(length(linhas_tabela_limpeza_Prazos) == 0){
-      dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\teste.csv")
+      dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\teste.csv")
       dados <- dados[,-1]
     }
     
     if(length(linhas_tabela_limpeza_Prazos) != 0){
-      dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\completo.csv")
+      dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
       dados <- dados[,-1]
       
       ####################### Entrando com o banco de dados para Atualização #############################
