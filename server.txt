@@ -425,7 +425,7 @@ shinyServer(function(input, output, session){
                                actionButton("AtuaPra42", "Atualizar"))),
           
           menuItem("Criação dos Dados", tabName = "entrada", icon = icon("database"), # Criando a aba de Criação dos Dados com seus respectivos filtros
-                   menuSubItem(icon = NULL,
+                   menuSubItem(icon = NULL, 
                                textInput("Entrada1", "Número do Processo", value = "Enter text..."), tabName = "entrada"),
                    
                    conditionalPanel(
@@ -1121,13 +1121,13 @@ shinyServer(function(input, output, session){
   observe({  # Representa o primeiro critério de atualização do banco de dados (no total são 3)
     # Nesse momento o servidor será reiniciado a cada 20.000 milésimos ou 20 segundos para que os dados de criação e atualização sejam atualizados na aba de visualização e os gráficos fiquem sempre atualizados também
     
-    invalidateLater(200000, session) # Código para reiniciar
+    invalidateLater(300000, session) # Código para reiniciar
     
     ######################### Entrando com os bancos de dados para criação #################################
     
-    #dados <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\Base2.xlsx", sheet=1, col_names=TRUE)
-    dadosP <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\Base2.xlsx", sheet=2, col_names=TRUE)
-    Date <<- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\Base2.xlsx", sheet=3, col_names=TRUE)
+    #dados <<- read_excel("D:\\Base.xlsx", sheet=1, col_names=TRUE)
+    dadosP <<- read_excel("D:\\Base.xlsx", sheet=2, col_names=TRUE)
+    Date <<- read_excel("D:\\Base.xlsx", sheet=3, col_names=TRUE)
     
     dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
     AtuaP <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\output_prazos2.csv")
@@ -1145,6 +1145,7 @@ shinyServer(function(input, output, session){
     Date2 <<- Date2[,-1]
     Date4 <<- Date4[,-1]
     AtuaP <<- AtuaP[,-1]
+
     
     # Serve para atualizar os selectinput na Ui enquanto o sistema roda 
     
@@ -1168,75 +1169,75 @@ shinyServer(function(input, output, session){
     # Como algumas colunas podem assumir valores 0 (tempo decorrido), foi criado o loop abaixo para substituir o 0 por 0.1
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,8] == 0 & dados[i,10] > 0){dados[i,8] = 0.1}
+      if(dados[i,8] == 0 & dados[i,10] > 0){dados[i,8] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,8] == 0 & dados[i,9] > 0){dados[i,8] = 0.1}
+      if(dados[i,8] == 0 & dados[i,9] > 0){dados[i,8] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,9] == 0 & dados[i,10] > 0){dados[i,9] = 0.1}
+      if(dados[i,9] == 0 & dados[i,10] > 0){dados[i,9] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,13] == 0 & dados[i,14] > 0){dados[i,13] = 0.1}
+      if(dados[i,13] == 0 & dados[i,14] > 0){dados[i,13] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,16] == 0 & dados[i,18] > 0){dados[i,16] = 0.1}
+      if(dados[i,16] == 0 & dados[i,18] > 0){dados[i,16] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,16] == 0 & dados[i,17] > 0){dados[i,16] = 0.1}
+      if(dados[i,16] == 0 & dados[i,17] > 0){dados[i,16] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,17] == 0 & dados[i,18] > 0){dados[i,17] = 0.1}
+      if(dados[i,17] == 0 & dados[i,18] > 0){dados[i,17] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,20] == 0 & dados[i,22] > 0){dados[i,20] = 0.1}
+      if(dados[i,20] == 0 & dados[i,22] > 0){dados[i,20] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,20] == 0 & dados[i,21] > 0){dados[i,20] = 0.1}
+      if(dados[i,20] == 0 & dados[i,21] > 0){dados[i,20] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,21] == 0 & dados[i,22] > 0){dados[i,21] = 0.1}
+      if(dados[i,21] == 0 & dados[i,22] > 0){dados[i,21] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,24] == 0 & dados[i,25] > 0){dados[i,24] = 0.1}
+      if(dados[i,24] == 0 & dados[i,25] > 0){dados[i,24] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,28] == 0 & dados[i,29] > 0){dados[i,28] = 0.1}
+      if(dados[i,28] == 0 & dados[i,29] > 0){dados[i,28] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,31] == 0 & dados[i,32] > 0){dados[i,31] = 0.1}
+      if(dados[i,31] == 0 & dados[i,32] > 0){dados[i,31] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,36] == 0 & dados[i,38] > 0){dados[i,36] = 0.1}
+      if(dados[i,36] == 0 & dados[i,38] > 0){dados[i,36] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,36] == 0 & dados[i,37] > 0){dados[i,36] = 0.1}
+      if(dados[i,36] == 0 & dados[i,37] > 0){dados[i,36] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,37] == 0 & dados[i,38] > 0){dados[i,37] = 0.1}
+      if(dados[i,37] == 0 & dados[i,38] > 0){dados[i,37] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,40] == 0 & dados[i,41] > 0){dados[i,40] = 0.1}
+      if(dados[i,40] == 0 & dados[i,41] > 0){dados[i,40] = 1}
     }
     
     for (i in 1:nrow(dados)) {
-      if(dados[i,43] == 0 & dados[i,44] > 0){dados[i,43] = 0.1}
+      if(dados[i,43] == 0 & dados[i,44] > 0){dados[i,43] = 1}
     }
     
     ################################ Fazendo a limpeza da Base de Prazos ########################################
@@ -1545,6 +1546,14 @@ shinyServer(function(input, output, session){
     
     dadosData$Mes <- as.numeric(dadosData$Mes)
     
+    if(length(which(is.na(dadosData[,84]))) != 0){
+      dadosData <- dadosData[-which(is.na(dadosData[,84])),]
+    }
+    
+    if(length(which(is.na(dadosData[,85]))) != 0){
+      dadosData <- dadosData[-which(is.na(dadosData[,85])),]
+    }
+    
     for (i in 1:nrow(dadosData)) {
       if(dadosData[i,85] == 1){dadosData[i,85] = "Janeiro"}
       if(dadosData[i,85] == 2){dadosData[i,85] = "Fevereiro"}
@@ -1695,14 +1704,19 @@ shinyServer(function(input, output, session){
     })
     
     output$histogramManual5 <- renderPlotly({ ########################## Imagem 5 - Manual de Uso
+      
       resumo1 <- data.frame(table(dados$`Classe do Processo`, by=dados$Status))
       
-      resumo1 <- resumo1[-c(grep( "Em análise",resumo1$by)),]
+      for (i in 1:nrow(resumo1)) {
+        if(length(grep( "Em análise",resumo1$by)) != 0){
+          resumo1 <- resumo1[-c(grep( "Em análise",resumo1$by)),]}
+      }
+      
       
       names(resumo1)[names(resumo1) == "by"] <- "Status"
       resumo1 <- resumo1[resumo1$Freq != 0,]
-      resumo1 <- resumo1[order(resumo1$Freq),]
-      
+      resumo1 <<- resumo1[order(resumo1$Freq),]
+     
       resumo1$soma <- ave(resumo1$Freq, resumo1$Var1, FUN=cumsum)
       
       names(resumo1)[names(resumo1) == "Var1"] <- "Processo"
@@ -1710,20 +1724,47 @@ shinyServer(function(input, output, session){
       
       b <- ggplot(data=resumo1, aes(x=Processo, y=Frequencia, fill=Status)) +
         geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-        geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0, max(resumo1$Frequencia)+30)+
+        geom_text(aes(y=Frequencia, label=Frequencia),color="white",position=position_stack(0.5))+ ylim(0, max(resumo1$soma)+30)+
         scale_fill_brewer(palette="Paired")+
         theme_minimal()+  theme(axis.title.x=element_blank(),
                                 axis.text.x=element_text(),
                                 axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                       axis.text.y=element_text(),
                                                                       axis.ticks.y=element_blank())
+      
+      
       ggplotly(b)
       
     })
     
     output$histogramManual7 <- renderPlot({ ########################## Imagem 7 - Manual de Uso
       
-      qqPlot(lung$age, xlab = "", ylab = "", col = c("black"),col.lines="red",lwd = 1.5)
+      fit1 <- coxph(formula = Surv(start, stop, event) ~ (age + surgery) * transplant,
+                    data    = heart,
+                    ties    = c("efron","breslow","exact")[1])
+      
+      heart$resid_mart <- residuals(fit1, type = "martingale")
+      
+      ## Cox-Snell residuals
+      heart$resid_coxsnell <- -(heart$resid_mart - heart$event)
+      
+      
+      ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+      fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, event) ~ 1,
+                            data    = heart,
+                            ties    = c("efron","breslow","exact")[1])
+      
+      ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+      df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+      
+      ## Plot
+      ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+        geom_point() +
+        scale_x_continuous(limit = c(0,3.5)) +
+        scale_y_continuous(limit = c(0,3.5)) +
+        labs(x = "Cox-Snell residuals as pseudo observed times",
+             y = "Estimated cumulative hazard at pseudo observed times") +
+        theme_bw() + theme(legend.key = element_blank())
     })
     
     output$histogramManual8 <- renderPlot({ ########################## Imagem 8 - Manual de Uso
@@ -1795,7 +1836,7 @@ shinyServer(function(input, output, session){
       
       
     })
-    
+
     ############################# Estruturando os Gráficos para a Aba Quadro Resumo ###########################
     
     output$Resumo1 <- renderPlotly({ ########################## Imagem 1 - Quadro Resumo
@@ -1807,9 +1848,8 @@ shinyServer(function(input, output, session){
       names(resumo)[names(resumo) == "Freq"] <- "Frequencia"
       
       a1 <- ggplot(data=resumo, aes(x=Processo, y=Frequencia, fill=Status)) +
-        geom_bar(stat="identity")+
-        geom_text(aes(y=Frequencia, label=Frequencia), vjust=1.6, 
-                  color="white", size=5)+
+        geom_bar(stat="identity") + theme(legend.position = "top")+
+        geom_text(aes(y=Frequencia, label=Frequencia),color="white",position=position_stack(0.5))+
         scale_fill_brewer(palette="Paired")+
         theme_minimal()+  theme(axis.title.x=element_blank(),
                                 axis.text.x=element_text(),
@@ -1824,26 +1864,31 @@ shinyServer(function(input, output, session){
       
       resumo1 <- data.frame(table(dados$`Classe do Processo`, by=dados$Status))
       
-      resumo1 <- resumo1[-c(grep( "Em análise",resumo1$by)),]
-      
+      for(i in 1:nrow(resumo1)){
+        if(length(grep( "Em análise",resumo1$by)) != 0){
+          resumo1 <- resumo1[-c(grep( "Em análise",resumo1$by)),]
+        }
+      }
+
       names(resumo1)[names(resumo1) == "by"] <- "Status"
       resumo1 <- resumo1[resumo1$Freq != 0,]
       resumo1 <- resumo1[order(resumo1$Freq),]
-      
-      resumo1$soma <- ave(resumo1$Freq, resumo1$Var1, FUN=cumsum)
-      
+  
       names(resumo1)[names(resumo1) == "Var1"] <- "Processo"
       names(resumo1)[names(resumo1) == "Freq"] <- "Frequencia"
       
       a2 <- ggplot(data=resumo1, aes(x=Processo, y=Frequencia, fill=Status)) +
         geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-        geom_text(aes(x=Processo, y=soma, label=Frequencia), color="white",position=position_stack(0.3))+
-        scale_fill_brewer(palette="Paired")+ ylim(0, max(resumo1$Frequencia)+30)+
+        geom_text(aes(y=Frequencia, label=Frequencia),color="white",position=position_stack(0.5))+
+        scale_fill_brewer(palette="Paired")+
         theme_minimal()+  theme(axis.title.x=element_blank(),
                                 axis.text.x=element_text(),
                                 axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                       axis.text.y=element_text(),
                                                                       axis.ticks.y=element_blank())
+      
+      
+      
       ggplotly(a2)
     })
     
@@ -1879,6 +1924,39 @@ shinyServer(function(input, output, session){
       fig
       
       
+    })
+    
+    
+    ################################ Info Box do Quadro Resumo #############################
+    
+    output$Processos <- renderInfoBox({ 
+      
+      infoBox("Numero Total de Processos",nrow(Status),icon = icon("archive"),color = "aqua") #Inserindo a tag com frequência
+    })
+    
+    output$N_Encerrado <- renderInfoBox({ 
+      
+      infoBox("Número Total de Encerrados", nrow(Status[Status[,4] == "Encerrado",]) ,icon = icon("folder-minus"),color = "purple")
+    })
+    
+    output$N_Aberto <- renderInfoBox({ 
+      
+      infoBox("Número Total de Abertos", nrow(Status[Status[,4] == "Aberto",]) ,icon = icon("folder-open", lib = "glyphicon"),color = "orange",fill = FALSE)
+    })
+    
+    output$N_ok <- renderInfoBox({ 
+      
+      infoBox("Número Total Status (Ok)", sum(resumo1[resumo1$Status == "Ok",]$Freq) ,icon = icon("thumbs-up"),color = "green")
+    })
+    
+    output$N_alerta <- renderInfoBox({ 
+      
+      infoBox("Número Total Status (Alerta)", sum(resumo1[resumo1$Status == "Alerta",]$Freq) ,icon = icon("exclamation-triangle"),color = "yellow")
+    })
+    
+    output$N_atrasado <- renderInfoBox({ 
+      
+      infoBox("Número Total Status (Atrasado)", sum(resumo1[resumo1$Status == "Atrasado",]$Freq) ,icon = icon("thumbs-down"),color = "red")
     })
     
     # Abaixo foram realizados os filtros para a aba Análise Processual com seus respectivos gráficos
@@ -1953,7 +2031,7 @@ shinyServer(function(input, output, session){
         
         output$histogram5 <- renderPlotly({ 
           
-          dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
+          dadosData3 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dat1 <- dadosData4[,c(3,5)]
@@ -1983,7 +2061,7 @@ shinyServer(function(input, output, session){
         
         output$histogram5 <- renderPlotly({
           
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
+          dadosData4 <<- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3] | dadosData$`Classe do Processo` == (input$Classe3)[4] | dadosData$`Classe do Processo` == (input$Classe3)[5])
           
           dat1 <- dadosData4[,c(3,5)]
           dat2 <- data.frame(table(dat1$`Classe do Processo`,by=dat1$Classificação))
@@ -2079,7 +2157,7 @@ shinyServer(function(input, output, session){
         
         output$histogram6 <- renderPlotly({ 
           
-          dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
+          dadosData3 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           dadosData4$media2 <- rowMeans(dadosData4[,7:34])
@@ -2111,7 +2189,7 @@ shinyServer(function(input, output, session){
         
         output$histogram6 <- renderPlotly({ 
           
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
+          dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3] | dadosData$`Classe do Processo` == (input$Classe3)[4] | dadosData$`Classe do Processo` == (input$Classe3)[5])
           
           dadosData4$media2 <- rowMeans(dadosData4[,7:34])
           pericia <- dadosData4$`Classe do Processo`
@@ -2165,10 +2243,10 @@ shinyServer(function(input, output, session){
           
           a12 <- ggplot(data=resumoab, aes(x=Processo, y=Frequencia, fill=Status)) +
             geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-            geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0,max(resumoab$Frequencia)+5)+
-            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
+            geom_text(aes(y=Frequencia, label=Frequencia),color="white",position=position_stack(0.5))+ ylim(0, max(resumoab$soma)+30)+
+            scale_fill_brewer(palette="Paired")+
             theme_minimal()+  theme(axis.title.x=element_blank(),
-                                    axis.text.x=element_text(), 
+                                    axis.text.x=element_text(),
                                     axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                           axis.text.y=element_text(),
                                                                           axis.ticks.y=element_blank())
@@ -2204,13 +2282,14 @@ shinyServer(function(input, output, session){
           
           a13 <-  ggplot(data=resumoab, aes(x=Processo, y=Frequencia, fill=Status)) +
             geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-            geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0,max(resumoab$Frequencia)+5)+
-            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
+            geom_text(aes(y=Frequencia, label=Frequencia),color="white",position=position_stack(0.5))+ ylim(0, max(resumoab$soma)+30)+
+            scale_fill_brewer(palette="Paired")+
             theme_minimal()+  theme(axis.title.x=element_blank(),
-                                    axis.text.x=element_text(), 
+                                    axis.text.x=element_text(),
                                     axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                           axis.text.y=element_text(),
                                                                           axis.ticks.y=element_blank())
+          
           ggplotly(a13)
           
         })}
@@ -2221,8 +2300,8 @@ shinyServer(function(input, output, session){
         
         output$histogram61 <- renderPlotly({ 
           
-          dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
-          dadosData4 <- ssubset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
+          dadosData3 <- dadosData[dadosData$Mes == c(input$Classe1),]
+          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
@@ -2241,13 +2320,14 @@ shinyServer(function(input, output, session){
           
           a14 <- ggplot(data=resumoab, aes(x=Processo, y=Frequencia, fill=Status)) +
             geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-            geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0,max(resumoab$Frequencia)+5)+
-            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
+            geom_text(aes(y=Frequencia, label=Frequencia),color="white",position=position_stack(0.5))+ ylim(0, max(resumoab$soma)+30)+
+            scale_fill_brewer(palette="Paired")+
             theme_minimal()+  theme(axis.title.x=element_blank(),
-                                    axis.text.x=element_text(), 
+                                    axis.text.x=element_text(),
                                     axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                           axis.text.y=element_text(),
                                                                           axis.ticks.y=element_blank())
+          
           ggplotly(a14)
           
         })}
@@ -2258,7 +2338,7 @@ shinyServer(function(input, output, session){
         
         output$histogram61 <- renderPlotly({ 
           
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
+          dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3] | dadosData$`Classe do Processo` == (input$Classe3)[4] | dadosData$`Classe do Processo` == (input$Classe3)[5])
           
           
           resumoab <- data.frame(table(dadosData4$`Classe do Processo`, by=dadosData4$Status))
@@ -2277,13 +2357,14 @@ shinyServer(function(input, output, session){
           
           a15 <- ggplot(data=resumoab, aes(x=Processo, y=Frequencia, fill=Status)) +
             geom_bar(stat="identity")+ coord_flip() + theme(legend.position = "top")+
-            geom_text(aes(y=soma, label=Frequencia),color="white",position=position_stack(0.3))+ ylim(0,max(resumoab$Frequencia)+5)+
-            scale_fill_manual(values = c("#999999", "orange","#153E7E"))+
+            geom_text(aes(y=Frequencia, label=Frequencia),color="white",position=position_stack(0.5))+ ylim(0, max(resumoab$soma)+30)+
+            scale_fill_brewer(palette="Paired")+
             theme_minimal()+  theme(axis.title.x=element_blank(),
-                                    axis.text.x=element_text(), 
+                                    axis.text.x=element_text(),
                                     axis.ticks.x=element_blank())+  theme(axis.title.y=element_blank(),
                                                                           axis.text.y=element_text(),
                                                                           axis.ticks.y=element_blank())
+          
           ggplotly(a15)
           
         })}
@@ -2352,7 +2433,7 @@ shinyServer(function(input, output, session){
         
         output$histogram62 <- renderPlotly({ 
           
-          dadosData2 <- dadosData[dadosData$Mes == c(input$Classe1),]
+          dadosData3 <- dadosData[dadosData$Mes == c(input$Classe1),]
           dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
           
           resumorp <- dadosData4 %>% 
@@ -2380,7 +2461,7 @@ shinyServer(function(input, output, session){
         
         output$histogram62 <- renderPlotly({ 
           
-          dadosData4 <- subset(dadosData3, dadosData3$`Classe do Processo` == (input$Classe3)[1] | dadosData3$`Classe do Processo` == (input$Classe3)[2] | dadosData3$`Classe do Processo` == (input$Classe3)[3] | dadosData3$`Classe do Processo` == (input$Classe3)[4] | dadosData3$`Classe do Processo` == (input$Classe3)[5])
+          dadosData4 <- subset(dadosData, dadosData$`Classe do Processo` == (input$Classe3)[1] | dadosData$`Classe do Processo` == (input$Classe3)[2] | dadosData$`Classe do Processo` == (input$Classe3)[3] | dadosData$`Classe do Processo` == (input$Classe3)[4] | dadosData$`Classe do Processo` == (input$Classe3)[5])
           
           resumorp <- dadosData4 %>% 
             group_by(Classificação,`Classe do Processo`) %>% 
@@ -2746,7 +2827,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -3072,9 +3155,31 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram9 <- renderPlot({ # Imagem 1 - Pré requisitos
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
           
-          qqPlot(Ajuste$residuals, xlab = "", ylab = "", col = c("black"),col.lines="red",lwd = 1.5)
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
         })
         
       }
@@ -3414,7 +3519,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -3736,9 +3843,31 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram9 <- renderPlot({ # Imagem 1 - Pré requisitos
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
           
-          qqPlot(Ajuste$residuals, xlab = "", ylab = "", col = c("black"),col.lines="red",lwd = 1.5)
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
         })
         
       }
@@ -4078,7 +4207,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -4400,9 +4531,31 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram9 <- renderPlot({ # Imagem 1 - Pré requisitos
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
           
-          qqPlot(Ajuste$residuals, xlab = "", ylab = "", col = c("black"),col.lines="red",lwd = 1.5)
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
         })
         
       }
@@ -4741,7 +4894,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <<- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -5063,9 +5218,31 @@ shinyServer(function(input, output, session){
         })
         
         
-        output$histogram9 <- renderPlot({ # Imagem 1 - Pré requisitos
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
           
-          qqPlot(Ajuste$residuals, xlab = "", ylab = "", col = c("black"),col.lines="red",lwd = 1.5)
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
         })
         
       }
@@ -5411,7 +5588,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -5732,6 +5911,32 @@ shinyServer(function(input, output, session){
           
         })
         
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
+          
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
+        })
       }
       
       ############################################# Caso número 2
@@ -6069,7 +6274,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -6388,6 +6595,33 @@ shinyServer(function(input, output, session){
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
           
+        })
+        
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
+          
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
         })
         
       }
@@ -6727,7 +6961,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -7045,6 +7281,33 @@ shinyServer(function(input, output, session){
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
           
+        })
+        
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
+          
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
         })
         
       }
@@ -7383,7 +7646,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -7703,7 +7968,32 @@ shinyServer(function(input, output, session){
           
         })
         
-        
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
+          
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
+        })
       }
       
       
@@ -8045,7 +8335,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -8365,6 +8657,32 @@ shinyServer(function(input, output, session){
           
         })
         
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
+          
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
+        })
       }
       
       ############################################# Caso número 2
@@ -8702,7 +9020,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -9021,6 +9341,33 @@ shinyServer(function(input, output, session){
           par(mfrow=c(3,1))
           ggcoxzph(cox.zph(Ajuste))
           
+        })
+        
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
+          
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
         })
         
       }
@@ -9360,7 +9707,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -9682,6 +10031,32 @@ shinyServer(function(input, output, session){
           
         })
         
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
+          
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
+        })
       }
       
       ############################################# Caso número 4
@@ -10018,7 +10393,9 @@ shinyServer(function(input, output, session){
         fit_Info <- survfit(Surv(valor, censura) ~ 1,type="kaplan-meier",conf.type="log",data = dadoscensura) #Calculando o modelo sem separação por status
         Sobrevivencia <- summary(fit_Info, times=100)$surv # max(fit_Info$time) #Calculando a probabilidade de sobrevivência para o Infobox
         Risco_Acumulado <- summary(fit_Info, times=100)$cumhaz # max(fit_Info$time) #Calculando a função de risco acumulado para o infobox
-        Risco <- (summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv) + summary(fit_Info, times=100)$surv) #Calculando a função de risco para o infobox
+        Risco <- 1-(summary(fit_Info, times=100)$surv/summary(fit_Info, times=50)$surv) #Calculando a função de risco para o infobox
+        Tempo_medio <- sum(summary(fit_Info, times=1:max(fit_Info$time))$surv) #Calculando o tempo médio de vida
+        Vida_media <- (1/((summary(fit_Info, times=50)$surv - summary(fit_Info, times=100)$surv)+summary(fit_Info, times=100)$surv))*sum(summary(fit_Info, times=100:max(fit_Info$time))$surv) #Calculando o tempo de vida média residual
         
         output$histogram1 <- renderPlot({ # Imagem 1 - DASHBOARD
           ggsurvplot(
@@ -10338,6 +10715,32 @@ shinyServer(function(input, output, session){
           
         })
         
+        output$histogram9 <- renderPlot({
+          # Ajustando o modelo de Cox-Snell
+          
+          fit1 <- coxph(formula = Surv(valor, censura) ~ status, data = dadoscensura)
+          
+          dadoscensura$resid_mart <- residuals(fit1, type = "martingale")
+          
+          ## Cox-Snell residuals
+          resid_coxsnell <- -(dadoscensura$resid_mart - dadoscensura$censura)
+          
+          
+          ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+          fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, censura) ~ 1, data = dadoscensura)
+          
+          ## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+          df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+          
+          ## Plot
+          ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+            geom_point() +
+            scale_x_continuous(limit = c(0,3.5)) +
+            scale_y_continuous(limit = c(0,3.5)) +
+            labs(x = "Cox-Snell residuals as pseudo observed times",
+                 y = "Estimated cumulative hazard at pseudo observed times") +
+            theme_bw() + theme(legend.key = element_blank())
+        })
         
       }
       
@@ -10345,38 +10748,109 @@ shinyServer(function(input, output, session){
       ################################# Estruturando os Info Box do Dashboard #################################
       
       ############################################### OPÇÃO AMBOS ############################################
+    
       
       # Número de Processos Encerrados 
       
+   
       if(input$dashboard1 != "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
         
         Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
         Encerrados2 <- Encerrados1[Encerrados1$Ano == c(input$dashboard2),]
-        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
-        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        Encerrados4 <<- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
+        
         
       }
       
       if(input$dashboard1 == "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
         
         Encerrados2 <- dadosData[dadosData$Ano == c(input$dashboard2),]
-        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
-        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        Encerrados4 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
         
       }
       
       if(input$dashboard1 != "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Ambos"){
         
         Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
-        Encerrados3 <- Encerrados1[Encerrados1$`Classe do Processo` == c(input$dashboard3),]
-        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        Encerrados4 <- Encerrados1[Encerrados1$`Classe do Processo` == c(input$dashboard3),]
         
       }
       
       if(input$dashboard1 == "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Ambos"){
         
+        Encerrados4 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
+       
+      }
+      
+      ############################################### OPÇÃO ABERTO ############################################
+      
+      # Número de Processos Encerrados 
+      
+      if(input$dashboard1 != "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Aberto"){
+        
+        Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
+        Encerrados2 <- Encerrados1[Encerrados1$Ano == c(input$dashboard2),]
+        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <- Encerrados3[Encerrados3$Classificação == "Aberto",]
+        
+      }
+      
+      if(input$dashboard1 == "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Aberto"){
+        
+        Encerrados2 <- dadosData[dadosData$Ano == c(input$dashboard2),]
+        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <- Encerrados3[Encerrados3$Classificação == "Aberto",]
+        
+      }
+      
+      if(input$dashboard1 != "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Aberto"){
+        
+        Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
+        Encerrados3 <- Encerrados1[Encerrados1$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <- Encerrados3[Encerrados3$Classificação == "Aberto",]
+        
+      }
+      
+      if(input$dashboard1 == "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Aberto"){
+        
         Encerrados3 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
-        Encerrados4 <<- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        Encerrados4 <- Encerrados3[Encerrados3$Classificação == "Aberto",]
+        
+      }
+      
+      ############################################### OPÇÃO ENCERRADO ############################################
+      
+      # Número de Processos Encerrados 
+      
+      if(input$dashboard1 != "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Encerrado"){
+        
+        Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
+        Encerrados2 <- Encerrados1[Encerrados1$Ano == c(input$dashboard2),]
+        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        
+      }
+      
+      if(input$dashboard1 == "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Encerrado"){
+        
+        Encerrados2 <- dadosData[dadosData$Ano == c(input$dashboard2),]
+        Encerrados3 <- Encerrados2[Encerrados2$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        
+      }
+      
+      if(input$dashboard1 != "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Encerrado"){
+        
+        Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
+        Encerrados3 <- Encerrados1[Encerrados1$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <- Encerrados3[Encerrados3$Classificação == "Encerrado",]
+        
+      }
+      
+      if(input$dashboard1 == "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Encerrado"){
+        
+        Encerrados3 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
+        Encerrados4 <- Encerrados3[Encerrados3$Classificação == "Encerrado",]
         
       }
       
@@ -10384,12 +10858,13 @@ shinyServer(function(input, output, session){
         
         if(nrow(Encerrados4) > 10){
           infoBox(
-            "Processos Encerrados", nrow(Encerrados4),icon = icon("file-excel"),color = "olive")}
+            "Número de Processos", nrow(Encerrados4),icon = icon("archive"),color = "olive")}
         
         else{
           infoBox(
-            "Processos Encerrados", nrow(Encerrados4),icon = icon("file-contract"),color = "purple")}
-      })
+            "Número de Processos", nrow(Encerrados4),icon = icon("archive"),color = "purple")}
+
+        })
       
       output$Sobrevivencia <- renderInfoBox({ #Infobox da Função de Sobrevivência
         
@@ -10399,35 +10874,34 @@ shinyServer(function(input, output, session){
         
         else{
           infoBox(
-            "Função de Sobrevivência", paste(round(Sobrevivencia,2)*100,"%"),icon = icon("heart-broken"),color = "red")}
+            "Função de Sobrevivência", paste(round(Sobrevivencia,2)*100,"%"),icon = icon("heart"),color = "red")}
       })
       
       output$Risco_Acumulado <- renderInfoBox({ #Infobox da Taxa de Risco Acumulada
         
         if(round(Risco_Acumulado,2)*100 < 40){
           infoBox(
-            "Taxa de falha acumulada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("exclamation-triangle"),color = "purple")}
+            "Taxa de falha acumulada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("mail-bulk"),color = "purple")}
         
         else{
           infoBox(
-            "Taxa de falha acumulada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("exclamation-circle"),color = "red")}
+            "Taxa de falha acumulada", paste(round(Risco_Acumulado,2)*100,"%"),icon = icon("envelope-open-text"),color = "red")}
       })
       
       output$Risco <- renderInfoBox({ #Infobox da Taxa de Risco Acumulada
         
         if(round(Risco,2)*100 < 40){
           infoBox(
-            "Taxa de risco", paste(round(Risco,2)*100,"%"),icon = icon("skull"),color = "orange")}
+            "Taxa de risco", paste(round(Risco,2)*100,"%"),icon = icon("car-crash"),color = "orange")}
         
         else{
           infoBox(
-            "Taxa de risco", paste(round(Risco,2)*100,"%"),icon = icon("radiation-alt"),color = "purple")}
+            "Taxa de risco", paste(round(Risco,2)*100,"%"),icon = icon("car"),color = "purple")}
       })
       
       output$Tempo_medio <- renderInfoBox({ #Infobox do Tempo médio de Vida
-        Tempo_medio <- 15
         
-        if(round(Tempo_medio,2)*100 < 40){
+        if(round(Tempo_medio,2) < 90){
           infoBox(
             "Tempo médio de sobrevivência", paste(round(Tempo_medio,0),"dias"),icon = icon("calculator"),color = "olive")}
         
@@ -10437,15 +10911,14 @@ shinyServer(function(input, output, session){
       })
       
       output$Vida_media <- renderInfoBox({ #Infobox da Vida média residual
-        Vida_media <- 40
         
-        if(round(Vida_media,2)*100 < 40){
+        if(round(Vida_media,2) < 9){
           infoBox(
-            "Vida média residual", paste(round(Vida_media,0),"dias"),icon = icon("file-contract"),color = "blue")}
+            "Vida média residual", paste(round(Vida_media,0),"dias"),icon = icon("cog"),color = "yellow")}
         
         else{
           infoBox(
-            "Vida média residual", paste(round(Vida_media,0),"dias"),icon = icon("file-signature"),color = "green")}
+            "Vida média residual", paste(round(Vida_media,0),"dias"),icon = icon("cogs"),color = "aqua")}
       })
       
       
@@ -11368,7 +11841,7 @@ shinyServer(function(input, output, session){
   observe({
     
     
-    invalidateLater(200000, session)
+    invalidateLater(300000, session)
     
     comparacao <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
     comparacao <- comparacao[,-1]
@@ -11381,11 +11854,11 @@ shinyServer(function(input, output, session){
       dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\teste.csv")
       dados <- dados[,-1]
     }
-    
+   
     if(length(linhas_tabela_limpeza_Prazos) != 0){
       dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
       dados <- dados[,-1]
-      
+    
       ####################### Entrando com o banco de dados para Atualização #############################
       
       names(dados5) <- c("Nº Processo","Apelido","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",

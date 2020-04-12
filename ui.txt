@@ -51,9 +51,9 @@ page <-  dashboardPage(skin = "green",
                          "5ª Vara da Justiça Federal", # Título do Dashboard
                          style = "font-family: Tahoma; font-weight: bold" 
                        ),titleWidth = "400px",
-                       tags$li(a(href = 'http://google.com.br', # página externa
+                       tags$li(a(href = 'https://sei.df.gov.br/sip/login.php?sigla_orgao_sistema=GDF&sigla_sistema=SEI', # página externa
                                  icon("wifi"),
-                                 title = "Página interna"),
+                                 title = "Página SEI"),
                                class = "dropdown"),
                        tags$li(a(href = 'https://portal.trf1.jus.br/sjdf/', # página externa
                                  icon("link"),
@@ -92,13 +92,13 @@ page <-  dashboardPage(skin = "green",
                                                 tabItem(tabName = "Resumo", # Adicionando as caixas de InfoBox na aba Resumo 
                                                         
                                                         fluidRow(
-                                                          infoBox("Numero Total de Processos",nrow(Status),icon = icon("archive"),color = "aqua"), #Inserindo a tag com frequência
-                                                          infoBox("Número Total de Encerrados", nrow(Status[Status[,4] == "Encerrado",]) ,icon = icon("folder-minus"),color = "purple"),
-                                                          infoBox("Número Total de Abertos", nrow(Status[Status[,4] == "Aberto",]) ,icon = icon("folder-open", lib = "glyphicon"),color = "orange",fill = FALSE),
-                                                          infoBox("Número Total Status (Ok)", nrow(Status[Status[,5] == "Ok",]) ,icon = icon("thumbs-up"),color = "green"),
-                                                          infoBox("Número Total Status (Alerta)", nrow(Status[Status[,5] == "Alerta",]) ,icon = icon("exclamation-triangle"),color = "yellow"),
-                                                          infoBox("Número Total Status (Atrasado)", nrow(Status[Status[,5] == "Atrasado",]) ,icon = icon("thumbs-down"),color = "red")),
-                                                        
+                                                          infoBoxOutput("Processos"),
+                                                          infoBoxOutput("N_Encerrado"),
+                                                          infoBoxOutput("N_Aberto"),
+                                                          infoBoxOutput("N_ok"),
+                                                          infoBoxOutput("N_alerta"),
+                                                          infoBoxOutput("N_atrasado")),
+                                                          
                                                         fluidRow(
                                                           box(title = strong("Total de Processos Segundo sua Classificação"), status = "primary", solidHeader = TRUE, plotlyOutput("Resumo1")), #Gráfico 1
                                                           box(title = strong("Total de Processos Segundo seu Status"), status = "warning", solidHeader = TRUE, plotlyOutput("Resumo2")), #Gráfico 2
@@ -112,13 +112,13 @@ page <-  dashboardPage(skin = "green",
                                                         
                                                         fluidRow(
                                                           tabBox(
-                                                            side = "right", height = "200px", width = '90%',
+                                                            side = "right", height = "220px", width = '90%',
                                                             title = "Funcionamento dos processos",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
                                                             tabPanel(" ",p(em("Os processos públicos administrados pela"),em(strong("5ª Vara da Justiça Federal")),em("constituem cinquenta e cinco diferentes categorias de pleitos divididos em: Ações Civis Coletivas, Ações Populares, Buscas e Apreensões, Arrestos, Protestos e etc. Dessa maneira, a instituição possui como encargo a necessidade de triagem das fases processuais contabilizadas desde o recebimento até a conclusão do mesmo pleito, sendo tais etapas contabilizadas em trinta e oito estágios divididos em seis setores internos a instituição (Secretaria, Gabinete, Central de Mandados, Requerido, Requerente e Perito).", align = "center")),
                                                                      
                                                                      p(em("Cada uma das trinta e oito fases pré-definidas no quadro abaixo, possuem tempo limite de duração estruturado em artigos do Código de Processo Civil"),em(strong("nº 297, 802, 896, 1.065, 1.106, 536 e 508")),em(". Necessitando-se assim da colaboração e compreensão dos advogados e servidores para realização das atividades dentro dos prazos delimitados, uma vez que nos termos das leis acima mencionadas, a principio não haverá nenhuma hipótese de prorrogação.", align = "left"))
-                                                                     , height = "350px", width = '100%')
+                                                                     , height = "350px", width = '100%',  style = "font-size: 16px")
                                                           ),
                                                           
                                                           tabBox(
@@ -142,7 +142,7 @@ page <-  dashboardPage(skin = "green",
                                                         
                                                         fluidRow(
                                                           tabBox(
-                                                            side = "right", height = "800px", width = '90%',
+                                                            side = "right", height = "820px", width = '90%',
                                                             title = "Descrição sobre o funcionamento do software",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
                                                             tabPanel(" ",p(em("Com o intuito de criar medidas descritivas capazes de informar os advogados e servidores da instituição sobre os prazos remanescentes para elaboração e estruturação dos processos descritos como de interesse, desenvolveu-se com parceria da "),em(strong("5ª Vara da Justiça Federal")),em("um sistema automatizado por meio  do software R em conjunto com o pacote Shiny, produzindo-se assim um layout gráfico robusto e de simples manuseio para a instituição.", align = "center")), height = "350px", width = '100%'),
@@ -167,14 +167,14 @@ page <-  dashboardPage(skin = "green",
                                                               tags$br(),
                                                               tags$li(a(span(icon("dashboard"), style = "color:black")),strong(span("Dashboard: ", style = "color:black")),em("Mostra algumas informações referentes a análise de sobrevivência para as classes de processos em interesse. Como por exemplo, a probabilidade do processo ser encerrado antes de ser finalizado ou o tempo médio que a classe processual leva para sua conclusão.")),
                                                               tags$br(),
-                                                              tags$li(a(span(icon("calculator"), style = "color:black")),strong(span("Pré-requisitos: ", style = "color:black")),em("Serve para informar sobre a qualidade de ajuste dos dados ao modelo proposto na análise de sobrevivência na aba Dashboard."))),  style = "font-size: 15px")
+                                                              tags$li(a(span(icon("calculator"), style = "color:black")),strong(span("Pré-requisitos: ", style = "color:black")),em("Serve para informar sobre a qualidade de ajuste dos dados ao modelo proposto na análise de sobrevivência na aba Dashboard."))), height = "350px", width = '100%',  style = "font-size: 16px")
                                                           ),
                                                           
                                                           tabBox(
-                                                            side = "right", height = "710px", width = '90%',
+                                                            side = "right", height = "750px", width = '90%',
                                                             title = "Explicação sobre os gráficos utilizados",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ",p(em("As saídas gráficas apresentadas nessa aba representam um resumo de todos os Plots contidos no sistema. Dessa maneira, será descrito abaixo de maneira simples e sucinta como se discorre a usabilidade e interpretabilidade de cada um dos gráficos."), height = "350px", width = '100%'),
+                                                            tabPanel(" ",p(em("As saídas gráficas apresentadas nessa aba representam um resumo de todos os Plots contidos no sistema. Dessa maneira, será descrito abaixo de maneira simples e sucinta como se discorre a usabilidade e interpretabilidade de cada um dos gráficos."), height = "370px", width = '100%'),
                                                                      tags$br(),
                                                                      tags$div(tags$ul(
                                                                        
@@ -190,13 +190,13 @@ page <-  dashboardPage(skin = "green",
                                                                        tags$br(),
                                                                        tags$li(a(span(icon("chart-pie"), style = "color:black")),strong(span("Gráfico de setores: ", style = "color:black")),em("Representado numa escala percentual, o Plot descreve qual das classes processuais demandou da instituição um maior período de tempo até sua conclusão.")),
                                                                        tags$br(),
-                                                                       tags$li(a(span(icon("chart-line"), style = "color:black")),strong(span("Imagem: ", style = "color:black")),em("")),
+                                                                       tags$li(a(span(icon("chart-line"), style = "color:black")),strong(span("Resíduos de Cox-Snell: ", style = "color:black")),em("É utilizado para medir a qualidade de ajuste do modelo de Cox. Caso esteja bem ajustada, o gráfico gerado devera apresentar uma estrutura próxima a uma reta.")),
                                                                        tags$br(),
                                                                        tags$li(a(span(icon("chart-area"), style = "color:black")),strong(span("Resíduos de Schoenfeld: ", style = "color:black")),em("Serve para verificar a suposição de riscos proporcionais na análise de sobrevivência. Caso o modelo seja apropriado, não deverá haver tendências nos tempos analisados.")),
                                                                        tags$br(),
                                                                        tags$li(a(span(icon("chart-bar"), style = "color:black")),strong(span("Gráfico de barras: ", style = "color:black")),em("Representa o tempo médio de duração em dias das atividades internas da instituição segundo a fase de cada processo.")),
                                                                        tags$br(),
-                                                                       tags$li(a(span(icon("project-diagram"), style = "color:black")),strong(span("Gráfico de linhas: ", style = "color:black")),em("Descreve o tempo médio de duração das classes processuais segundo sua classificação em Aberto ou Encerrado."))),  style = "font-size: 15px"))
+                                                                       tags$li(a(span(icon("project-diagram"), style = "color:black")),strong(span("Gráfico de linhas: ", style = "color:black")),em("Descreve o tempo médio de duração das classes processuais segundo sua classificação em Aberto ou Encerrado."))),  style = "font-size: 16px"))
                                                           )
                                                         ),
                                                         
@@ -207,7 +207,7 @@ page <-  dashboardPage(skin = "green",
                                                           box(title = "Gráfico de bolhas", status = "warning", solidHeader = TRUE,plotlyOutput("histogramManual4")), #Gráfico 4
                                                           box(title = "Gráfico de barras", status = "primary", solidHeader = TRUE,plotlyOutput("histogramManual5")), #Gráfico 5
                                                           box(title = "Gráfico de setores", status = "warning", solidHeader = TRUE,plotlyOutput("histogramManual12")),#Gráfico 12
-                                                          box(title = "Imagem", status = "primary", solidHeader = TRUE,plotOutput("histogramManual7")), #Gráfico 7
+                                                          box(title = "Resíduos de Cox-Snell", status = "primary", solidHeader = TRUE,plotOutput("histogramManual7")), #Gráfico 7
                                                           box(title = "Resíduos de Schoenfeld", status = "warning", solidHeader = TRUE,plotOutput("histogramManual8")), #Gráfico 8
                                                           box(title = "Gráfico de barras", status = "primary", solidHeader = TRUE,plotlyOutput("histogramManual9")), #Gráfico 9
                                                           box(title = "Gráfico de linhas", status = "warning", solidHeader = TRUE,plotlyOutput("histogramManual11")) #Gráfico 11
@@ -219,15 +219,21 @@ page <-  dashboardPage(skin = "green",
                                                         
                                                         fluidRow(
                                                           tabBox(
-                                                            side = "right", height = "350px", width = '90%',
-                                                            title = "Breve explicação sobre os pré-requisitos da análise",
+                                                            side = "right", height = "260px", width = '90%',
+                                                            title = "Análise sobre os pré-requisitos do modelo",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
-                                                            tabPanel(" ","Os pré-requisitos são ... ", height = "350px", width = '100%')
+                                                            tabPanel(" ",
+                                                              tags$div(tags$ul(
+                                                              
+                                                              tags$li(a(span(icon(""), style = "color:black")),strong(span("Resíduos de Cox-Snell: ", style = "color:black")),em("O gráfico de resíduos de Cox-Snell serve para verificar a qualidade de ajuste do modelo de Cox. Se este estiver bem ajustado, os (ei’s) podem ser olhados como uma amostra censurada de uma distribuição exponencial padrão e, então, o gráfico de H(ei) versus (ei) deveria ser aproximadamente uma reta.")),
+                                                              tags$br(),
+                                                              tags$li(a(span(icon(""), style = "color:black")),strong(span("Resíduos de Schoenfeld: ", style = "color:black")),em("•	O resíduo de Schoenfeld é a diferença entre os valores observados de covariáveis de um indivíduo com tempo de ocorrência do evento (ti) e os valores esperados em (ti) dado o grupo de risco R(ti). Haverá tantos vetores de resíduos quanto covariáveis ajustadas no modelo, e que estes são definidos somente nos tempos de ocorrência do evento."),p(em("Considerando-se o gráfico de resíduos padronizados de Schoenfeld contra o tempo é possível verificar a existência ou não de proporcionalidade, ou seja, se as suposições de riscos proporcionais forem satisfeitas não deverá existir nenhuma tendência sistemática no gráfico (Ho: p=0).")))
+                                                              )), height = "350px", width = '100%',  style = "font-size: 16px")
                                                           )),
                                                         
                                                         fluidRow(
                                                           box(width = 6,
-                                                              title = "Algum teste",
+                                                              title = "Resíduos de Cox-Snell",
                                                               status = "primary",
                                                               solidHeader = TRUE,
                                                               collapsible = FALSE,

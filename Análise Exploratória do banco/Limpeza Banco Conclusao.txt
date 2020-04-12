@@ -1,0 +1,115 @@
+#############################################################################################################
+#                                      Arrumando o banco de dados
+#############################################################################################################
+
+#Importando o banco de dados
+
+#install.packages("readxl")
+library(readxl)
+
+#dados <- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\TCC\\dadosteste.xlsx", sheet=1, col_names=TRUE)
+dados <- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\TCC\\Planilha processos 5ª vara movimentacao, assunto e parte (2).xlsx", sheet=1, col_names=TRUE)
+
+# Separando as categorias Processual em PJe
+
+dados <- dados[dados[,5] == "PJe",]
+
+names(dados) <- c("N_Processo", "Tipo_Movimentação", "Data", "Objeto", "Classe_Processual")
+
+# Retirando a carga horaria dentro da Data
+
+for (i in 1:nrow(dados)) {
+  dados$Data <- substring(dados$Data,1,10)
+}
+
+# Separando o banco para cada número de processo
+
+gerartempos <- function(processo){
+  dadostemp <- dados[dados$N_Processo == processo,]
+  dadostemp <- dadostemp[order(dadostemp$Data),]
+  dadostemp
+}
+
+
+numerosprocesos <- unique(dados$N_Processo)
+
+banco <- lapply(numerosprocesos,gerartempos)
+
+# Realizando o cálculo para cada processo
+
+geradados <- function(j){
+  
+  dados <- data.frame(banco[[j]],stringsAsFactors = FALSE)
+  dados <- dados[,1:4]
+  dados[,5] <- NA
+  dados[,6] <- 1
+  names(dados)[names(dados) == "V5"] <- "Tempo"
+  names(dados)[names(dados) == "V6"] <- "Censura"
+  
+  for(i in 1:nrow(dados)-1){
+    dados[i,] <- data.frame(N_Processo=dados[i,1],Tipo_Movimentação=dados[i,2],Data=dados[i,3], Objeto = dados[i,4] ,Tempo = as.Date(dados[i+1,3],"%Y-%m-%d") - as.Date(dados[i,3],"%Y-%m-%d"), Censura=dados[i,6]-1 ,stringsAsFactors = FALSE)
+  }
+  
+  for (i in nrow(dados):nrow(dados)) {
+    dados[i,5] <- as.Date("2019-12-2") - as.Date(dados[i,3],"%Y-%m-%d")
+  }
+  
+  dados
+}
+
+# Visualizando as saídas de cálculo acima
+
+geradados(3)
+
+# Criando um único Data Frame e gerando um Excel 
+
+teste <- lapply(1:length(banco),geradados)
+
+#install.packages("dplyr")
+library(dplyr)
+
+Data <- bind_rows(teste)
+
+# Juntando a conclusão com o termo anterior
+
+DADOS <- Data
+
+for (i in 1:nrow(DADOS)) { # Juntando com o termo "Conclusão"
+  DADOS[i,2] <- paste(Data[i,2], Data[i-1,2],sep = "-")
+}
+
+loc <- grep("1", DADOS$Censura)
+
+for (i in 1:length(loc)) { # Limpando os nomes da movimentação utilizadas na censura
+  DADOS[loc[i],2] <- unlist(strsplit(DADOS[loc[i],2], split = "-", fixed = TRUE))[1]
+}
+
+loc2 <- grep("Conclusão-",DADOS$Tipo_Movimentação)
+
+
+locali <- sort(c(loc,loc2)) # Juntando as posições para fazer um subset
+
+DADOS <- DADOS[locali,]
+
+#Separando as classes dentro da variável Objeto
+
+name <- vector()
+namelist <- names(table(DADOS$Objeto))
+for (i in 1:length(namelist)) {
+  if (table(DADOS$Objeto)[namelist[i]] < 50) { # Número mínimo de observações na classe
+    name[i] <- "Outros"
+  }
+}
+
+if(length(grep("Outros",name)) != 0){
+  for (i in 1:nrow(DADOS)) {
+    for (j in 1:length(grep("Outros",name))) {
+      if(DADOS[i,4] == namelist[grep("Outros",name)[j]]){DADOS[i,4] <- "Outros"}
+    }
+  }
+}
+
+DADOS$N_Processo <- format(DADOS$N_Processo,scientific=FALSE)
+
+setwd("C:\\Users\\ferna\\OneDrive\\Área de Trabalho")
+write.csv(DADOS, "Banco2.csv")

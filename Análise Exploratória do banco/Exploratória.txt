@@ -1,0 +1,374 @@
+#install.packages("ggplot2")
+library(ggplot2)
+#install.packages("scales")
+library(scales)
+#install.packages("survival")
+library(survival)
+#install.packages("survminer")
+library(survminer)
+
+###################### Importando e manipulando o banco de dados ######################
+
+dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Banco2.csv")
+
+dados <- dados[,-1]
+
+for (i in 1:nrow(dados)) {
+  if(dados[i,4 ] == "FUNDEF/Fundo de Manutenção e Desenvolvimento do Ensino Fundamental e de Valorização do Magistério"){
+    dados[i,4] <- "FUNDEF"
+  }
+}
+
+dados[,7] <- 1
+
+dados[,8] <- substring(dados$Data,1,4)
+names(dados)[names(dados) == "V8"] <- "Ano"
+
+dados$Objeto <- as.character(dados$Objeto)
+
+
+
+############ Gráfico de Barras (Frequência das classes processuais) #################
+
+tabela <- as.data.frame(table(dados$V7, by=dados$Objeto))
+tabela <- tabela[,-1]
+
+ggplot(tabela, aes(x = reorder(by, -Freq), y = Freq)) +
+  geom_col(fill = "dodgerblue") +
+  labs(title = "Frequência das classes processuais",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Classes Processuais",
+       y = "Frequência")+ coord_flip()+
+  geom_text(aes(y=Freq, label=Freq),color="black")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+########## Gráfico de Barras (Frequência das classes processuais por ano) ###########
+
+freq_table = as.data.frame(table(subset(dados, select = c(Objeto, Ano))))
+freq_table <- freq_table[freq_table$Freq != 0,]
+
+ggplot(freq_table, aes(x = reorder(Objeto, -Freq), y = Freq, fill=Ano)) +
+  geom_col(position = "dodge") +
+  labs(title = "Frequência das classes processuais por ano",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Classes Processuais",
+       y = "Frequência",
+       fill = "Status")+ coord_flip()+
+  #geom_text(aes(y=Freq, label=Freq),color="black",size=3,position=position_dodge(width=0.9),
+  #          hjust=1.5)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+############## Gráfico de setores (Frequência das classes processuais) ##############
+
+for (i in 1:nrow(tabela)) {
+  if(tabela[i,2] < 200){tabela[i,1] <- "Outros"}
+}
+
+Outros <- tabela[tabela$by == "Outros",]
+Outros <- data.frame("Outros", sum(Outros$Freq))
+names(Outros) <- c("by","Freq")
+
+tabela <- tabela[tabela$by != "Outros",]
+tabela <- rbind(tabela, Outros)
+
+names(tabela)[names(tabela) == "by"] <- "Classe Processual"
+
+
+for (i in 1:nrow(tabela)) {
+  tabela[i,3] <- tabela[i,2]/sum(tabela[,2])
+}
+
+names(tabela)[names(tabela) == "V3"] <- "Probabilidade"
+
+bp <- ggplot(tabela, aes(x="", y=Probabilidade, fill=`Classe Processual`))+
+  geom_bar(width = 1, stat = "identity")
+
+pie <- bp + coord_polar("y", start=0)
+
+pie + scale_fill_brewer(palette="Blues")+
+  theme_minimal()+  labs(title = "Frequência das classes processuais",
+                         subtitle = "5ª Vara da Justiça Federal",
+                         x = "Probabilidades",
+                         y = "Classes Processuais")+ 
+  geom_text(aes(x=1.3,label = paste0(Freq,
+                                     " (",
+                                     scales::percent(Probabilidade),
+                                     ")")),
+            position = position_stack(vjust = 0.5), size=3)
+
+
+
+###### Gráfico de Barras (Frequência das classes processuais segundo a censura) ######
+
+dados1 <- dados
+
+for (i in 1:nrow(dados1)) {
+  if(dados1[i,6] == 0){dados1[i,6] <- "Não censurado"} else{dados1[i,6] <- "Censurado"}
+}
+
+freq_table = as.data.frame(table(subset(dados1, select = c(Objeto, Censura))))
+
+ggplot(freq_table, aes(x = reorder(Objeto, -Freq), y = Freq, fill=Censura)) +
+  geom_col(position = "dodge") +
+  labs(title = "Frequência de censuras por classes processuais",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Classes Processuais",
+       y = "Frequência",
+       fill = "Status")+ coord_flip()+
+  geom_text(aes(y=Freq, label=Freq),color="black",size=3,position=position_dodge(width=0.9),
+            hjust=1.5)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+################ Gráfico de Barras (Número de censuras por classe) #################
+
+censura <- dados[dados$Censura == 1,]
+tabela2 <- as.data.frame(table(censura$V7, by=censura$Objeto))
+tabela2 <- tabela2[,-1]
+
+ggplot(tabela2, aes(x = reorder(by, -Freq), y = Freq)) +
+  geom_col(fill = "dodgerblue") +
+  labs(title = "Frequência de censuras por classes processuais",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Classes Processuais",
+       y = "Frequência")+ coord_flip()+
+  geom_text(aes(y=Freq, label=Freq),color="black")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+##########  Gráfico de Barras (Número de censuras por classe e por ano) #############
+
+freq_table = as.data.frame(table(subset(censura, select = c(Objeto, Ano))))
+freq_table <- freq_table[freq_table$Freq != 0,]
+
+ggplot(freq_table, aes(x = reorder(Objeto, -Freq), y = Freq, fill=Ano)) +
+  geom_col(position = "dodge") +
+  labs(title = "Número de censuras por classe e por ano",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Classes Processuais",
+       y = "Frequência",
+       fill = "Status")+ coord_flip()+
+  # geom_text(aes(y=Freq, label=Freq),color="black",size=3,position=position_dodge(width=0.9),
+  #            hjust=1.5)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+################ Gráfico de setores (Número de censuras por classe) ################
+
+for (i in 1:nrow(tabela2)) {
+  if(tabela2[i,2] < 70){tabela2[i,1] <- "Outros"}
+}
+
+Outros <- tabela2[tabela2$by == "Outros",]
+Outros <- data.frame("Outros", sum(Outros$Freq))
+names(Outros) <- c("by","Freq")
+
+tabela2 <- tabela2[tabela2$by != "Outros",]
+tabela2 <- rbind(tabela2, Outros)
+
+names(tabela2)[names(tabela2) == "by"] <- "Classe Processual"
+
+
+for (i in 1:nrow(tabela2)) {
+  tabela2[i,3] <- tabela2[i,2]/sum(tabela2[,2])
+}
+
+names(tabela2)[names(tabela2) == "V3"] <- "Probabilidade"
+
+bp <- ggplot(tabela2, aes(x="", y=Probabilidade, fill=`Classe Processual`))+
+  geom_bar(width = 1, stat = "identity")
+
+pie <- bp + coord_polar("y", start=0)
+
+pie + scale_fill_brewer(palette="Blues")+
+  theme_minimal()+  labs(title = "Percentual de censuras por classe",
+                         subtitle = "5ª Vara da Justiça Federal",
+                         x = "Probabilidades",
+                         y = "Classes Processuais")+ 
+  geom_text(aes(x=1.3,label = paste0(Freq,
+                                     " (",
+                                     scales::percent(Probabilidade),
+                                     ")")),
+            position = position_stack(vjust = 0.3), size=3)
+
+
+
+######### Gráfico de Barras (Número de observações não censuradas por classe) #########
+
+nao_censura <- dados[dados$Censura == 0,]
+tabela3 <- as.data.frame(table(nao_censura$V7, by=nao_censura$Objeto))
+tabela3 <- tabela3[,-1]
+
+ggplot(tabela3, aes(x = reorder(by, -Freq), y = Freq)) +
+  geom_col(fill = "dodgerblue") +
+  labs(title = "Frequência de observações não censuradas por classe",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Classes Processuais",
+       y = "Frequência")+ coord_flip()+
+  geom_text(aes(y=Freq, label=Freq),color="black")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+
+### Gráfico de Barras (Número de observações não censuradas por classe e por ano) ###
+
+freq_table = as.data.frame(table(subset(nao_censura, select = c(Objeto, Ano))))
+freq_table <- freq_table[freq_table$Freq != 0,]
+
+ggplot(freq_table, aes(x = reorder(Objeto, -Freq), y = Freq, fill=Ano)) +
+  geom_col(position = "dodge") +
+  labs(title = "Número de observações não censuradas por classe e por ano",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Classes Processuais",
+       y = "Frequência",
+       fill = "Status")+ coord_flip()+
+  # geom_text(aes(y=Freq, label=Freq),color="black",size=3,position=position_dodge(width=0.9),
+  #            hjust=1.5)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+
+####### Gráfico de setores (Número de observações não censuradas por classe) #########
+
+for (i in 1:nrow(tabela3)) {
+  if(tabela3[i,2] < 120){tabela3[i,1] <- "Outros"}
+}
+
+Outros <- tabela3[tabela3$by == "Outros",]
+Outros <- data.frame("Outros", sum(Outros$Freq))
+names(Outros) <- c("by","Freq")
+
+tabela3 <- tabela3[tabela3$by != "Outros",]
+tabela3 <- rbind(tabela3, Outros)
+
+names(tabela3)[names(tabela3) == "by"] <- "Classe Processual"
+
+
+for (i in 1:nrow(tabela3)) {
+  tabela3[i,3] <- tabela3[i,2]/sum(tabela3[,2])
+}
+
+names(tabela3)[names(tabela3) == "V3"] <- "Probabilidade"
+
+bp <- ggplot(tabela3, aes(x="", y=Probabilidade, fill=`Classe Processual`))+
+  geom_bar(width = 1, stat = "identity")
+
+pie <- bp + coord_polar("y", start=0)
+
+pie + scale_fill_brewer(palette="Blues")+
+  theme_minimal()+  labs(title = "Frequência de observações não censuradas por classe",
+                         subtitle = "5ª Vara da Justiça Federal",
+                         x = "Probabilidades",
+                         y = "Classes Processuais")+ 
+  geom_text(aes(x=1.3,label = paste0(Freq,
+                                     " (",
+                                     scales::percent(Probabilidade),
+                                     ")")),
+            position = position_stack(vjust = 0.3), size=3)
+
+
+
+############################## Gráfico de Boxplot ###################################
+
+fill <- "#4271AE"
+lines <- "#1F3552"
+
+ggplot(dados, aes(x = Objeto, y = Tempo)) +
+  geom_boxplot(colour = lines, fill = fill,
+               size = 1) +
+  scale_y_continuous(name = "Tempo de duração",
+                     breaks = seq(0, 175, 25),
+                     limits=c(0, 175)) +
+  scale_x_discrete(name = "Classes processuais") +
+  ggtitle("Boxplot das classes processuais versus tempo de duração") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#d3d3d3"),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        plot.title = element_text(size = 14, family = "Tahoma", face = "bold"),
+        text=element_text(family = "Tahoma"),
+        axis.title = element_text(face="bold"),
+        axis.text.x = element_text(colour="black", size = 11),
+        axis.text.y = element_text(colour="black", size = 9),
+        axis.line = element_line(size=0.5, colour = "black"))+coord_flip()
+
+
+
+
+##################### Calculando algumas medidas descritivas ########################
+
+tapply(dados$Tempo, dados$Objeto, summary)
+
+##################### Calculando a função de Sobrevivência #########################
+
+fit <- survfit(Surv(Tempo, Censura) ~ 1,type="kaplan-meier",conf.type="log",data = dados)
+
+  ggsurvplot(
+    fit,
+    data = dados,
+    legend.labs = "All",
+    palette =c("#CC0000"),# custom color palettes
+    size = 1,# change line size
+    conf.int = TRUE,# Add p-value 
+    ggtheme = theme_bw()# Change ggplot2 theme
+  )
+  
+  
+  #Separando por ano 
+  
+  dados_sobr1 <- dados[dados$Ano == c("2017"),]
+  dados_sobr2 <- dados[dados$Ano == c("2018"),]
+  dados_sobr3 <- dados[dados$Ano == c("2019"),]
+  
+  dados_sobr <- rbind(dados_sobr1,dados_sobr2,dados_sobr3)
+  
+  fit1 <- survfit(Surv(Tempo, Censura) ~ Ano,type="kaplan-meier",conf.type="log",data = dados_sobr)
+  
+  ggsurvplot(
+    fit1,
+    data = dados_sobr,
+    palette =
+      c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+    size = 1,# change line size
+    conf.int = TRUE,# Add p-value 
+    ggtheme = theme_bw()# Change ggplot2 theme
+  )
+  
+
+########################### Taxa de Risco acumulada ################################
+
+  ggsurvplot(
+    fit,
+    data = dados, fun = "event", 
+    legend.labs = "All",
+    palette =
+      c("#CC0000"),# custom color palettes
+    size = 1,# change line size
+    conf.int = TRUE,# Add p-value 
+    ggtheme = theme_bw()# Change ggplot2 theme
+  )
+  
+  #Separando por ano 
+  
+  ggsurvplot(
+    fit1,
+    data = dados_sobr, fun = "event", 
+    legend.labs = c("2017","2018","2019"),
+    palette =
+      c("#2E9FDF","#E7B800","#CC0000"),# custom color palettes
+    size = 1,# change line size
+    conf.int = TRUE,# Add p-value 
+    ggtheme = theme_bw()# Change ggplot2 theme
+  )
+
+  
