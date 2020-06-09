@@ -45,7 +45,7 @@ tabela <- tabela[,-1]
 
 ggplot(tabela, aes(x = reorder(by, -Freq), y = Freq)) +
   geom_col(fill = "dodgerblue") +
-  labs(title = "Frequência das classes processuais",
+  labs(title = "",
        subtitle = "5ª Vara da Justiça Federal",
        x = "Classes Processuais",
        y = "Frequência")+ coord_flip()+
@@ -68,7 +68,7 @@ freq_table <- rbind(freq_table1,freq_table2,freq_table3)
 
 ggplot(freq_table, aes(x = reorder(Objeto, -Freq), y = Freq, fill=Ano)) +
   geom_col(position = "dodge") +
-  labs(title = "Frequência das classes processuais por ano",
+  labs(title = "",
        subtitle = "5ª Vara da Justiça Federal",
        x = "Classes Processuais",
        y = "Frequência",
@@ -83,7 +83,7 @@ ggplot(freq_table, aes(x = reorder(Objeto, -Freq), y = Freq, fill=Ano)) +
 #################################################################################################################
 
 for (i in 1:nrow(tabela)) {
-  if(tabela[i,2] < 200){tabela[i,1] <- "Outros"} # Colocando o nome "Outros".
+  if(tabela[i,2] < 176){tabela[i,1] <- "Outros"} # Colocando o nome "Outros".
 }
 
 Outros <- tabela[tabela$by == "Outros",]
@@ -108,10 +108,10 @@ bp <- ggplot(tabela, aes(x="", y=Probabilidade, fill=`Classe Processual`))+
 pie <- bp + coord_polar("y", start=0)
 
 pie + scale_fill_brewer(palette="Blues")+
-  theme_minimal()+  labs(title = "Frequência das classes processuais",
+  theme_minimal()+  labs(title = "",
                          subtitle = "5ª Vara da Justiça Federal",
                          x = " ",
-                         y = "Classes Processuais")+ 
+                         y = " ")+ 
   geom_text(aes(x=1.3,label = paste0(Freq,
                                      " (",
                                      scales::percent(Probabilidade),
@@ -124,7 +124,7 @@ pie + scale_fill_brewer(palette="Blues")+
 #################################################################################################################
 
 for (i in 1:nrow(freq_table)) {
-  if(freq_table[i,3] < 100){freq_table[i,1] <- "Outros"} # Colocando o nome "Outros".
+  if(freq_table[i,3] < 50){freq_table[i,1] <- "Outros"} # Colocando o nome "Outros".
 }
 
 Outros <- freq_table[freq_table$Objeto == "Outros",]
@@ -152,9 +152,22 @@ for (i in 1:nrow(freq_table2)) {
 
 names(freq_table2)[names(freq_table2) == "V4"] <- "Probabilidade"
 
+
+for (i in 1:nrow(freq_table3)) {
+  if(freq_table3[i,3] < 100){freq_table3[i,1] <- "Outros"} # Colocando o nome "Outros".
+}
+
+Outros <- freq_table3[freq_table3$Objeto == "Outros",]
+Outros <- data.frame("Outros", aggregate(Outros$Freq, by=list(Category=Outros$Ano), FUN=sum))
+names(Outros) <- c("Objeto","Ano","Freq")
+
+freq_table3 <- freq_table3[freq_table3$Objeto != "Outros",]
+freq_table3 <- rbind(freq_table3, Outros)
+
 for (i in 1:nrow(freq_table3)) {
   freq_table3[i,4] <- freq_table3[i,3]/sum(freq_table3[,3]) # Ano de 2019
 }
+
 
 names(freq_table3)[names(freq_table3) == "V4"] <- "Probabilidade"
 
@@ -166,10 +179,10 @@ bp <- ggplot(freq_table1, aes(x="", y=Probabilidade, fill=Objeto))+ # Gráfico d
 pie <- bp + coord_polar("y", start=0)
 
 pie + scale_fill_brewer(palette="Blues")+
-  theme_minimal()+  labs(title = "Frequência das classes processuais (2017)",
+  theme_minimal()+  labs(title = "",
                          subtitle = "5ª Vara da Justiça Federal",
                          x = " ",
-                         y = "Classes Processuais",
+                         y = " ",
                          fill =  "Classe Processual")+ 
   geom_text(aes(x=1.3,label = paste0(Freq,
                                      " (",
@@ -185,10 +198,10 @@ bp1 <- ggplot(freq_table2, aes(x="", y=Probabilidade, fill=Objeto))+ # Gráfico 
 pie1 <- bp1 + coord_polar("y", start=0)
 
 pie1 + scale_fill_brewer(palette="Blues")+
-  theme_minimal()+  labs(title = "Frequência das classes processuais (2018)",
+  theme_minimal()+  labs(title = "",
                          subtitle = "5ª Vara da Justiça Federal",
                          x = " ",
-                         y = "Classes Processuais",
+                         y = " ",
                          fill =  "Classe Processual")+ 
   geom_text(aes(x=1.3,label = paste0(Freq,
                                      " (",
@@ -204,10 +217,10 @@ bp2 <- ggplot(freq_table3, aes(x="", y=Probabilidade, fill=Objeto))+ # Gráfico 
 pie2 <- bp2 + coord_polar("y", start=0)
 
 pie2 + scale_fill_brewer(palette="Blues")+
-  theme_minimal()+  labs(title = "Frequência das classes processuais (2019)",
+  theme_minimal()+  labs(title = "",
                          subtitle = "5ª Vara da Justiça Federal",
                          x = " ",
-                         y = "Classes Processuais",
+                         y = " ",
                          fill =  "Classe Processual")+ 
   geom_text(aes(x=1.3,label = paste0(Freq,
                                      " (",
@@ -224,15 +237,27 @@ censura <- dados[dados$Censura == 1,]
 tabela2 <- as.data.frame(table(censura$V7, by=censura$Tipo_Movimentação))
 tabela2 <- tabela2[,-1]
 tabela2 <- tabela2[tabela2$Freq != 0,]
-  
+
+tabela2$by <- as.character(tabela2$by)
+
+if(length(grep("Conclusão-",tabela2$by)) != 0){
+  tabela2[grep("Conclusão-",tabela2$by),1] <- substring(tabela2[grep("Conclusão-",tabela2$by),1],11)
+}
+
+tabela2 <- aggregate(tabela2$Freq,
+                     by = list(tabela2$by),
+                     FUN = sum)
+
+names(tabela2) <- c("by","Freq") 
+
 ggplot(tabela2, aes(x = reorder(by, -Freq), y = Freq)) +
   geom_col(fill = "dodgerblue") +
-  labs(title = "Frequência de censuras por etapas processuais",
+  labs(title = "",
        subtitle = "5ª Vara da Justiça Federal",
-       x = "Classes Processuais",
+       x = "Etapas Processuais",
        y = "Frequência")+ coord_flip()+
-  geom_text(aes(y=Freq, label=Freq),color="black", hjust = 0)+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  geom_text(aes(y=Freq, label=Freq),color="black", hjust = 1)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+ expand_limits(y=c(0,1400))
 
 #################################################################################################################
 #                Gráfico de setores contendo as Frequência das etapas processuais censuradas
@@ -258,20 +283,21 @@ for (i in 1:nrow(tabela2)) {
 
 names(tabela2)[names(tabela2) == "V3"] <- "Probabilidade"
 
+
 bp <- ggplot(tabela2, aes(x="", y=Probabilidade, fill=`Classe Processual`))+
   geom_bar(width = 1, stat = "identity")
 
 pie <- bp + coord_polar("y", start=0)
 
 pie + scale_fill_brewer(palette="Blues")+
-  theme_minimal()+  labs(title = "Percentual de censuras por etapa",
+  theme_minimal()+  labs(title = "",
                          subtitle = "5ª Vara da Justiça Federal",
-                         x = "Probabilidades",
-                         y = "Classes Processuais")+ 
+                         x = " ",
+                         y = " ")+ 
   geom_text(aes(x=1.45,label = paste0(Freq,
-                                     " (",
-                                     scales::percent(Probabilidade),
-                                     ")")),
+                                      " (",
+                                      scales::percent(Probabilidade),
+                                      ")")),
             position = position_stack(vjust = 0.3), size=3)
 
 
@@ -284,11 +310,24 @@ tabela3 <- as.data.frame(table(nao_censura$V7, by=nao_censura$Tipo_Movimentaçã
 tabela3 <- tabela3[,-1]
 tabela3 <- tabela3[tabela3$Freq != 0,]
 
+tabela3$by <- as.character(tabela3$by)
+
+if(length(grep("Conclusão-",tabela3$by)) != 0){
+  tabela3[grep("Conclusão-",tabela3$by),1] <- substring(tabela3[grep("Conclusão-",tabela3$by),1],11)
+}
+
+tabela3 <- aggregate(tabela3$Freq,
+                     by = list(tabela3$by),
+                     FUN = sum)
+
+names(tabela3) <- c("by","Freq") 
+
+
 ggplot(tabela3, aes(x = reorder(by, -Freq), y = Freq)) +
   geom_col(fill = "dodgerblue") +
-  labs(title = "Frequência de observações não censuradas por etapa",
+  labs(title = "",
        subtitle = "5ª Vara da Justiça Federal",
-       x = "Classes Processuais",
+       x = "Etapas Processuais",
        y = "Frequência")+ coord_flip()+
   geom_text(aes(y=Freq, label=Freq),color="black", hjust = 0)+
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -315,22 +354,18 @@ for (i in 1:nrow(tabela3)) {
   tabela3[i,3] <- tabela3[i,2]/sum(tabela3[,2])
 }
 
-modelo <- transpose(as.data.frame(strsplit(as.character(tabela3$`Classe Processual`), "-"))[2,]) #Removendo a palavra conclusão
+names(tabela3) <- c("Etapas Processuais","Freq","Probabilidade")
 
-tabela3$`Classe Processual` <- modelo$V1
-
-names(tabela3) <- c("Classe Processual","Freq","Probabilidade")
-
-bp <- ggplot(tabela3, aes(x="", y=Probabilidade, fill=`Classe Processual`))+
+bp <- ggplot(tabela3, aes(x="", y=Probabilidade, fill=`Etapas Processuais`))+
   geom_bar(width = 1, stat = "identity")
 
 pie <- bp + coord_polar("y", start=0)
 
 pie + scale_fill_brewer(palette="Blues")+
-  theme_minimal()+  labs(title = "Frequência de observações não censuradas por etapa",
+  theme_minimal()+  labs(title = "",
                          subtitle = "5ª Vara da Justiça Federal",
-                         x = "Probabilidades",
-                         y = "Classes Processuais")+ 
+                         x = " ",
+                         y = " ")+ 
   geom_text(aes(x=1.3,label = paste0(Freq,
                                      " (",
                                      scales::percent(Probabilidade),
@@ -361,7 +396,7 @@ ggplot(filtro, aes(x = Objeto, y = Tempo)) +
                      breaks = seq(0, 175, 25),
                      limits=c(0, 175)) +
   scale_x_discrete(name = "Classes processuais") +
-  ggtitle("Boxplot das classes processuais versus tempo de duração") +
+  ggtitle("") +
   theme_bw() +
   theme(panel.grid.major = element_line(colour = "#d3d3d3"),
         panel.grid.minor = element_blank(),
@@ -372,7 +407,9 @@ ggplot(filtro, aes(x = Objeto, y = Tempo)) +
         axis.title = element_text(face="bold"),
         axis.text.x = element_text(colour="black", size = 11),
         axis.text.y = element_text(colour="black", size = 9),
-        axis.line = element_line(size=0.5, colour = "black"))+coord_flip()
+        axis.line = element_line(size=0.5, colour = "black"))+coord_flip()+
+  stat_summary(fun.y=mean, colour="blue4", geom="point", 
+               shape=18, size=3,show_guide = FALSE)
 
 
 #################################################################################################################
@@ -387,44 +424,54 @@ tapply(dados$Tempo, dados$Objeto, summary)
 
 fit <- survfit(Surv(Tempo, Censura) ~ 1,type="kaplan-meier",conf.type="log",data = dados)
 
-  ggsurvplot(
-    fit,
-    data = dados,
-    legend.labs = "All",
-    palette =c("#CC0000"),# custom color palettes
-    size = 1,# change line size
-    conf.int = TRUE,# Add p-value 
-    ggtheme = theme_bw()# Change ggplot2 theme
-  )
-  
+ggsurvplot(
+  fit,
+  data = dados,
+  legend.labs = "All",
+  palette =c("#CC0000"),# custom color palettes
+  size = 1,# change line size
+  conf.int = TRUE,# Add p-value 
+  ggtheme = theme_bw()# Change ggplot2 theme
+) +
+  labs(title = "",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Tempo",
+       y = "Probaabilidade de Sobrevivência")
+
 
 #################################################################################################################
 #                                        Taxa de Risco acumulada
 #################################################################################################################
 
-  ggsurvplot(
-    fit,
-    data = dados, fun = "event", 
-    legend.labs = "All",
-    palette =
-      c("#CC0000"),# custom color palettes
-    size = 1,# change line size
-    conf.int = TRUE,# Add p-value 
-    ggtheme = theme_bw()# Change ggplot2 theme
-  )
+ggsurvplot(
+  fit,
+  data = dados, fun = "event", 
+  legend.labs = "All",
+  palette =
+    c("#CC0000"),# custom color palettes
+  size = 1,# change line size
+  conf.int = TRUE,# Add p-value 
+  ggtheme = theme_bw()# Change ggplot2 theme
+)+
+  labs(title = "",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Tempo",
+       y = "Probaabilidade de Sobrevivência")
+
+
 
 #################################################################################################################
-#                                           Atualização da análise
+#                                  Conferindo qual é o melhor ajuste ao modelo
 #################################################################################################################
 
 dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Análise Exploratória do banco\\Banco2.csv")
-  
+
 dados <- dados[,-1]
 
 dados <- dados[dados$Tempo > 50,]
-  
+
 # Estimando o modelo de Kaplan-Meier 
-  
+
 fit <- survfit(Surv(Tempo, Censura) ~ 1,type="kaplan-meier",conf.type="log",data = dados)
 
 par(mfrow=c(2,2))
@@ -433,8 +480,8 @@ par(mfrow=c(2,2))
 #                                          Distribuição de Weibull
 #################################################################################################################
 
-plot(fit, main="Comparação entre a Função de Sobrevivência e os ajustes de Weibull",
-     xlab = "Tempo", ylab = "Probabilidade")
+plot(fit, main="Distribuição de Weibull",
+     xlab = "Tempo", ylab = "Probabilidade de Sobrevivência")
 grid(4, 5, lty = "dotted")
 
 ## Estimação Paramétrica com a distribuição de Weibull
@@ -443,8 +490,8 @@ Modelo1 <- survreg(Surv(Tempo, Censura) ~ Tipo_Movimentação, data = dados, dis
 
 
 lines(x = predict(Modelo1, type = "quantile", p = seq(0.01, 0.99, by=.01))[1,],
-        y = rev(seq(0.01, 0.99, by = 0.01)),
-        col = "red", lty=1)
+      y = rev(seq(0.01, 0.99, by = 0.01)),
+      col = "red", lty=1)
 
 Modelo2 <- survreg(Surv(Tempo, Censura) ~ Objeto, data = dados, dist='weibull')
 
@@ -465,7 +512,7 @@ lines(x = predict(Modelo4, type = "quantile", p = seq(0.01, 0.99, by=.01))[1,],
       col = "orange",lty=4)
 
 ## Adiocionando a legenda ao gráfico
-legend(550,0.1, legend=c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),
+legend(530,0.1, legend=c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),
        col=c("red", "blue", "green","orange"), lty=1:4, cex=0.6,box.lty=0, y.intersp = 0.1, x.intersp = 0.2,
        xpd = TRUE, horiz=FALSE, bty = "n",
        xjust=0, yjust=0)
@@ -482,8 +529,8 @@ summary(Modelo4)
 #                                          Distribuição Exponencial
 #################################################################################################################
 
-plot(fit, main="Comparação entre a Função de Sobrevivência e os ajustes da Exponencial",
-     xlab = "Tempo", ylab = "Probabilidade")
+plot(fit, main="Distribuição Exponencial",
+     xlab = "Tempo", ylab = "Probabilidade de Sobrevivência")
 grid(4, 5, lty = "dotted")
 
 ## Estimação Paramétrica com a distribuição Exponencial
@@ -513,7 +560,7 @@ lines(x = predict(Modelo4, type = "quantile", p = seq(0.01, 0.99, by=.01))[1,],
       col = "orange",lty=4)
 
 ## Adiocionando a legenda ao gráfico
-legend(550,0.1, legend=c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),
+legend(530,0.1, legend=c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),
        col=c("red", "blue", "green","orange"), lty=1:4, cex=0.6,box.lty=0, y.intersp = 0.1, x.intersp = 0.2,
        xpd = TRUE, horiz=FALSE, bty = "n",
        xjust=0, yjust=0)
@@ -529,8 +576,8 @@ summary(Modelo4)
 #                                          Distribuição Log-logistic
 #################################################################################################################
 
-plot(fit, main="Comparação entre a Função de Sobrevivência e os ajustes da Log-logistic",
-     xlab = "Tempo", ylab = "Probabilidade")
+plot(fit, main="Distribuição Log-logistica",
+     xlab = "Tempo", ylab = "Probabilidade de Sobrevivência")
 grid(4, 5, lty = "dotted")
 
 ## Estimação Paramétrica com a distribuição Exponencial
@@ -560,7 +607,7 @@ lines(x = predict(Modelo4, type = "quantile", p = seq(0.01, 0.99, by=.01))[1,],
       col = "orange",lty=4)
 
 ## Adiocionando a legenda ao gráfico
-legend(550,0.1, legend=c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),
+legend(530,0.1, legend=c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),
        col=c("red", "blue", "green","orange"), lty=1:4, cex=0.6,box.lty=0, y.intersp = 0.1, x.intersp = 0.2,
        xpd = TRUE, horiz=FALSE, bty = "n",
        xjust=0, yjust=0)
@@ -576,8 +623,8 @@ summary(Modelo4)
 #                                          Distribuição Log-normal
 #################################################################################################################
 
-plot(fit, main="Comparação entre a Função de Sobrevivência e os ajustes da Log-normal",
-     xlab = "Tempo", ylab = "Probabilidade")
+plot(fit, main="Distribuição Log-normal",
+     xlab = "Tempo", ylab = "Probabilidade de Sobrevivência")
 grid(4, 5, lty = "dotted")
 
 ## Estimação Paramétrica com a distribuição Exponencial
@@ -607,7 +654,7 @@ lines(x = predict(Modelo4, type = "quantile", p = seq(0.01, 0.99, by=.01))[1,],
       col = "orange",lty=4)
 
 ## Adiocionando a legenda ao gráfico
-legend(550,0.1, legend=c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),
+legend(530,0.1, legend=c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),
        col=c("red", "blue", "green","orange"), lty=1:4, cex=0.6,box.lty=0, y.intersp = 0.1, x.intersp = 0.2,
        xpd = TRUE, horiz=FALSE, bty = "n",
        xjust=0, yjust=0)
@@ -618,15 +665,15 @@ summary(Modelo1)
 summary(Modelo2)
 summary(Modelo3)
 summary(Modelo4)
-  
+
 #################################################################################################################
 #                                    Ajuste em relação aos melhores modelos 
 #################################################################################################################
 
 par(mfrow=c(1,1))
 
-plot(fit, main="Comparação entre a Função de Sobrevivência e os melhores ajustes ao modelo",
-     xlab = "Tempo", ylab = "Probabilidade")
+plot(fit, main=" ",
+     xlab = "Tempo", ylab = "Probabilidade de Sobrevivência")
 grid(4, 5, lty = "dotted")
 
 Modelo1 <- survreg(Surv(Tempo, Censura) ~ Objeto, data = dados, dist='weibull')
@@ -639,22 +686,23 @@ Modelo2 <- survreg(Surv(Tempo, Censura) ~ Objeto, data = dados, dist='exponentia
 
 lines(x = predict(Modelo2, type = "quantile", p = seq(0.01, 0.99, by=.01))[1,],
       y = rev(seq(0.01, 0.99, by = 0.01)),
-      col = "blue",lty=1)
+      col = "blue",lty=2)
 
 Modelo3 <- survreg(Surv(Tempo, Censura) ~ Objeto, data = dados, dist='loglogistic')
 
 lines(x = predict(Modelo3, type = "quantile", p = seq(0.01, 0.99, by=.01))[1,],
       y = rev(seq(0.01, 0.99, by = 0.01)),
-      col = "green",lty=1)
+      col = "green",lty=3)
 
 Modelo4 <- survreg(Surv(Tempo, Censura) ~ Objeto, data = dados, dist='lognormal')
 
 lines(x = predict(Modelo4, type = "quantile", p = seq(0.01, 0.99, by=.01))[1,],
       y = rev(seq(0.01, 0.99, by = 0.01)),
-      col = "orange",lty=1)
+      col = "orange",lty=4)
 
 ## Adiocionando a legenda ao gráfico
-legend(680,0.75, legend=c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),
+legend(650,0.75, legend=c("Weibull", "Exponential", "Log-logistic", "Log-normal"),
        col=c("red", "blue", "green","orange"), lty=1:4, cex=0.7,box.lty=0, y.intersp = 0.45, x.intersp = 0.2,
        xpd = TRUE, horiz=FALSE, bty = "n",
        xjust=0, yjust=0)
+

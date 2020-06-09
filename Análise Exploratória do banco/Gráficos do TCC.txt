@@ -1,0 +1,73 @@
+## Entrando com os pacotes necessários
+
+#install.packages("tidyverse")
+library(tidyverse)
+#install.packages("survival")
+library(survival)
+#install.packages("survminer")
+library(survminer)
+
+# Gráfico da Taxa de falha
+
+#Plot da linha crescente
+
+linha1_x <- seq(0, 0.5, by = 0.02)     
+linha1_y <- pexp(linha1_x, rate = 10)
+
+plot(0, main=" ",
+     xlab = "Tempo", ylab = "Taxa de falha", type="l", col="blue", ylim = c(0,1.25),xlim = c(0,26),lty=1)
+grid(4, 5, lty = "dotted")
+
+lines(linha1_y, col="black",lty=1)
+
+#Plot da linha decrescente
+
+linha2_x <- seq(0, 0.5, by = 0.02)     
+linha2_y <- pexp(linha2_x, rate = 10)
+
+lines(rev(linha2_y), col="black",lty=2)
+
+abline(h=0.4,lty=3)
+
+
+legend(20,1.05, legend=c("Crescente", "Decrescente", "Constante"),
+       col=c("black", "black", "black"), lty=1:4, cex=0.7,box.lty=0, y.intersp = 0.45, x.intersp = 0.2,
+       xpd = TRUE, horiz=FALSE, bty = "n",
+       xjust=0, yjust=0)
+
+
+## Gráfico de Cox-Snell 
+
+data(heart) # Entrando com o banco de dados
+
+fit1 <- coxph(formula = Surv(start, stop, event) ~ (age + surgery) * transplant, # Ajustando o modelo desejado
+              data    = heart,
+              ties    = c("efron","breslow","exact")[1])
+
+heart$resid_mart <- residuals(fit1, type = "martingale") # Pegando os resíduos de Martigale
+
+heart$resid_coxsnell <- -(heart$resid_mart - heart$event) # calculando os resíduos de Cox
+
+fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, event) ~ 1, # Ajustando o modelo desejado com os resíduos de Cox
+                      data    = heart,
+                      ties    = c("efron","breslow","exact")[1])
+
+df_base_haz <- basehaz(fit_coxsnell, centered = FALSE) # Estimator de Nelson-Aalen
+
+ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) + # Gráfico dos Resíduos de Cox-Snell 
+  geom_point() +
+  scale_x_continuous(limit = c(0,3.5)) +
+  scale_y_continuous(limit = c(0,3.5)) +
+  labs(x = "Períodos pseudo observados",
+       y = "Taxa de falha acumulada") +
+  theme_bw() + theme(legend.key = element_blank())
+
+## Gráfico dos resíduos de Schoenfeld
+
+fit <- coxph(Surv(start, stop, event) ~ (age + surgery)* transplant,
+             data=heart)
+mresid <- resid(fit, collapse=heart$id)
+
+ggcoxzph(cox.zph(fit))
+
+

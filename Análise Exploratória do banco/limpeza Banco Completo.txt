@@ -10,7 +10,7 @@ library(readxl)
 #dados <- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\TCC\\dadosteste.xlsx", sheet=1, col_names=TRUE)
 dados <- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\TCC\\Planilha processos 5ª vara movimentacao, assunto e parte (2).xlsx", sheet=1, col_names=TRUE)
 
-# Separando as categorias Processual em PJe
+# Separando as categorias Processuais em PJe
 
 dados <- dados[dados[,5] == "PJe",]
 
@@ -75,7 +75,7 @@ geradados <- function(j){
   dados
 }
 
-# Visualizando as saídas de cálculo acima
+# Visualizando uma das saídas de cálculo acima
 
 geradados(3)
 

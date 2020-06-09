@@ -1129,6 +1129,13 @@ shinyServer(function(input, output, session){
     dadosP <<- read_excel("D:\\Base.xlsx", sheet=2, col_names=TRUE)
     Date <<- read_excel("D:\\Base.xlsx", sheet=3, col_names=TRUE)
     
+    #save(dados,file="dados")
+    save(dadosP,file="dadosP")
+    save(Date,file="Date")
+    #load("dados")
+    load("dadosP")
+    load("Date")
+    
     dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
     AtuaP <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\output_prazos2.csv")
     Date2 <<- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\Data.csv")
@@ -1145,7 +1152,24 @@ shinyServer(function(input, output, session){
     Date2 <<- Date2[,-1]
     Date4 <<- Date4[,-1]
     AtuaP <<- AtuaP[,-1]
-
+    
+    save(dados,file="dados")
+    save(AtuaP,file="AtuaP")
+    save(Date2,file="Date2")
+    save(Date4,file="Date4")
+    save(Prazo,file="Prazo")
+    save(dados2,file="dados2")
+    save(dados5,file="dados5")
+    save(Status,file="Status")
+    load("dados")
+    load("AtuaP")
+    load("Date2")
+    load("Date4")
+    load("Prazo")
+    load("dados2")
+    load("dados5")
+    load("Status")
+    
     
     # Serve para atualizar os selectinput na Ui enquanto o sistema roda 
     
@@ -1716,7 +1740,7 @@ shinyServer(function(input, output, session){
       names(resumo1)[names(resumo1) == "by"] <- "Status"
       resumo1 <- resumo1[resumo1$Freq != 0,]
       resumo1 <<- resumo1[order(resumo1$Freq),]
-     
+      
       resumo1$soma <- ave(resumo1$Freq, resumo1$Var1, FUN=cumsum)
       
       names(resumo1)[names(resumo1) == "Var1"] <- "Processo"
@@ -1836,7 +1860,7 @@ shinyServer(function(input, output, session){
       
       
     })
-
+    
     ############################# Estruturando os Gráficos para a Aba Quadro Resumo ###########################
     
     output$Resumo1 <- renderPlotly({ ########################## Imagem 1 - Quadro Resumo
@@ -1869,11 +1893,11 @@ shinyServer(function(input, output, session){
           resumo1 <- resumo1[-c(grep( "Em análise",resumo1$by)),]
         }
       }
-
+      
       names(resumo1)[names(resumo1) == "by"] <- "Status"
       resumo1 <- resumo1[resumo1$Freq != 0,]
       resumo1 <- resumo1[order(resumo1$Freq),]
-  
+      
       names(resumo1)[names(resumo1) == "Var1"] <- "Processo"
       names(resumo1)[names(resumo1) == "Freq"] <- "Frequencia"
       
@@ -3568,6 +3592,8 @@ shinyServer(function(input, output, session){
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
           
+          modelo <<- banco
+          
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
                            "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
@@ -4256,6 +4282,8 @@ shinyServer(function(input, output, session){
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
           
+          modelo <<- banco
+          
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
                            "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
@@ -4942,6 +4970,8 @@ shinyServer(function(input, output, session){
           names(banco) <- c("processo","tempo", "cor")
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
+          
+          modelo <<- banco
           
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
@@ -5636,6 +5666,8 @@ shinyServer(function(input, output, session){
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
           
+          modelo <<- banco
+          
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
                            "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
@@ -6323,6 +6355,8 @@ shinyServer(function(input, output, session){
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
           
+          modelo <<- banco
+          
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
                            "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
@@ -7009,6 +7043,8 @@ shinyServer(function(input, output, session){
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
           
+          modelo <<- banco
+          
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
                            "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
@@ -7693,6 +7729,8 @@ shinyServer(function(input, output, session){
           names(banco) <- c("processo","tempo", "cor")
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
+          
+          modelo <<- banco
           
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
@@ -8383,6 +8421,8 @@ shinyServer(function(input, output, session){
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
           
+          modelo <<- banco
+          
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
                            "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
@@ -9068,6 +9108,8 @@ shinyServer(function(input, output, session){
           names(banco) <- c("processo","tempo", "cor")
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
+          
+          modelo <<- banco
           
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
@@ -9756,6 +9798,8 @@ shinyServer(function(input, output, session){
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
           
+          modelo <<- banco
+          
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
                            "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
@@ -10441,6 +10485,8 @@ shinyServer(function(input, output, session){
           
           banco[,2] <- format(round(banco[,2], 2), nsmall = 2)
           
+          modelo <<- banco
+          
           level_order <- c("Sentença","Recebimento e conclusão do processo","Alegações finais 1","Cumprimento da intimação 5","Expedição de intimação (Requerido) 2","Alegações finais","Cumprimento da intimação 4",
                            "Expedição de intimação (Requerente) 2","Ato ordinário (Alegações finais)","Prova oral (audiência de instrução e julgamento)","Prova pericial","Pedido de esclarecimento ou solicitação de ajustes 1","Cumprimento da intimação 3",
                            "Expedição de intimação (Requerido) 1","Pedido de esclarecimento ou solicitação de ajustes","Cumprimento da intimação 2","Expedição de intimação (Requerente) 1","Decisão saneamento","Provas 1","Cumprimento da intimação 1",
@@ -10748,11 +10794,11 @@ shinyServer(function(input, output, session){
       ################################# Estruturando os Info Box do Dashboard #################################
       
       ############################################### OPÇÃO AMBOS ############################################
-    
+      
       
       # Número de Processos Encerrados 
       
-   
+      
       if(input$dashboard1 != "Todos os meses" & input$dashboard2 != "Todos os anos" & input$dashboard4 == "Ambos"){
         
         Encerrados1 <- dadosData[dadosData$Mes == c(input$dashboard1),]
@@ -10779,7 +10825,7 @@ shinyServer(function(input, output, session){
       if(input$dashboard1 == "Todos os meses" & input$dashboard2 == "Todos os anos" & input$dashboard4 == "Ambos"){
         
         Encerrados4 <- dadosData[dadosData$`Classe do Processo` == c(input$dashboard3),]
-       
+        
       }
       
       ############################################### OPÇÃO ABERTO ############################################
@@ -10863,8 +10909,8 @@ shinyServer(function(input, output, session){
         else{
           infoBox(
             "Número de Processos", nrow(Encerrados4),icon = icon("archive"),color = "purple")}
-
-        })
+        
+      })
       
       output$Sobrevivencia <- renderInfoBox({ #Infobox da Função de Sobrevivência
         
@@ -11845,6 +11891,8 @@ shinyServer(function(input, output, session){
     
     comparacao <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
     comparacao <- comparacao[,-1]
+    save(comparacao,file="comparacao")
+    load("comparacao")
     
     dadosteste <- dados2[nrow(dados2),]
     
@@ -11853,12 +11901,16 @@ shinyServer(function(input, output, session){
     if(length(linhas_tabela_limpeza_Prazos) == 0){
       dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\teste.csv")
       dados <- dados[,-1]
+      save(dados,file="dados")
+      load("dados")
     }
-   
+    
     if(length(linhas_tabela_limpeza_Prazos) != 0){
       dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
       dados <- dados[,-1]
-    
+      save(dados,file="dados")
+      load("dados")
+      
       ####################### Entrando com o banco de dados para Atualização #############################
       
       names(dados5) <- c("Nº Processo","Apelido","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",

@@ -98,7 +98,7 @@ page <-  dashboardPage(skin = "green",
                                                           infoBoxOutput("N_ok"),
                                                           infoBoxOutput("N_alerta"),
                                                           infoBoxOutput("N_atrasado")),
-                                                          
+                                                        
                                                         fluidRow(
                                                           box(title = strong("Total de Processos Segundo sua Classificação"), status = "primary", solidHeader = TRUE, plotlyOutput("Resumo1")), #Gráfico 1
                                                           box(title = strong("Total de Processos Segundo seu Status"), status = "warning", solidHeader = TRUE, plotlyOutput("Resumo2")), #Gráfico 2
@@ -223,12 +223,12 @@ page <-  dashboardPage(skin = "green",
                                                             title = "Análise sobre os pré-requisitos do modelo",
                                                             # The id lets us use input$tabset1 on the server to find the current ta
                                                             tabPanel(" ",
-                                                              tags$div(tags$ul(
-                                                              
-                                                              tags$li(a(span(icon(""), style = "color:black")),strong(span("Resíduos de Cox-Snell: ", style = "color:black")),em("O gráfico de resíduos de Cox-Snell serve para verificar a qualidade de ajuste do modelo de Cox. Se este estiver bem ajustado, os (ei’s) podem ser olhados como uma amostra censurada de uma distribuição exponencial padrão e, então, o gráfico de H(ei) versus (ei) deveria ser aproximadamente uma reta.")),
-                                                              tags$br(),
-                                                              tags$li(a(span(icon(""), style = "color:black")),strong(span("Resíduos de Schoenfeld: ", style = "color:black")),em("•	O resíduo de Schoenfeld é a diferença entre os valores observados de covariáveis de um indivíduo com tempo de ocorrência do evento (ti) e os valores esperados em (ti) dado o grupo de risco R(ti). Haverá tantos vetores de resíduos quanto covariáveis ajustadas no modelo, e que estes são definidos somente nos tempos de ocorrência do evento."),p(em("Considerando-se o gráfico de resíduos padronizados de Schoenfeld contra o tempo é possível verificar a existência ou não de proporcionalidade, ou seja, se as suposições de riscos proporcionais forem satisfeitas não deverá existir nenhuma tendência sistemática no gráfico (Ho: p=0).")))
-                                                              )), height = "350px", width = '100%',  style = "font-size: 16px")
+                                                                     tags$div(tags$ul(
+                                                                       
+                                                                       tags$li(a(span(icon(""), style = "color:black")),strong(span("Resíduos de Cox-Snell: ", style = "color:black")),em("O gráfico de resíduos de Cox-Snell serve para verificar a qualidade de ajuste do modelo de Cox. Se este estiver bem ajustado, os (ei’s) podem ser olhados como uma amostra censurada de uma distribuição exponencial padrão e, então, o gráfico de H(ei) versus (ei) deveria ser aproximadamente uma reta.")),
+                                                                       tags$br(),
+                                                                       tags$li(a(span(icon(""), style = "color:black")),strong(span("Resíduos de Schoenfeld: ", style = "color:black")),em("•	O resíduo de Schoenfeld é a diferença entre os valores observados de covariáveis de um indivíduo com tempo de ocorrência do evento (ti) e os valores esperados em (ti) dado o grupo de risco R(ti). Haverá tantos vetores de resíduos quanto covariáveis ajustadas no modelo, e que estes são definidos somente nos tempos de ocorrência do evento."),p(em("Considerando-se o gráfico de resíduos padronizados de Schoenfeld contra o tempo é possível verificar a existência ou não de proporcionalidade, ou seja, se as suposições de riscos proporcionais forem satisfeitas não deverá existir nenhuma tendência sistemática no gráfico (Ho: p=0).")))
+                                                                     )), height = "350px", width = '100%',  style = "font-size: 16px")
                                                           )),
                                                         
                                                         fluidRow(
@@ -239,8 +239,8 @@ page <-  dashboardPage(skin = "green",
                                                               collapsible = FALSE,
                                                               height = '600px',
                                                               plotOutput("histogram9",height = '540px')), #Gráfico 1
-                                                         
-                                                           box(width = 6,
+                                                          
+                                                          box(width = 6,
                                                               title = "Resíduos de Schoenfeld",
                                                               status = "warning",
                                                               solidHeader = TRUE,
