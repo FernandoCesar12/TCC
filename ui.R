@@ -14,10 +14,6 @@ library(ggplot2)
 library(survminer)
 #install.packages("curl")
 library(curl)
-#install.packages("car")
-library(car)
-#install.packages("agricolae")
-library(agricolae)
 #install.packages("DT")
 library(DT)
 #install.packages("knitr")
@@ -28,8 +24,8 @@ library(readxl)
 library(viridis)
 #install.packages("hrbrthemes")
 library(hrbrthemes)
-#install.packages("tidyverse")
-library(tidyverse)
+#install.packages("dplyr")
+library(dplyr)
 #install.packages("plotly")
 library(plotly)
 
@@ -48,9 +44,11 @@ page <-  dashboardPage(skin = "green",
                        # Foi modificado a formatação do texto no topo da página, adicionados links para sites externos e quadros de mensagens no topo da tela
                        
                        header <- dashboardHeader(title = span(
-                         "5ª Vara da Justiça Federal", # Título do Dashboard
-                         style = "font-family: Tahoma; font-weight: bold" 
-                       ),titleWidth = "400px",
+                         div(class="head",
+                             #img(src="https://raw.githubusercontent.com/FernandoCesar12/TCC/master/Slogan/justica_federal.png", width="40",height="38", align = "center"), # Colocando o slogan ao lado do nome
+                           "5ª Vara da Justiça Federal", # Título do Dashboard
+                             style = "font-family: Tahoma; font-weight: bold"
+                         )),titleWidth = "400px",
                        tags$li(a(href = 'https://sei.df.gov.br/sip/login.php?sigla_orgao_sistema=GDF&sigla_sistema=SEI', # página externa
                                  icon("wifi"),
                                  title = "Página SEI"),
@@ -68,7 +66,28 @@ page <-  dashboardPage(skin = "green",
                        
                        sidebar <- dashboardSidebar( uiOutput("sidebarpanel")),
                        
-                       body <- dashboardBody( uiOutput("body"),
+                       body <- dashboardBody(tags$style(".topimg {
+                            margin-left:-30px;
+                                                        margin-right:-550px; 
+                                                        margin-top:-200px;
+                                                        }"), # Dimensões da imagem na tela de login
+                                             
+                               tags$style(".head {
+                            margin-left:0px;
+                            margin-right:0px; 
+                            margin-top:-5px;
+                          }"), # Serve para arrumar a posição do slogan no head
+                              
+                               tags$head(tags$style(HTML(' 
+                           /* tabBox color text */                    
+                           .nav-tabs-custom > .nav-tabs > li.header {
+                           color: orange;
+                           font: normal 12pt Arial;
+                           text-align: center;
+                           font-weight: bold;
+                          }'))), #Serve para trocar a cor, tamanho e fonte do cabeçalho  
+                               
+                                             uiOutput("body"),
                                               
                                               tabItems(
                                                 tabItem(tabName = "dashboard", # Adicionando as caixas de InfoBox na aba DashBoard 

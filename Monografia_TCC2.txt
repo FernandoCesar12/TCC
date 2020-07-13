@@ -118,10 +118,7 @@
 
 Por meio de parceria com a instituição da 5ª vara da justiça federal, foi realizado um projeto capaz de criar visualizações, armazenamento de dados e análises estatísticas em tempo real com o manuseio de páginas Web. Dessa maneira, utilizou-se o software R com auxílio de alguns pacotes, destacando-se o ShinyDashboard, para estruturar um layout interativo e de simples manuseio para os advogados e usuários da instituição.\\
 
-O sistema acima citado é composto de 10 (dez) abas moldadas no tema de boostrap, sendo 2 (dois) delas referentes as análises estatísticas pré estabelecidas nas bases teóricas da análise de sobrevivência, 1 (um) aba voltada para explicação e resumo das funcionalidades da página Web, 2 (dois) menus alusivos a análise exploratória dos dados e 5 (cinco) abas direcionadas para visualização, atualização e controle dos processos administrados. Além das estruturas já citadas, foi adicionado como medida de segurança um identificador de usuário para liberação do manuseio da página Web, pois advogados e usuários do sistema terão a total possibilidade de atualização das etapas e prazos pré-definidos pela instituição em relação aos pleitos classificados como de interesse.
-
-
-
+O sistema acima citado é composto de 10 (dez) abas moldadas no tema de bootstrap, sendo 2 (dois) delas referentes as análises estatísticas conceituadas na análise de sobrevivência, 1 (um) aba voltada para explicação e resumo das funcionalidades da página Web, 2 (dois) menus alusivos a análise exploratória dos dados e 5 (cinco) abas direcionadas para visualização, atualização e controle dos processos administrados. Além das estruturas já citadas, também foi adicionado como medida de segurança um identificador de usuário para liberação do manuseio e acesso a página Web, pois advogados e usuários do sistema terão a total possibilidade de atualização de etapas e prazos referentes aos pleitos classificados como de interesse.
 
 
 \newpage
@@ -161,21 +158,23 @@ O sistema acima citado é composto de 10 (dez) abas moldadas no tema de boostrap
 
 \section{Introdução e Justificativa}
 
-Com a necessidade de realizar julgamentos de ações voltadas para órgãos da União, fundações e empresas públicas federais que se configurem como autoras ou rés, bem como intervenientes de qualquer natureza, gerou a necessidade da criação de uma entidade responsável de encubir-se de tais competências (5ª Vara da Justiça Federal, 1967). No entanto, devido ao grande volume de demandas diárias dos diversos setores internos e a ampla diversidade de tipos processuais administrados diariamente pela instituição, verificou-se ao longo dos anos a dificuldade de controlar o tempo de vida das ações regidas pelo órgão. Dessa maneira, tendo em vista que os prazos limites para resolução dos pleitos são documentados nos artigos do Código de Processo Civil \footnote{ "Art. 297 - ação ordinária - 15 dias; Art. 802 - medida cautelar - 5 dias; Art. 896 -
+Com a necessidade de realizar julgamentos de ações voltadas para órgãos da União, fundações e empresas públicas federais que se configurem como autoras ou rés, bem como intervenientes de qualquer natureza, gerou a necessidade da criação de um órgão responsável de incubir-se de tais competências (5ª Vara da Justiça Federal, 1967). No entanto, devido ao grande volume de demandas diárias dos diversos setores internos e a ampla diversidade de tipos processuais administrados diariamente pela instituição, verificou-se ao longo dos anos a dificuldade de controlar o tempo de vida das ações regidas por este órgão.\\
+
+Dessa maneira, tendo em vista que os prazos limites para resolução dos pleitos são documentados nos artigos do Código de Processo Civil \footnote{ "Art. 297 - ação ordinária - 15 dias; Art. 802 - medida cautelar - 5 dias; Art. 896 -
 consignação em pagamento - 15 dias; Art. 1.065 - restauração de autos - 5 dias; Art.
 1.106 - procedimentos de jurisdição voluntária - 10 dias; Lei nº 4.717/65 - art. 7º -
 Ação Popular - 15 dias; Sobre embargos de declaração - art. 536 do CPC - 5 dias (não
-estão sujeitos a preparo); Sobre apelação - art. 508 - 15 dias; Embargos - art 740; Entre outros." (MANUAL DE ROTINAS E PROCEDIMENTOS INTERNOS, 2009)\\}  nº 297, nº 508, nº 536, nº 802, nº 896, nº 1.065 e nº 1.106, buscou-se criar um sistema de dashboard online que fosse capaz de informar os advogados e servidores da instituição sobre o tempo de vida existente dos pleitos e suas respectivas análises estatisticas, contanto com o auxílio de gráficos e infobox's para análises descritivas dos processos institucionais afim de tentar auxiliar num aprimoramento na gestão da instituição. Além disso, também foram estudados plots referentes às análises de sobrevivência para averiguação das probabilidades de término em tempo hábil ou finalizações processuais fora da etapa de conclusão sequencial, Sentença do pleito, essa que se caracteriza como a última etapa de uma sequência pré-existente de fases a serem seguidas pela instituição.\\
+estão sujeitos a preparo); Sobre apelação - art. 508 - 15 dias; Embargos - art 740; Entre outros." (MANUAL DE ROTINAS E PROCEDIMENTOS INTERNOS, 2009)\\} núm. 297, núm.º 508, núm. 536, núm. 802, núm. 896, núm. 1.065 e núm. 1.106, buscou-se criar um sistema de dashboard online que fosse capaz de informar os advogados e servidores da instituição sobre o tempo de vida existente dos pleitos e suas respectivas análises estatísticas, utilizando-se de gráficos e infobox's para análises descritivas dos processos institucionais. Além disso, também foram estudados plots referentes às análises de sobrevivência para averiguação das probabilidades de término em tempo hábil ou finalizações processuais fora da etapa de conclusão sequencial, sentença do pleito, essa que se caracteriza como a última etapa de uma sequência pré-existente de fases a serem seguidas pela instituição.\\
 
-Com o intuito de melhorar ainda mais o controle interno da instituição em relação aos prazos referentes a cada uma das datas relativas as atividades nos pleitos (Causa civil, Busca e apreensão, Cautela fiscal, Embargo à execução, Incidentes e etc), conjuntamente com o tempo de duração das etapas processuais pré-definidas pela instituição, delimitou-se um conjunto de procedimentos a serem analisados no software de programação R com o auxílio do pacote de visualizações Web denominado Shiny, para que assim sejam evitadas as quebras de prazos limites no decorrer das ações. Dessa maneira, visando um estudo dos dados na teoria de análise de sobrevivência, gerou-se um grupo de censuras (pleitos que até o atual momento de análise não obtiveram a conclusão de suas atividades, ou seja, são aqueles processos que possuem seus status em aberto) para todas as observações contidas no banco de dados disponibilizado pela 5ª Vara da Justiça Federal, com a intenção de produzir um conjunto de análises que sejam capazes de evidenciar o tempo médio decorrido pelo pleito, o tempo que ainda faltaria para seu término ou até mesmo a probabilidade desde ser concluído somente quando este chegasse na etapa de Conclusão da Sentença.\\
+Com o intuito de melhorar ainda mais o controle interno da instituição em relação aos prazos referentes a cada uma das datas relativas às atividades nos pleitos (Causa civil, Busca e apreensão, Cautela fiscal, Embargo à execução, Incidentes e etc), conjuntamente com o tempo de duração das etapas processuais pré-definidas pela instituição, delimitou-se um conjunto de procedimentos a serem analisados no software de programação R com o auxílio do pacote de visualizações Web denominado Shiny, para que assim sejam evitadas as quebras de prazos limites no decorrer das ações. Dessa maneira, visando um estudo dos dados na teoria de análise de sobrevivência, gerou-se um grupo de censuras (pleitos que até o atual momento de análise não obtiveram a conclusão de suas atividades, ou seja, são aqueles processos que possuem seus status em aberto) para todas as observações contidas no banco de dados disponibilizado pela 5ª Vara da Justiça Federal, com a intenção de produzir um conjunto de análises que sejam capazes de evidenciar o tempo médio decorrido pelo pleito, o tempo que ainda faltaria para seu término ou até mesmo a probabilidade desde ser concluído somente quando este chegasse na etapa de Conclusão da Sentença.\\
 
 \section{Objetivos}
 
 Com o intuito de auxiliar a 5ª Vara da Justiça Federal a informar os servidores e advogados da casa a respeito dos prazos de respostas remanescentes para elaboração e estruturação dos processos descritos como de interesse, foi desenvolvido com parceria do departamento de Estatística da UnB um sistema Web capaz de inteirar os usuários sobre as estatísticas e informações bases dos pleitos administrados pela instituição. Dessa maneira, utilizou-se integralmente o software de programação R com auxílio de pacotes, ressaltando-se o Shiny, para desenvolvimento e estruturação dos parâmetros necessários para compilação dos resultados.\\
 
-Comparativamente com o método de controle anteriormente utilizado pela instituição, planilhas em Excel, o sistema desenvolvido tem como objetivo possuir um ganho considerável em capacidade de visualização pelos usuários, maior escala de armazenamento dos dados, análises processuais em tempo real e maior capacidade de controle dos prazos referentes as etapas processuais. Além disso, é uma possibilidade do usuário usufruir de um layout simples e dinâmico projetado com base em modelos de Boostrap.\\
+Comparativamente com o método de controle anteriormente utilizado pela instituição, planilhas em Excel, o sistema desenvolvido tem como objetivo possuir um ganho considerável em capacidade de visualização pelos usuários: maior escala de armazenamento dos dados, análises processuais em tempo real e maior capacidade de controle dos prazos referentes as etapas processuais. Além disso, é uma possibilidade do usuário usufruir de um layout simples e dinâmico projetado com base numa página Web.\\
 
-Dentre as análises estatísticas presentes no modelo, vale resssaltar os estudos efetuados em análise de sobrevivência. Pois estes caracterizam as medidas analisadas mais relevantes a instituição, possuindo descrições sobre as projeções do tempo médio de duração de pleitos, probabilidades de conclusão, tempos médios restantes para finalizações dos processos que ainda se encontram com etapas em aberto e etc.
+Dentre as análises estatísticas presentes no modelo, vale ressaltar os estudos efetuados em análise de sobrevivência. Pois, estes caracterizam as medidas analisadas mais relevantes a instituição, possuindo descrições sobre as projeções do tempo médio de duração de pleitos, probabilidades de conclusão, tempos médios restantes para finalizações dos processos que ainda se encontram com etapas em aberto e etc.
 
 \subsection{Objetivos Específicos}
 
@@ -185,7 +184,7 @@ Dentre as análises estatísticas presentes no modelo, vale resssaltar os estudo
 
 \item Evidenciar medidas de como prosseguir com a utilização do software e dos códigos estruturados, disponibilizando documentação e concedendo arquivos via Github;
 
-\item Realizar um conjunto de visualizações simples e diretas que sejam capazes de informar o usuário a cerca dos tempo restante ou tardios para conclusão dos processos;
+\item Realizar um conjunto de visualizações simples e diretas que sejam capazes de informar o usuário a cerca dos tempos restantes ou tardios para conclusão dos processos;
 
 \item Gerar gráficos que mostrem o desenvolvimento dos pleitos dentro da instituição de maneira interativa e eficiente; 
 
@@ -195,10 +194,10 @@ Dentre as análises estatísticas presentes no modelo, vale resssaltar os estudo
 
 \section{Metodologia}
 
-Os dados obtidos por meio de parceria com a 5ª Vara da Justiça Federal correspondem a cinquenta e cinco diferentes tipos de classes processuais com diferentes tempos de circulação, sendo estas  administradas nos seis setores internos ao órgão (Secretaria, Gabinete, Central de mandados, Requerido, Requerente e Perito). Dessa maneira, para elaborar uma análise estatística mais aprofundada em relação ao banco utilizou-se primeiramente de uma separação das classes processuais em PJe, com o intuito de obter processos mais recentes e com melhores imputações de valores ao banco de dados. \\
+Os dados obtidos por meio de parceria com a 5ª Vara da Justiça Federal correspondem a cinquenta e cinco diferentes tipos de classes processuais com diferentes tempos de circulação, sendo estas administradas nos seis setores internos ao órgão (Secretaria, Gabinete, Central de mandados, Requerido, Requerente e Perito). Dessa maneira, para elaborar uma análise estatística mais aprofundada em relação ao banco utilizou-se primeiramente de uma separação das classes processuais em PJe, com o intuito de obter processos mais recentes e com melhores imputações de valores ao banco de dados. \\
 
-Posteriormente, averiguou-se a necessidade de realização de uma limpeza nas variáveis relacionadas as etapas processuais devido ao fato destas possuírem repetições nas movimentações entre os períodos de início e término das fases. Dessa maneira, possibilitou-se a estruturação de censuras à direita \footnote{\\Ocorre quando o tempo de falha é superior ao tempo registrado. Ou seja, desprezar essa informação faria com que o risco de ocorrência do evento de interesse fosse superestimado pois o tempo até a falha é desconhecido mas o evento de interesse não ocorreu até o último
-momento observado.} para os pleitos que até o momento da estração dos dados (dia 02/12/2019) não haviam concluído a realização de suas atividades para aquelas etapas em desenvolvimento. Assim, já delimitado os termos que virão a ser censurados, utilizou-se da teoria de análise de sobrevivência no ramo da estatística para realizar os cálculos referentes aos parâmetros da \textit{função de sobrevivência}, \textit{função taxa de risco}, \textit{função taxa de falha acumulada}, \textit{tempo médio de vida}, \textit{vida média residual}, \textit{Modelo de Regressão de Cox}, \textit{Resíduos de Cox-Snell} e \textit{Resíduos de Schoenfeld}, para assim gerar medidas descritivas por meio de infoboxes que sejam visualmente simples e de fácil compreensão para o usuário final.\\
+Posteriormente, verificou-se a necessidade de realização de uma limpeza nas variáveis relacionadas as etapas processuais devido ao fato destas possuírem repetições nas movimentações entre os períodos de início e término das fases. Dessa maneira, possibilitou-se a estruturação de censuras à direita \footnote{\\Ocorre quando o tempo de falha é superior ao tempo registrado, ou seja, a informação faria com que o risco de ocorrência do evento de interesse fosse superestimado, pois o tempo até a ocorrência da falha é desconhecido. No entanto, sabe-se que o evento de interesse não ocorreu até o último
+momento observado.} para os pleitos que até o momento da extração dos dados (dia 02/12/2019) não haviam concluído a realização de suas atividades para aquelas etapas em desenvolvimento. Assim, já delimitado os termos que virão a ser censurados, utilizou-se da teoria de análise de sobrevivência no ramo da estatística para realizar os cálculos referentes aos parâmetros da \textit{função de sobrevivência}, \textit{função taxa de risco}, \textit{função taxa de falha acumulada}, \textit{tempo médio de vida}, \textit{vida média residual}, \textit{Modelo de Regressão de Cox}, \textit{Resíduos de Cox-Snell} e \textit{Resíduos de Schoenfeld}, para assim gerar medidas descritivas por meio de infoboxes que sejam visualmente simples e de fácil compreensão para o usuário final.\\
 
 \subsection{Função de sobrevivência} 
 
@@ -224,7 +223,7 @@ O estimador também pode ser definido como a probabilidade de um objeto em estud
 
 \subsubsection{Estimador de Kaplan-Meier}
 
-O estimador não paramétrico de Kaplan-Meier proposto por Kaplan e Meier (1958), também denominado como estimador limite-produto, se defini como uma medida mais popular para aferição da Função de Sobrevivência, estruturando assim a estimativa de $\hat{S}_{KM}(t)$ por meio de:
+O estimador não paramétrico de Kaplan-Meier proposto por Kaplan e Meier (1958), também denominado como estimador limite-produto, se defini como a medida mais popular para aferição da Função de Sobrevivência, estruturando assim a estimativa de $\hat{S}_{KM}(t)$ por meio de:
 
 \begin{equation}
 \hat{S}_{KM}(t) = \prod_{j:t_(j) \leq t}^{} \Big( 1- \frac{d_j}{n_j} \Big)
@@ -234,7 +233,8 @@ O estimador não paramétrico de Kaplan-Meier proposto por Kaplan e Meier (1958)
 
 Onde $n_j$ representa o número de observações sobre risco no tempo $t_{(j)}$ (contido) e $d_j$ retrata o número de observações que sofreram censura no tempo $t_{(j)}$, $j=1,2,...,k$\\
 
-Como consequência do estimador de Kaplan-Meier ser uma adaptação da função de sobrevivência empírica, sua formação leva como base uma sequência de passos dependentes das anteriores, ou seja, para que uma observação sobreviva até o período de tempo $t_{(j)}$ é necessário que esta tenha sobrevivido até o período $t_{(j-1)}$, isto é, 
+Como consequência do estimador de Kaplan-Meier ser uma adaptação da função de sobrevivência empírica, sua formação leva como base uma sequência de passos dependentes das anteriores, ou seja, para que uma observação sobreviva até o período de tempo $t_{(j)}$ é necessário que esta tenha sobrevivido até o período $t_{(j-1)}$, isto é, {\color{black}{(NAKANO, 2018)}}
+
 
 \begin{equation}
 S(t) = S(t_{(0)}) \prod_{j:t_(j) \leq t}^{} \Big( 1- P(t_{(j-1)} < T \le t_{(j)})~|~T \ge t_{(j)} \Big), para ~ t \ge 0
@@ -269,7 +269,7 @@ A variância assintótica da função de sobrevivência é conhecida como fórmu
 Devido ao fato de $\hat{S}_{KM}(t)$ convergir assintoticamente para uma distribuição normal com média $S(t)$ e variância acima explicitada, obtém-se um intervalo $100(1-\alpha)\%$ de confiança para $S(t)$ por meio de:
 
 \begin{equation}
-\Big( \hat{S}_{KM}(t) - Z_{(1-\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{S}_{KM}(t))}; \hat{S}_{KM}(t) + Z_{(1-\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{S}_{KM}(t))} \Big)
+\left[ \hat{S}_{KM}(t) - Z_{(1-\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{S}_{KM}(t))}; \hat{S}_{KM}(t) + Z_{(1-\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{S}_{KM}(t))} \right]
 \end{equation}
 
 \subparagraph{}
@@ -279,7 +279,7 @@ Entretanto, para os valores contidos nos extremos de $t$, este intervalo de conf
 
 \item \textbf{Intervalo de Confiança Log:}
 
-Uma forma alternativa de efetuar um intervalo de confiança para a função de sobrevivência é estruturá lo com base na estimativa do risco acumulado, apresentando assim sua variância estimada obtida por meio de:
+Uma forma alternativa de efetuar um intervalo de confiança para a função de sobrevivência é estruturá lo com base na estimativa do risco acumulado, apresentando assim sua variância estimada obtida por meio de: {\color{black}{(NAKANO, 2018)}}
 
 \begin{equation}
 \hat{Var}(\hat{H}_{KM}_{(t)}) = \sum_{j:t_(j) \leq t}^{} \frac{d_j}{n_j(n_j - d_j)}
@@ -292,12 +292,12 @@ Onde $n_j$ representa o número de observações sobre risco no tempo $t_{(j)}$ 
 Assim para todo $t$ fixo, possui-se um intervalo $100(1-\alpha)\%$ de confiança por meio da equação:
 
 \begin{equation}
-\Big(e^{-Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{KM}_{(t)})}}\hat{S}_{KM}(t);e^{Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{KM}_{(t)})}}\hat{S}_{KM}(t)\Big)
+\left[ e^{-Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{KM}_{(t)})}}\hat{S}_{KM}(t);e^{Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{KM}_{(t)})}}\hat{S}_{KM}(t)\right]
 \end{equation}\\
 
 \item \textbf{Intervalo de Confiança Log-log:}
 
-baseia se na aplicação do logaritmo na função de risco acumulado, ou uma transformação "log-log"~na função de sobrevivência de Kaplan-Meier, isto é:
+Baseia se na aplicação do logaritmo na função de risco acumulado, ou uma transformação "log-log"~na função de sobrevivência de Kaplan-Meier, isto é:
 
 \begin{equation}
 \hat{L}_{KM}(t)=log \left[ -log \big(\hat{S}_{KM}(t) \big) \right] 
@@ -317,14 +317,14 @@ Gerando-se assim uma variância dada por,
 Logo, para todo $t$ fixo, assume-se um intervalo $100(1-\alpha)\%$ de confiança por meio da fórmula
 
 \begin{equation}
-\Big( \hat{S}_{KM}(t)^{exp\big( Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{L}_{KM}(t))}\big)};\hat{S}_{KM}(t)^{exp\big( -Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{L}_{KM}(t))}\big)}\Big)
+\left[ \hat{S}_{KM}(t)^{exp\big( Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{L}_{KM}(t))}\big)};\hat{S}_{KM}(t)^{exp\big( -Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{L}_{KM}(t))}\big)}\right]
 \end{equation}\\
 
 \end{itemize}
 
 \subsubsection{Estimador de Nelson-Aalen}
 
-Proposto por Nelson-Aalen (1972), o  estimador da função de sobrevivência basea-se na relação entre a função de sobrevivência e a função de risco acumulado. Dessa maneira, utilizando a equação $S(t) = exp \left[ -H(t) \right]$ assume-se que o estimador para função de sobrevivência é obtido por meio de:
+Proposto por Nelson-Aalen (1972), o  estimador da função de sobrevivência baseia-se na relação entre a função de sobrevivência e a função de risco acumulado. Dessa maneira, utilizando a equação $S(t) = exp \left[ -H(t) \right]$ assume-se que o estimador para função de sobrevivência é obtido por meio de: {\color{black}{(NAKANO, 2018)}}
 
 \begin{equation}
 \hat{S}_{NA}(t)= exp\big( -\hat{H}_{NA}(t)\big) = exp \big(-\sum_{j:t_(j) \leq t}^{} \frac{d_j}{n_j} \big)
@@ -334,7 +334,7 @@ Proposto por Nelson-Aalen (1972), o  estimador da função de sobrevivência bas
 
 Vale salientar que o estimador $\hat{S}_{NA}(t)$ e o de Kaplan-Meier possuem na maioria das vezes suas estimativas muito próximas de $S(t)$. Bohoris(1994) demonstrou que $\hat{S}_{NA}(t) \geq  \hat{S}_{KM}(t)$ para todo $t$. Ou seja, o estimador de Nelson-Aalen é maior ou igual que o de Kaplan-Meier.\\
 
-Considerando-se o fato da função de sobrevivência de Nelson-Aalen está sejeita a variações amostrais presentes em sua variância, pode-se descrever três diferentes modelos de intervalos de confiança ao estudo.\\
+Considerando-se o fato da função de sobrevivência de Nelson-Aalen está sujeita a variações amostrais presentes em sua variância, pode-se descrever três diferentes modelos de intervalos de confiança ao estudo.\\
 
 \begin{itemize}
 
@@ -353,12 +353,12 @@ Onde $n_j$ representa o número de observações sobre risco no tempo $t_{(j)}$ 
 Considerando-se que $\hat{S}_{NA}(t)$ converge assintoticamente para uma distribuição normal com média $S(t)$ e variância acima explicitada, obtém-se um intervalo $100(1-\alpha)\%$ de confiança para $S(t)$ por meio de:
 
 \begin{equation}
-\Big( \hat{S}_{NA}(t) - Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{S}_{NA}(t))};\hat{S}_{NA}(t) + Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{S}_{NA}(t))}  \Big)
+\left[ \hat{S}_{NA}(t) - Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{S}_{NA}(t))};\hat{S}_{NA}(t) + Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{S}_{NA}(t))}  \right]
 \end{equation}\\
 
 \item \textbf{Intervalo de Confiança Log:}
 
-Considerando que a função de risco pode ser escrita por meio da relação entre a função de sobrevivência e risco acumulado pela fórmula $H(t) = -log\left[ S(t) \right]$, possui-se uma variação assintótica obtido por:
+Considerando que a função de risco pode ser escrita por meio da relação entre a função de sobrevivência e o risco acumulado pela fórmula $H(t) = -log\left[ S(t) \right]$, possui-se uma variação assintótica obtido por:  {\color{black}{(NAKANO, 2018)}}
 
 \begin{equation}
 \hat{Var}(\hat{H}_{NA}(t)) = \sum_{j:t_(j) \leq t}^{} \frac{d_j}{n^{2}_j} 
@@ -369,7 +369,7 @@ Considerando que a função de risco pode ser escrita por meio da relação entr
 Logo, para todo $t$ fixo, um intervalo $100(1-\alpha)\%$ de confiança para a função de sobrevivência é dada por:
 
 \begin{equation}
-\Big(e^{-Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{NA}_{(t)})}}\hat{S}_{NA}(t);e^{Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{NA}_{(t)})}}\hat{S}_{NA}(t)\Big)
+\left[e^{-Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{NA}_{(t)})}}\hat{S}_{NA}(t);e^{Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{NA}_{(t)})}}\hat{S}_{NA}(t)\right]
 \end{equation}\\
 
 \item \textbf{Intervalo de Confiança Log-log:}
@@ -393,7 +393,7 @@ Gerando-se assim em uma variância obtida por,
 Logo, para todo $t$ fixo, obtêm-se um intervalo $100(1-\alpha)\%$ de confiança para a função de sobrevivência por meio da fórmula
 
 \begin{equation}
-\Big( \hat{S}_{NA}(t)^{exp\big( Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{L}_{NA}(t))}\big)};\hat{S}_{NA}(t)^{exp\big( -Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{L}_{NA}(t))}\big)}\Big)
+\left[ \hat{S}_{NA}(t)^{exp\big( Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{L}_{NA}(t))}\big)};\hat{S}_{NA}(t)^{exp\big( -Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{L}_{NA}(t))}\big)}\right]
 \end{equation}\\
 
 \end{itemize}
@@ -414,10 +414,10 @@ De maneira geral, pode-se assumir o intervalo como sendo $[t,t+\Delta t)$. Acarr
 
 \subparagraph{}
 
-Considerando-se $\Delta(t)$ como um valor muito pequeno, $\lambda(t)$ representa a taxa de falha instantânea no tempo $t$ condicional à sobrevivência até o instante $t$. Observe que as taxas de falhas são números que assumem seus valores postivos, mas sem limite superior. A função de taxa de falha $\lambda(t)$ é bastante utilizada para enunciar a distribuição do tempo de vida das observações.\\
+Considerando-se $\Delta(t)$ como um valor muito pequeno, $\lambda(t)$ representa a taxa de falha instantânea no tempo $t$ condicional à sobrevivência até o instante $t$. Observe que as taxas de falhas são números que assumem seus valores postivos, mas sem limite superior. A função de taxa de falha $\lambda(t)$ é bastante utilizada para enunciar a distribuição do tempo de vida das observações. {\color{black}{(COLONISMO et al., 2006)}}\\
 
 
-Graficamente, a taxa de risco de um objeto pode vir a assumir três formulações diferentes entre si, sendo estas: Função crescente (indicando um aumento na taxa de falha ao longo do tempo, este comportamento representa um efeito progressivo de envelhecimento), Função constante (evidencia que a taxa não se altera com o passar do tempo, ou seja, uma constante) e Função decrescente (demonstra uma redução da taxa de falha à medida que o tempo passa).
+Graficamente, a taxa de risco de um objeto pode vir a assumir três formulações diferentes entre si, sendo estas: Função crescente (indicando um aumento na taxa de falha ao longo do tempo, este comportamento representa um efeito progressivo de envelhecimento), Função constante (evidencia que a taxa não se altera com o passar do tempo, ou seja, uma constante) e Função decrescente (demonstra uma redução da taxa de falha à medida que o tempo passa). {\color{black}{(COLONISMO et al., 2006)}}
 
 \subparagraph{}
 
@@ -428,7 +428,7 @@ Graficamente, a taxa de risco de um objeto pode vir a assumir três formulaçõe
 			\end{center}
 		\end{figure}
 		
-\subsection{Função taxa de falha acumulada} É um procedimento útil na estimação não-paramétrica e na seleção de modelos mais apropriados para ajustar um determinado conjunto de dados. A função \textit{H(t)} fornece o risco acumulado do indivíduo no tempo \textit{t}. Caso esta seja definida como uma variável aleatória contínua, é descrita por
+\subsection{Função taxa de falha acumulada} É um procedimento útil na estimação não-paramétrica e na seleção de modelos mais apropriados para determinados conjuntos de dados. A função \textit{H(t)} fornece o risco acumulado do indivíduo no tempo \textit{t}, caso esta seja definida como uma variável aleatória contínua, é descrita por
 
 \begin{equation}
 H(t) = \int_{0}^{t} \lambda(u) du , \thinspace t\geq 0
@@ -436,13 +436,13 @@ H(t) = \int_{0}^{t} \lambda(u) du , \thinspace t\geq 0
 
 \subparagraph{}
 
-A função de Taxa de falha acumulada, $H(t)$, não tem interpretação direta como visto em outras medidas mas pode ser útil na avaliação de uma função mais relevante, que seria a taxa de falha ($\lambda(t)$). Isto ocorre substancialmente na estimação não-paramétrica onde $\lambda(t)$ apresenta um estimador com propriedades ótimas e dificeis de serem estimadas.\\
+A função de Taxa de falha acumulada, $H(t)$, não tem interpretação direta como visto em outras medidas mas pode ser útil na avaliação de uma função mais relevante, que seria a taxa de falha ($\lambda(t)$). Isto ocorre substancialmente na estimação não-paramétrica onde $\lambda(t)$ apresenta um estimador com propriedades ótimas e dificeis de serem estimadas. {\color{black}{(COLONISMO et al., 2006)}}\\
 
 Uma das técnicas amplamente usufruídas na estimação de $H(t)$ são os estimadores de Kaplan-Meier e Nelson-Aalen. Sendo ambos métodos não paramétricos de estimação.
 
 \subsubsection{Estimador de Kaplan-Meier}
 
-Considerando-se que a função de sobrevivência de uma variável contínua pode vir a ser expressa em relação a função taxa de falha acumulada por meio da equação: $S(t) = exp{-H(t)}$. Assim, acata-se que o estimador de kaplan-Meier para a função de risco acumulado é obtido por:
+Considerando-se que a função de sobrevivência de uma variável contínua pode vir a ser expressa em relação a função taxa de falha acumulada por meio da equação: $S(t) = exp{-H(t)}$, acata-se que o estimador de kaplan-Meier para a função de risco acumulado é obtido por meio de: 
 
 \begin{equation}
 \hat{H}_{KM}(t) = log \left[ \hat{S}_{km}(t) \right]
@@ -450,7 +450,7 @@ Considerando-se que a função de sobrevivência de uma variável contínua pode
 
 \subparagraph{}
 
-Em que $\hat{S}_{KM}(t)$ é a função de sobrevivência estimada por meio do estimador de Kaplan-Meier.\\
+Em que $\hat{S}_{KM}(t)$ é a função de sobrevivência estimada em relaçãoa ao estimador de Kaplan-Meier.\\
 
 Devido ao fato da função taxa de risco acumulada em Kaplan-Meier está sujeita a variações amostrais presentes em sua variância, pode-se descrever intervalos de confiança em estudo no modelo Log.\\
 
@@ -458,17 +458,17 @@ Devido ao fato da função taxa de risco acumulada em Kaplan-Meier está sujeita
 
 \item \textbf{Intervalo de Confiança Log:}
 
-Como visto anteriormente, a função da taxa de risco acumulado pode ser descrita em relação à função de sobrevivência pela equação: $H(t) = -log \left[ S(t)\right]$. Dessa forma, respeitando-se a variância do Estimador de Kaplan-Meier expressa em (7), obtém-se um intervalo $100(1-\alpha)\%$ de confiança para $H(t)$ por meio de:
+Como visto anteriormente, a função da taxa de risco acumulado pode ser descrita em relação à função de sobrevivência pela equação (23). Dessa forma, respeitando-se a variância do Estimador de Kaplan-Meier expressa em (7), obtém-se um intervalo $100(1-\alpha)\%$ de confiança para $H(t)$ por meio de:
 
 \begin{equation}
-\Big( \hat{H}_{KM}(t) - Z_{1-(\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{H}_{KM}(t))}; \hat{H}_{KM}(t) + Z_{1-(\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{H}_{KM}(t))} \Big)
+\left[ \hat{H}_{KM}(t) - Z_{1-(\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{H}_{KM}(t))}; \hat{H}_{KM}(t) + Z_{1-(\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{H}_{KM}(t))} \right]
 \end{equation}\\
 
 \end{itemize}
 
 \subsubsection{Estimador de Nelson-Aalen}
 
-Nelson (1972) propôs um estimador não paramétrico para a função de risco acumulado, $H(t)$, cujas propriedades assintóticas foram comprovadas por Aalen (1978). Este estimador recebe a denominação na literatura de Nelson-Aalen e é definido por:
+Nelson (1972) propôs um estimador não paramétrico para a função de risco acumulado, $H(t)$, cujas propriedades assintóticas foram comprovadas por Aalen (1978). Este estimador recebe a denominação na literatura de Nelson-Aalen e é definido por: {\color{black}{(NAKANO, 2018)}}
 
 \begin{equation}
 \hat{H}_{NA}(t) = \sum_{j:t_(j) \leq t}^{} \frac{d_j}{n_j} 
@@ -490,17 +490,17 @@ Considere que a variância assintótica da função de risco acumulado do estima
 \hat{Var}(\hat{H}_{NA}(t)) = \sum_{j:t_(j) \leq t}^{} \frac{d_j}{n^{2}_j} 
 \end{equation}
 
-Pode-se assim cacterizar para todo $t$ fixo um intervalo de confiança de $100(1-\alpha)\%$ em relação a $H_{NA}(t)$ obtido por:
+Dessa maneira, cacteriza-se para todo $t$ fixo um intervalo de confiança de $100(1-\alpha)\%$ em relação a $H_{NA}(t)$ obtido por:
 
 \begin{equation}
-\Big( \hat{H}_{NA}(t)-Z_{(1-\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{H}_{NA}(t))};\hat{H}_{NA}(t)+Z_{(1-\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{H}_{NA}(t))} \Big)
+\left[ \hat{H}_{NA}(t)-Z_{(1-\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{H}_{NA}(t))};\hat{H}_{NA}(t)+Z_{(1-\frac{\alpha}{2})} \sqrt{\hat{Var}(\hat{H}_{NA}(t))} \right]
 \end{equation}\\
 
 \end{itemize}
 
 \subsection{Tempo médio de vida} É a representação da área gerada abaixo do gráfico da \textit{Função de sobrevivência}, ou seja, o tempo médio que o objeto sobrevive sem presenciar a censura.\\
 
-Considerando que $T$ (tempo) é uma variável aleatória discreta que assume vaores não negativos, então o R-ésimo momento, se existir, pode ser descrito por:
+Considerando que $T$ (tempo) é uma variável aleatória discreta que assume valores não negativos, então o R-ésimo momento, se existir, pode ser descrito por: {\color{black}{(NAKANO, 2018)}}
 
 \begin{equation}
 E(T^{r}) = \sum_{j:t_(j) \leq t}^{\infty} t^{r} p(t),~ para~todo~r\geq 0
@@ -510,7 +510,7 @@ E(T^{r}) = \sum_{j:t_(j) \leq t}^{\infty} t^{r} p(t),~ para~todo~r\geq 0
 
 Sendo $p(t)$ obtido por meio da relação $p(t) = S(t-1)-S(t)$ se $t$ for maior que zero.\\
 
-Em particular, o primeiro e segundo momento da variável aleatória $T$ podem ser expressos respectivamente por meio de sua relação com a função de sobrevivência:
+Em particular, o primeiro e segundo momento da variável aleatória $T$ podem ser expressos respectivamente por meio de sua relação com a função de sobrevivência: {\color{black}{(NAKANO, 2018)}}
 
 \begin{equation}
 E(T) = \sum_{t=0}^{\infty} S(t)
@@ -534,9 +534,9 @@ Considerando que $p(t)$ é obtido por meio da relação $p(t) = S(t-1)-S(t)$ se 
 
 \subsection{Modelo de Regressão de Cox}
 
-O modelo de regressão de Cox, proposto por Cox em 1972, é sem dúvida um dos mais populares na análise de sobrevivência. Este modelo possibilita que a análise dos tempos de vida até a ocorrência da censura seja realizada considerando-se as covariáveis de interesse no estudo. Cox, assim como outros autores, propõe a modelagem dos dados de sobrevivência, na presença de covariáveis, por meio da função de risco.\\
+O modelo de regressão de Cox, proposto por Cox em 1972, é sem dúvida um dos mais populares na análise de sobrevivência. Este modelo possibilita que a análise dos tempos de vida até a ocorrência da censura seja realizada considerando-se as covariáveis de interesse no estudo. Cox, assim como outros autores, propõe a modelagem dos dados de sobrevivência, na presença de covariáveis, por meio da função de risco. {\color{black}{(GIOLO et al., 2018)}}\\
 
-Considera-se, nesse modelo, que os tempos $t_i$, $i=1,...,n$, são independentes entre si e que o risco do elemento $i$ é disponibilizado por:
+Considera-se, nesse modelo, que os tempos $t_i$, $i=1,...,n$, são independentes entre si e que o risco do elemento $i$ é disponibilizado por: 
 
 \begin{equation}
 \alpha_{i}(t|x_i) = \alpha_{0}(t)exp\{\beta^{'}x_i\}
@@ -544,9 +544,9 @@ Considera-se, nesse modelo, que os tempos $t_i$, $i=1,...,n$, são independentes
 
 \subparagraph{}
 
-em que $\alpha_0$ é estruturado como a função de risco base, ou seja, o risco de um elemento com covariáveis $x=0$, $\beta$ é denonimado como sendo o vetor de dimensão $p$ dos coeficientes de regressão desconhecidos e $x_i$ é representado como um vetor de dimensão $p$ de covariáveis observadas para o elemento $i$.\\
+em que $\alpha_0$ é estruturado como a função de risco base, ou seja, o risco de um elemento com covariáveis $x=0$, $\beta$ é denonimado como sendo o vetor de dimensão $p$ dos coeficientes de regressão desconhecidos e $x_i$ é representado como um vetor de dimensão $p$ de covariáveis observadas para o elemento $i$. {\color{black}{(GIOLO et al., 2018)}}\\
 
-O modelo de Cox, definido em (32), é conhecido como sendo semi-paramétrico por considerar que as covariáveis agem multiplicativamente no risco pela relação $g(x,\beta) = exp\{\beta^{'}x_i\}$ e por acatar $\alpha_{0}(t)$ arbitrário, ou seja, por não assumir nenhuma estrutura paramétrica em relação à $\alpha_{0}(t)$. A denominação desse modelo como sendo de riscos proporcionais vem do fato da razão entre as funções de risco de dois indivíduos serem dadas por,
+O modelo de Cox, definido em (32), é conhecido como sendo semi-paramétrico por considerar que as covariáveis agem multiplicativamente no risco pela relação $g(x,\beta) = exp\{\beta^{'}x_i\}$ e por acatar $\alpha_{0}(t)$ arbitrário, ou seja, por não assumir nenhuma estrutura paramétrica em relação à $\alpha_{0}(t)$. A denominação desse modelo como sendo de riscos proporcionais vem do fato da razão entre as funções de risco de dois indivíduos serem dadas por, {\color{black}{(GIOLO et al., 2018)}}
 
 \begin{equation}
 \frac{\alpha(t|x_i)}{\alpha(t|x_l)} = \frac{\alpha_{0}(t)exp\{\beta^{'}x_i\}}{\alpha_{0}(t)exp\{\beta^{'}x_l\}} = exp\{\beta^{'}(x_i - x_l) \}
@@ -554,7 +554,7 @@ O modelo de Cox, definido em (32), é conhecido como sendo semi-paramétrico por
 
 \subparagraph{}
 
-Os pré-requisitos básicos para o uso dos riscos proporcionais de Cox são, portanto, que as taxas de falhas atuem de maneira proporcionais. Em outras palavras, significa que se um indivíduo exibe no inicio do estudo um risco de falhar igual a três vezes o risco de outro elemento, então esta taxa representará o mesmo valor para qualquer tempo $t$ do período de acompanhamento.\\
+Os pré-requisitos básicos para o uso dos riscos proporcionais de Cox são, portanto, que as taxas de falhas atuem de maneira proporcionais. Em outras palavras, significa que se um indivíduo exibe no inicio do estudo um risco de falhar igual a três vezes o risco de outro elemento, então esta taxa representará o mesmo valor para qualquer tempo $t$ do período de acompanhamento. {\color{black}{(GIOLO et al., 2018)}}\\
 
 As funções de taxa de falha base acumulada bem como a correspondente função de sobrevivência são também de interesse e estas relacionam-se com a função de risco base por, respectivamente,
 
@@ -580,9 +580,9 @@ S_{0}(t) = exp\{-H_{0}(t)\}
 
 \subsubsection{Estimação dos parâmetros no modelo de Cox}
 
-O modelo de Cox é representado pelos coeficientes $\beta's$ que devem ser estimados a partir de observações presentes nas amostras. A aparição de componentes não-paramétricos impossibilita, contudo, o uso do método da máxima verossimilhança.\\
+O modelo de Cox é representado pelos coeficientes $\beta's$ que devem ser estimados a partir de observações presentes nas amostras. A aparição de componentes não-paramétricos impossibilita, contudo, o uso do método da máxima verossimilhança. {\color{black}{(GIOLO et al., 2018)}}\\
 
-Para a estimação dos vetores de parâmetros desconhecidos $\beta's$, Cox (1975) apresentou, então, a função de verossimilhança parcial, $L(\beta)$. Para a realização desta função de verossimilhança, considere uma amostra de $n$ elementos em que $k \leq n$ diferentes falhas ocorrem nos tempos $t_1,...,t_k$ e que a chance condicional da i-ésima observação vir a sofrer uma falha no tempo $t$, tendo como base as observações sob risco em $t_i$, é:
+Para a estimação dos vetores de parâmetros desconhecidos $\beta's$, Cox (1975) apresentou, então, a função de verossimilhança parcial, $L(\beta)$. Para a realização desta função de verossimilhança, considere uma amostra de $n$ elementos em que $k \leq n$ diferentes falhas ocorrem nos tempos $t_1,...,t_k$ e que a chance condicional da i-ésima observação vir a sofrer uma falha no tempo $t$, tendo como base as observações sob risco em $t_i$, é: {\color{black}{(GIOLO et al., 2018)}}
 
 \begin{equation}
 \frac{\alpha_{i}(t_i|x_i)}{\sum_{j \in R_{(t_i)}}^{} \alpha_j(t_i|x_j)} = \frac{\alpha_{0}(ti)exp\{\beta^{'}x_i\}}{\sum_{j \in R_{(t_i)}}^{}\alpha_{0}(t_i)exp\{\beta^{'}x_j\}} = \frac{exp\{\beta^{'}x_j\}}{\sum_{j \in R_{(t_i)}}^{}exp\{\beta^{'}x_j\}}
@@ -600,7 +600,7 @@ L(\beta) = \prod_{i=1}^{n}\Big( \frac{exp\{\beta^{'}x_i \}}{\sum_{j \in R_{(t_i)
 
 \subparagraph{}
 
-Os elementos censurados entram na função de verossimilhança parcial $L(\beta$) por meio do conjunto de risco $R_{(t_i)}$ e colaboram, para esta função, somente enquanto encontram-se em risco. Os parâmetros $\beta's$ são obtidos maximizando-se o logaritmo da função $L(\beta)$, isto é, resolvendo-se o sistema de equações escores
+Os elementos censurados entram na função de verossimilhança parcial $L(\beta$) por meio do conjunto de risco $R_{(t_i)}$ e colaboram, para esta função, somente enquanto encontram-se em risco. Os parâmetros $\beta's$ são obtidos maximizando-se o logaritmo da função $L(\beta)$, isto é, resolvendo-se o sistema de equações escores {\color{black}{(GIOLO et al., 2018)}}
 
 \begin{equation}
 0 = \frac{\partial l(\beta)}{\partial \beta_k} = \sum_{i=1}^{n}\delta_i \left[  x_{ik} - \frac{\sum_{j \in R_{(t_i)}}^{} x_{jk} exp\{\beta^{'}x_j\}}{\sum_{j \in R_{(t_i)}}^{} exp\{\beta^{'}x_j\}} \right],~~k=1,...,p
@@ -612,9 +612,9 @@ em que $l(\beta) = log~L(\beta)$.\\
 
 \subsubsection{Interpretação dos parâmetros no modelo de Cox}
 
-Os coeficientes $\beta's$ no modelo de regressão de Cox, servem para medir os efeitos das covariáveis em relação a taxa de falha considerando-se que, uma covariável pode acelerar, ou desacelerar, a função de risco.\\
+Os coeficientes $\beta's$ no modelo de regressão de Cox, servem para medir os efeitos das covariáveis em relação a taxa de falha considerando-se que, uma covariável pode acelerar, ou desacelerar, a função de risco.{\color{black}{(GIOLO et al., 2018)}}\\
 
-A propriedade de riscos proporcionais é utilizada para averiguar os coeficientes estimados. Observe que a taxa de falha para dois indivíduos $(i$ e $l)$ que possuem os mesmos valores e suas covariáveis, exceto para a p-ésima delas, é obitda por:
+A propriedade de riscos proporcionais é utilizada para averiguar os coeficientes estimados. Observe que a taxa de falha para dois indivíduos $(i$ e $l)$ que possuem os mesmos valores e suas covariáveis, exceto para a p-ésima delas, é obitda por: {\color{black}{(GIOLO et al., 2018)}}
 
 \begin{equation}
 \frac{\alpha(t|x_i)}{\alpha(t|x_l)} = \frac{exp\{\beta_p x_{ip}\}}{exp\{\beta_p x_{lp}\}} = exp\{\beta_p(x_{ip} - x_{lp}) \}
@@ -622,11 +622,11 @@ A propriedade de riscos proporcionais é utilizada para averiguar os coeficiente
 
 \subparagraph{}
 
-Esta razão é, na realidade, uma razão de riscos e, assim, se por exemplo, $x_p$ é a covariável dicotômica sexo em que $x_{ip}=1$ (masculino) e $x_{ip}=0$ (feminino), tem-se que o risco de falha dos elementos presentes no sexo masculino é $exp(\beta_p)$ vezes o risco de falha dos elementos presentes no sexo feminino, mantendo-se constante as demais covariáveis. 
+Esta razão é, na realidade, uma razão de riscos e, assim, se por exemplo, $x_p$ é a covariável dicotômica sexo em que $x_{ip}=1$ (masculino) e $x_{ip}=0$ (feminino), tem-se que o risco de falha dos elementos presentes no sexo masculino é $exp(\beta_p)$ vezes o risco de falha dos elementos presentes no sexo feminino, mantendo-se constante as demais covariáveis. {\color{black}{(GIOLO et al., 2018)}}
 
 \subsubsection{Suposição de riscos proporcionais no modelo de Cox}
 
-O modelo de Cox é utilizado em situações que a suposição de riscos proporcionais é legitima, isto é, para situações em que as linhas das funções de riscos se cruzam.\\
+O modelo de Cox é utilizado em situações que a suposição de riscos proporcionais é legitima, isto é, para situações em que as linhas das funções de riscos não se cruzam.\\
 
 Para verificar tal suposição pode-se utilizar, dentre outras maneiras, de técnicas gráficas que consistem basicamente em:
 
@@ -637,17 +637,17 @@ Para verificar tal suposição pode-se utilizar, dentre outras maneiras, de téc
    
  \end{enumerate}
  
-Se as hipóteses forem válidas, as curvas de $log~\hat{H}_{0j}(t)$ contra $t$, ou $log(t)$, devem possuir diferenças constantes no tempo, ou seja, devem ser aproximadamente paralelas. Estas curvas podem ser obtidas para cada covariável em estudo podendo-se, desse modo, localizar indícios de qual covariável encontraria-se causando a possível violação da suposição de riscos proporcionais. Se a covariável for de natureza contínua é indicado agrupá-la em um pequeno número de categorias.\\
+Se as hipóteses forem válidas, as curvas de $log~\hat{H}_{0j}(t)$ contra $t$, ou $log(t)$, devem possuir diferenças constantes no tempo, ou seja, devem ser aproximadamente paralelas. Estas curvas podem ser obtidas para cada covariável em estudo podendo-se, desse modo, localizar indícios de qual covariável encontraria-se causando a possível violação da suposição de riscos proporcionais. Se a covariável for de natureza contínua é indicado agrupá-la em um pequeno número de categorias. {\color{black}{(GIOLO et al., 2018)}}\\
 
 \subsection{Análise de adequação ao modelo ajustado}
 
-Uma avaliação da qualidade do modelo ajustado é parte essencial na análise dos dados. No modelo de regressão linear usualmente utilizado, uma análise gráfica dos resíduos é fundamental para esta finalidade. Nos modelos de regressão apresentados anterioremente, a definição de resíduos não é tão evidente e, desse modo, diversos resíduos têm sido propostos na literatura para averiguar um ajuste ao modelo.\\
+Uma avaliação da qualidade do modelo ajustado é parte essencial na análise dos dados. No modelo de regressão linear usualmente utilizado, uma análise gráfica dos resíduos é fundamental para esta finalidade. Nos modelos de regressão apresentados anterioremente, a definição de resíduos não é tão evidente e, desse modo, diversos resíduos têm sido propostos na literatura para averiguar um ajuste ao modelo. {\color{black}{(COLONISMO et al., 2006)}}\\
 
-Técnicas gráficas, que utilizam dos diferentes resíduos propostos são, em particular, bastante utilizadas para examinar os diversos aspectos do modelo. Um desses aspectos é o de validar, por meio dos resíduos, a distribuição dos erros. Estas técnicas, no entanto, como observado por Klein e Moeschberger (1997), devem ser usufruidas como um meio de recusar modelos evidentemente inapropriados e não para "provar"~que um particular modelo paramétrico está correto, mesmo porque, em muitas situações, dois ou mais modelos paramétricos podem prover ajustes razoáveis bem como estimativas próximas dos valroes de interesse. 
+Técnicas gráficas, que utilizam dos diferentes resíduos propostos são, em particular, bastante utilizadas para examinar os diversos aspectos do modelo. Um desses aspectos é o de validar, por meio dos resíduos, a distribuição dos erros. Estas técnicas, no entanto, como observado por Klein e Moeschberger (1997), devem ser usufruidas como um meio de recusar modelos evidentemente inapropriados e não para "provar"~que um particular modelo paramétrico está correto, mesmo porque, em muitas situações, dois ou mais modelos paramétricos podem prover ajustes razoáveis bem como estimativas próximas dos valores de interesse.  {\color{black}{(COLONISMO et al., 2006)}}
 
 \subsubsection{Resíduos de Cox-Snell}
 
-Em regressão linear comum a verificação da adequação do modelo ajustado por meio da análise de gráficos de resíduos. Em sobrevivência, devido a presença de censuras bem como os resíduos não seguirem uma distribuição Normal e poderem ser consideravelmente assimétricos, foi elaborado o Resíduo de Cox-Snell para testar a qualidade do ajuste proposto.\\
+Em regressão linear é comum a verificação da adequação do modelo ajustado por meio da análise de gráficos de resíduos. Em sobrevivência, devido a presença de censuras bem como os resíduos não seguirem uma distribuição Normal e poderem ser consideravelmente assimétricos, desenvolveu-se o Resíduo de Cox-Snell para testar a qualidade do ajuste proposto.\\
 
 Para todos os $n$ processos em análise $(i=1,2,3, ..., n)$, os Resíduos de Cox-Snell (1968), para o modelo de Cox, são caracterizados por:
 
@@ -657,9 +657,9 @@ e_i = \hat{H}_{0}(t_i)exp\Big(\sum_{k=1}^{p} x_{ip}\hat{\beta}_k \Big)
 
 \subparagraph{}
 
-e podem ser utilizados para analisar a qualidade da modelagem no ajuste de Cox. Se o modelo estiver bem ajustado, os $e_i$'s podem ser visualizados como uma amostra censurada de uma distribuição exponencial padrão e, então, o gráfico de, por exemplo, $\hat{H}(e_i)$ contra $e_i$ necessitaria ser algo próximo de uma reta.\\
+e podem ser utilizados para analisar a qualidade da modelagem no ajuste de Cox. Se o modelo estiver bem ajustado, os $e_i$'s podem ser visualizados como uma amostra censurada de uma distribuição exponencial padrão e, então, o gráfico de, por exemplo, $\hat{H}(e_i)$ contra $e_i$ necessitaria ser algo próximo de uma reta. {\color{black}{(GIOLO et al., 2018)}} \\
 
-Os resíduos de Cox-Snell são eficientes para analisar a qualidade do ajuste global no modelo de Cox. Uma desvantagem de seu uso, contudo, é que eles não evidenciam o momento em que o gráfico de $\hat{H}(e_i)$ contra $e_i$ apresenta não linearidade, o tipo de falha detectado pelo modelo. 
+Os resíduos de Cox-Snell são eficientes para analisar a qualidade do ajuste global no modelo de Cox. Uma desvantagem de seu uso, contudo, é que eles não evidenciam o momento em que o gráfico de $\hat{H}(e_i)$ contra $e_i$ apresenta não linearidade, o tipo de falha detectado pelo modelo.  {\color{black}{(GIOLO et al., 2018)}}
 
 	\begin{figure}[htb!]
 	\caption{\it Resíduos de Cox-Snell}
@@ -672,7 +672,7 @@ Os resíduos de Cox-Snell são eficientes para analisar a qualidade do ajuste gl
 
 O resíduo de Schoenfeld é a diferença entre os valores observados de covariáveis em um elemento contido no tempo $(ti)$ e os valores esperados desde elemento também no período de tempo $(ti)$ dado o grupo de risco $R_{(ti)}$. Existirão tantos vetores de resíduos quanto covariáveis ajustadas no modelo, sendo estes definidos unicamente nos períodos de ocorrência do evento. Considerando-se o plot de resíduos padronizados de Schoenfeld contra o tempo é verificável a ocorrência ou não de proporcionalidade, ou seja, se as suposições de riscos proporcionais forem satisfeitas não deverá existir nenhuma propensão sequencial no gráfico $(Ho: p=0)$.\\
 
-Levando em consideração os $k(k\leq n)$ períodos distintos de falha $t_1,...,t_k$, um vetor de resíduos de Schoenfeld é adquirido em cada tempo observado de falha. Assim, se o elemento $i$ é verificado falhar, o correspondente resíduo é obtido por meio de:
+Levando em consideração os $k(k\leq n)$ períodos distintos de falha $t_1,...,t_k$, um vetor de resíduos de Schoenfeld é adquirido em cada tempo observado de falha. Assim, se o elemento $i$ é verificado falhar, o correspondente resíduo é obtido por meio de: {\color{black}{(GIOLO et al., 2018)}}
 
 
 \begin{equation}
@@ -682,7 +682,7 @@ r_i = x_i - \frac{\sum_{j \in R_{(ti)}}^{} x_{j}e^{\hat{\beta}_{xj}}}{\sum_{j \i
 \subparagraph{}
 
 Note que este é um vetor com um componente para cada covariável. Condicional a uma única falha no conjunto de risco $R_{(ti)}$, o valor esperado da covariável, desta falha, é obtido pelo termo 
-$\frac{\sum_{j \in R_{(ti)}}^{} x_{j}e^{\hat{\beta}_{xj}}}{\sum_{j \in R_{(ti)}}^{}e^{\hat{\beta}_{xj}}}$ evidenciado em (42) e, dessa maneira, a análise de $r_i$ como um resíduo é coerente. Também, $\sum_{i}^{}r_i = 0$, como usual para resíduos e, se o modelo é apropriado, não necessitaria existência de tendências no tempo. Os resíduos de Schoenfeld são, em geral, usados para analisar as suposições de riscos proporcionais.\\
+$\frac{\sum_{j \in R_{(ti)}}^{} x_{j}e^{\hat{\beta}_{xj}}}{\sum_{j \in R_{(ti)}}^{}e^{\hat{\beta}_{xj}}}$ evidenciado em (42) e, dessa maneira, a análise de $r_i$ como um resíduo é coerente. Também, $\sum_{i}^{}r_i = 0$, como usual para resíduos e, se o modelo é apropriado, não necessitaria existência de tendências no tempo. Os resíduos de Schoenfeld são, em geral, usados para analisar as suposições de riscos proporcionais. {\color{black}{(GIOLO et al., 2018)}} \\
 
 Uma forma graduada dos resíduos de Schoenfeld é representada por:
 
@@ -703,7 +703,7 @@ Em que $i(\beta)$ é a informação e $d$ é o número de falhas observadas.\\
 
 \section{Análise exploratória}
 
-A análise exploratória a seguir é referente ao banco de dados obtido com parceria da 5ª vara da justiça federal no dia 02/12/2019 e consta inicialmente com 220.363 (duzentos e vinte mil trezentos e sessenta e três) observações separadas em duas classificações distintas, sendo estas Processual e Pje. Dessa maneira, foram selecionadas apenas as classificações Pje que contabilizaram 78.260 (setenta e oito mil duzentos e sessenta) termos plausíveis de uso para averiguação da qualidades das medidas estatísticas efetuadas e dos ajustes aos modelos propostos sequentemente.\\
+A análise exploratória a seguir é referente ao banco de dados obtido com parceria da 5ª vara da justiça federal no dia 02/12/2019 e consta inicialmente com 220.363 (duzentos e vinte mil trezentos e sessenta e três) observações separadas em duas classificações distintas, sendo estas Processual e Pje. Dessa maneira, foram selecionadas apenas as classificações Pje que contabilizaram 78.260 (setenta e oito mil duzentos e sessenta) termos plausíveis de uso para averiguação da qualidade das medidas estatísticas efetuadas e dos ajustes aos modelos propostos sequentemente.\\
 
 Inicialmente na análise dos dados, foram observadas as frequências das classes processuais para saber como funcionaram as demandas da instituição entre os anos de 2014 a 2019. Observações com contagens inferiores a 50 unidades sofreram ajustes de nomenclatura para "Outros"~afim de reduzir a poluição gráfica e otimizar a compreensão dos resultados propostos.\\ 
 
@@ -714,9 +714,9 @@ Inicialmente na análise dos dados, foram observadas as frequências das classes
 			\end{center}
 		\end{figure}
 
-Na \textbf{Figura \ref{Figura4}} obtém-se um grande destaque nas classes processuais compostas por Causas Supervenientes à Sentença e Contratos Bancários, sendo estes dois equivalentes a 3.747 (três mil setecentos e quarenta e sete) casos distintos, ou  seja, aproximadamente $33\%$ entre todos os processos analisados pela instituição. No entanto, mesmo realizando a soma do segundo e terceiro maior número contablizado de casos ainda não se supera os $34\%$ referentes a nomeclatura "outros"~presentes no gráfico, informando assim que a maior participação da 5ª vara da justiça fereral é referente a pequenas classes de processos que necessitaram de julgamentos da instituição ao longo dos últimos 5 anos mas que não obtiveram retornos frequentes.\\
+Na \textbf{Figura \ref{Figura4}} obtém-se um grande destaque nas classes processuais compostas por Causas Supervenientes à Sentença e Contratos Bancários, sendo estes dois equivalentes a 3.747 (três mil setecentos e quarenta e sete) casos distintos, ou seja, aproximadamente $33\%$ entre todos os processos analisados pela instituição. No entanto, mesmo realizando a soma do segundo e terceiro maior número contabilizado de casos ainda não se supera os $34\%$ referentes a nomenclatura "outros"~presentes no gráfico, informando assim que a maior participação da 5ª vara da justiça federal é referente a pequenas classes de processos que necessitaram de julgamentos da instituição ao longo dos últimos 5 anos, mas que não obtiveram retornos frequentes.\\
 
-Para uma visualização percentual mais limpa e composta por um menor número de variáveis, maior alocação de classes processuais na nomenclatura "Outros", gerou-se o gráfico presente na \textbf{Figura \ref{Figura51}}. Sendo este composto pelas variáveis Causas supervenientes à sentença (24.2$\%$), Contratos bancários (8.9$\%$), Energia elétrica (1.9$\%$), Gratificação de incentivo (2.4$\%$), Gratificação de Atividades (2$\%$), Indenização por dano moral (1.8$\%$), Inscrição/Documentação (1.6$\%$), IRPF/ Imposto de renda de pessoa física  (1.6$\%$) e Outros (55.7$\%$) respectivamente.\\
+Para uma visualização percentual mais limpa e composta por um menor número de variáveis, maior alocação de classes processuais na nomenclatura "Outros", gerou-se o gráfico presente na \textbf{Figura \ref{Figura51}}. Sendo este composto pelas variáveis Causas supervenientes à sentença (24.2$\%$), Contratos bancários (8.9$\%$), Energia elétrica (1.9$\%$), Gratificação de incentivo (2.4$\%$), Gratificação de Atividades (2$\%$), Indenização por dano moral (1.8$\%$), Inscrição/Documentação (1.6$\%$), IRPF/ Imposto de renda de pessoa física (1.6$\%$) e Outros (55.7$\%$) respectivamente.\\
 
 
 	\begin{figure}[htb!]
@@ -748,7 +748,7 @@ Após as informações obtidas pelos gráficos nas \textbf{Figuras \ref{Figura4}
 \end{landscape}
 \end{rotatepage}
 
-Com base nos valores obtidos para a \textbf{Figura \ref{Figura5}} observa-se uma baixa frequência entre as classes processuais para os anos de 2017 e 2018, possuindo um aumento significativo na classificação Pje apenas no ano de 2019. O destaque númerico apresentado no gráfico se deu de forma mais considerável entre as variáveis "Causas Supervinientes à Senteça"~e "Contratos Bancários",  apresentando-se assim entre os anos de 2017 e 2019 os respectivos valores de 877, 792, 1073, 110, 257 e 493 termos distintos observados.\\
+Com base nos valores obtidos para a \textbf{Figura \ref{Figura5}} observa-se uma baixa frequência entre as classes processuais para os anos de 2017 e 2018, possuindo um aumento significativo na classificação Pje apenas no ano de 2019. O destaque numérico apresentado no gráfico se deu de forma mais considerável entre as variáveis "Causas Supervenientes à Sentença"~e "Contratos Bancários", apresentando-se assim entre os anos de 2017 e 2019 os respectivos valores de 877, 792, 1073, 110, 257 e 493 termos distintos observados.\\
 
 Para uma melhor visualização dos resultados apresentados anteriormente na \textbf{Figura \ref{Figura5}}, foram elaborados três gráficos de setores distintos para melhor informar sobre a frequência observada dos processos considerados mais relevantes dentre os três anos, os plots encontram-se presentes nas \textbf{Figura \ref{Figura6},~\ref{Figura7}} e \textbf{\ref{Figura8}}. 
 
@@ -761,12 +761,14 @@ Para uma melhor visualização dos resultados apresentados anteriormente na \tex
 			\end{center}
 		\end{figure}
 
-Dessa maneira, consta-se que no ano de 2017 assim como observado na \textbf{Figura \ref{Figura4}}, a prevalência de frequência das observações eram obtidas nas classes processuais "Causas Supervenientes à Sentença"~(27.2$\%$)~e "Contratos Bancários"~(8.9$\%$), no entanto, em 2017 segundo a \textbf{Figura \ref{Figura6}} o percentual de frenquência de ambas as classes eram consideralvemente maior que as presentes na \textbf{Figura \ref{Figura4}}, contabilzando cerca de $53\%$ do valor total presente. No ano subsequente de 2018, já considera-se uma maior abrangência na variedade do número de frequências existentes para as diversas classes processuais, embora tenha-se permanecido a prevalência dos mesmos grupos de categorias descritas para o ano anterior, contudo ocorre uma redução significativa do percentual existente na soma de ambas para $34.7\%$.
+Dessa maneira, consta-se que no ano de 2017 assim como observado na \textbf{Figura \ref{Figura4}}, a prevalência de frequência das observações eram obtidas nas classes processuais "Causas Supervenientes à Sentença"~(27.2$\%$)~e "Contratos Bancários"~(8.9$\%$), no entanto, em 2017 segundo a \textbf{Figura \ref{Figura6}} o percentual de frequência de ambas as classes eram consideravelmente maior que as presentes na \textbf{Figura \ref{Figura4}}, contabilizando cerca de $53\%$ do valor total presente.\\
+
+No ano subsequente de 2018, já se considera uma maior abrangência na variedade do número de frequências existentes para as diversas classes processuais, embora se tenha permanecido a prevalência dos mesmos grupos de categorias descritas para o ano anterior, contudo ocorre uma redução significativa do percentual existente na soma de ambas para $34.7\%$.
 
 	\begin{figure}[htb!]
 	\caption{\it Percentual de frequência das classes processuais no ano de 2018}
 	\label{Figura7}
-			\begin{center}	\includegraphics[width=12.5cm]{Figuras/imagem19.png}
+			\begin{center}	\includegraphics[width=11.5cm]{Figuras/imagem19.png}
 			\end{center}
 		\end{figure}
 
@@ -775,11 +777,11 @@ Para finalizar com o ano de 2019, a \textbf{Figura \ref{Figura8}} apresenta uma 
 	\begin{figure}[htb!]
 	\caption{\it Percentual de frequência das classes processuais no ano de 2019}
 	\label{Figura8}
-			\begin{center}	\includegraphics[width=12.5cm]{Figuras/imagem20.png}
+			\begin{center}	\includegraphics[width=11.5cm]{Figuras/imagem20.png}
 			\end{center}
 		\end{figure}
 
-Voltando-se para a análise do funcionamento das etapas realizadas pela instituição em cada um dos processos efetuados, considerou-se duas maneiras distintas de avaliação dos resultados. Primeiramente, evidenciou-se a frequência de dados não censurados existentes para cada uma das etapas com o objetivo de mostrar o número de vezes que estes estágios foram concluídos dentre as diversas classes processuais \textbf{Figura \ref{Figura11}} e posteriormente o número de frequências censuradas no banco, ou seja, o número de vezes que as diversas fases ainda se encontram com status aberto até o dia 02/12/2019 para as distintas classes de pleitos, \textbf{Figura \ref{Figura9}}.\\
+Voltando-se para a análise do funcionamento das etapas realizadas pela instituição em cada um dos processos efetuados, considerou-se duas maneiras distintas de avaliação dos resultados. Primeiramente, evidenciou-se a frequência de dados não censurados existentes para cada uma das etapas, com o objetivo de mostrar o número de vezes que estes estágios foram concluídos dentre as diversas classes processuais \textbf{Figura \ref{Figura11}} e posteriormente o número de frequências censuradas no banco, ou seja, o número de vezes que as diversas fases ainda se encontram com status aberto até o dia 02/12/2019 para as distintas classes de pleitos, \textbf{Figura \ref{Figura9}}.\\
 
 	\begin{figure}[htb!]
 	\caption{\it Frequência de censuras nas etapas processuais}
@@ -790,11 +792,11 @@ Voltando-se para a análise do funcionamento das etapas realizadas pela institui
 
 \subparagraph{}
 
-Dessa maneira pode-se dizer que as etapas de "Decurso de prazo"~(1277 observações)~e "Petição"~(1226 termos)~sozinhas equivalem a 2.503 (duas mil quinhentas e três) frequências de estágios com status ainda em aberto até o dia de coleta das informações, ou seja, são essas as duas principais etapas onde a maior parte dos processos da instituição se encontram estagnados.\\
+Dessa maneira pode-se dizer que as etapas de "Decurso de prazo"~(1277 observações)~e "Petição"~(1226 termos)~sozinhas equivalem a 2.503 (duas mil quinhentas e três) frequências de estágios com status ainda em aberto até o dia de coleta das informações, ou seja, são essas às duas principais etapas onde a maior parte dos processos da instituição se encontram estagnados.\\
 
-Levando-se em consideração apenas as classes de pleitos que possuiram uma maior influência entre os processos nos anos de 2017 a 2019, observa-se que os dois termos de maior relevância na \textbf{Figura \ref{Figura9}} em ordem crescente apresentam respectivamente os valores percentuais de $36.5\%$ e $38\%$ em relação ao banco como um todo.\\
+Levando-se em consideração apenas as classes de pleitos que possuíram uma maior influência entre os processos nos anos de 2014 a 2019, observa-se que os dois termos de maior relevância na \textbf{Figura \ref{Figura9}} em ordem crescente apresentam respectivamente os valores percentuais de $36.5\%$ e $38\%$ em relação ao banco como um todo.\\
 
-Assim como realizada nas medidas descritivas anteriores, foi elaborado um gráfico de setores,\textbf{Figura \ref{Figura10}}, para auxiliar na análise do percentual de censuras em relação as etapas processuais com número de frequências mais relevantes dentre os valores observados no gráfico acima, \textbf{Figura \ref{Figura9}}.
+Assim como realizada nas medidas descritivas anteriores, foi elaborado um gráfico de setores, \textbf{Figura \ref{Figura10}}. Este que serve para auxiliar na análise do percentual de censuras em relação às etapas processuais com número de frequências relevantes dentre os valores observados no gráfico acima, \textbf{Figura \ref{Figura9}}.
 
 	\begin{figure}[htb!]
 	\caption{\it Percentual da frequência de censuras por etapa}
@@ -803,7 +805,7 @@ Assim como realizada nas medidas descritivas anteriores, foi elaborado um gráfi
 			\end{center}
 		\end{figure}
 
-Já em relação ao números de frequências das etapas não censuradas, \textbf{Figura \ref{Figura11}}, destaca-se uma maior ocorrência em ordem crescente das etapas em  "Petição"~e "Remessa"~com respectivamente 1.860 e 2.383 casos distintos. Dessa maneira, vale ressaltar que sozinhas essas duas atividades foram responsáveis por 4.243 (quatro mil duzentas e vinte e três) observações dentre os 8.078 (oito mil e setenta e oito) casos, representando cerca de $52.52\%$ do valor total referenciado pelo sistema.
+Já em relação à frequências de etapas não censuradas, \textbf{Figura \ref{Figura11}}, destaca-se uma maior ocorrência em ordem crescente das etapas em  "Petição"~e "Remessa"~com respectivamente 1.860 e 2.383 casos distintos. Dessa maneira, vale ressaltar que sozinhas essas duas atividades foram responsáveis por 4.243 (quatro mil duzentas e vinte e três) observações dentre os 8.078 (oito mil e setenta e oito) casos, representando cerca de $52.52\%$ do valor total referenciado pelo sistema.
 
 	\begin{figure}[htb!]
 	\caption{\it Frequência de observações não censuradas por etapa}
@@ -813,7 +815,7 @@ Já em relação ao números de frequências das etapas não censuradas, \textbf
 		\end{figure}
 
 
-Para poder ter uma melhor representação da influência de cada uma das etapas não censuradas em relação ao volume total do banco, foi efetuado o gráfico presente na \textbf{Figura \ref{Figura12}}, sendo este uma maneira de evidenciar de forma mais clara a prevalência das etapas acima citadas.\\
+Para ter uma melhor representação da influência de cada uma das etapas não censuradas em relação ao volume total do banco, foi efetuado o gráfico presente na \textbf{Figura \ref{Figura12}}, sendo este uma maneira de evidenciar de forma mais clara a prevalência das etapas acima citadas.\\
 
 Valores menos influentes foram adicionados a nomenclatura "Outros"~com o intuito de melhorar a visualização gráfica.
 
@@ -827,9 +829,9 @@ Valores menos influentes foram adicionados a nomenclatura "Outros"~com o intuito
 
 \subparagraph{}
 
-Com o intuito de compreender a evolução das classes processuais em relação ao tempo, foi efetuado o gráfico de Box-plot na \textbf{Figura \ref{Figura13}} para evidenciar os valores outliers da distribuição. Além disso, salienta-se as posições aproximadas do primeiro quartil, média, mediana e terceiro quartil de cada uma das variáveis presentes nas classes processuais.\\
+Com o intuito de compreender a evolução das classes processuais em relação ao tempo, foi efetuado o gráfico de Box-plot, \textbf{Figura \ref{Figura13}}, que evidencia os valores outliers da distribuição. Além disso, salientam-se as posições aproximadas do primeiro quartil, média, mediana e terceiro quartil de cada uma das variáveis presentes nas classes processuais.\\
 
-Assim, de maneira meramente visual ao se considerar apenas a \textbf{Figura \ref{Figura13}}, é possivel considerar que os valores mais elevados das médias em relação ao tempo em dias se encontram nas variáveis "Outros", "Gratificação de incentivo", "Contratos Bancários"~e "Causas Supervenientes à Sentença". Já considerando-se a amplitude interquartílica dos dados com o intúito de descrever uma possivel desaglomeração de valores na duração das classes processuais analisadas, destacam-se as variáveis "Transportes terrestres", "Reintegração","Convênio"~e "Outros". Enquanto em contra partida, os valores mais agloremarados estão em "Benefício Assistencial (Art. 203,V CF/88)"~e "Assitência Social". \\
+Assim, de maneira meramente visual ao se considerar apenas a \textbf{Figura \ref{Figura13}}, é possível acatar que os valores mais elevados das médias em relação ao tempo em dias se encontram nas variáveis "Outros", "Gratificação de incentivo", "Contratos Bancários"~e "Causas Supervenientes à Sentença". Já se considerando a amplitude interquartílica dos dados com o intuito de descrever uma possível desaglomeração de valores na duração das classes processuais analisadas, destacam-se as variáveis "Transportes terrestres", "Reintegração","Convênio"~e "Outros". Enquanto em contrapartida, os valores mais aglomerados estão em "Benefício Assistencial (Art. 203,V CF/88)"~e "Assistência Social". \\
 
 Na \textbf{Tabela 1} abaixo encontram-se descritas todas as medidas descritivas utilizadas para elaboração do gráfico de Boxplot referente as classes processuais, \textbf{Figura \ref{Figura13}}.
 
@@ -929,8 +931,6 @@ Observa-se na \textbf{Figura \ref{Figura14}} que a função se inicia num determ
 
 Já a função da taxa de risco acumulada presente na \textbf{Figura \ref{Figura15}} mostra a proporção de processos no todo que inicialmente encontram-se com status em aberto ou que não sofreram ainda o evento de interesse. Dessa maneira, este vem a sofrer o evento de interesse, arquivamento, em algum momento durante um período de tempo definido.\\
 
-Vale lembrar que como qualquer incidência acumulada, este não tem unidade de tempo. 
-
 	\begin{figure}[htb!]
 	\caption{\it Função de sobrevivência}
 	\label{Figura14}
@@ -938,7 +938,7 @@ Vale lembrar que como qualquer incidência acumulada, este não tem unidade de t
 			\end{center}
 		\end{figure}
 
-Com base nos valores observados no gráfico de sobrevivência, observa-se um rápido decaimento das probabilidades dos pletios permanecerem em aberto ao longo do tempo. Dessa maneira, com cerca de $50\%$ do período de duração médio dos processos em dias, os pleitos já apresentam aproximadamente $15\%$ de probabilidade. Já com $81\%$ do tempo, essa probabilidade cai para cerca de $0\%$.
+Com base nos valores obtidos no gráfico de sobrevivência, observa-se um rápido decaimento das probabilidades dos pleitos permanecerem em aberto ao longo do tempo. Dessa maneira, com cerca de $50\%$ do período de duração médio dos processos em dias, os pleitos já apresentam aproximadamente $15\%$ de probabilidade. Já com $81\%$ do tempo, essa probabilidade cai para cerca de $0\%$.
 
 \subparagraph{}
 \subparagraph{}
@@ -952,9 +952,9 @@ Com base nos valores observados no gráfico de sobrevivência, observa-se um rá
 
 Já em relação ao gráfico da Função taxa de risco acumulada, observa-se que com $50\%$ do período de duração médio dos processos em dias, existe uma probabilidade de falha na conclusão do pleito antes da ocorrência de seu arquivamento de aproximadamente $87\%$. Já com $84\%$ do tempo, esse percentual sobe para quase $100\%$.\\
 
-Abaixo nas \textbf{Figuras \ref{Figura16}} e \textbf{\ref{Figura17}} foram efetuados os cálculos dos modelos paramétricos de falhas aceleradas \textbf{(AFT)}, este que leva em consideração a existencia de tempos de sobrevivência desacelerados ou acelerados por um fator que é constante quando comparado a diferentes leveis de covariáveis.\\
+Abaixo nas \textbf{Figuras \ref{Figura16}} e \textbf{\ref{Figura17}} foram efetuados os cálculos dos modelos paramétricos de falhas aceleradas \textbf{(AFT)}, este que leva em consideração a existência de tempos de sobrevivência desacelerados ou acelerados por um fator que é constante quando comparado a diferentes leveis de covariáveis.\\
 
-Utilizando-se do ajuste \textbf{AFT} por meio do comando Survreg, realizou-se a adequação do modelo de regressão a 4 (quatro) distribuições distintas de interesse (Weibull, Exponencial, Log-logistica e Log-normal) representados no gráfico presente na \textbf{Figura \ref{Figura16}}. Dessa maneira, considerou-se a abrangência da aplicabildiade dos modelos acima citados para elaboração dos 4 (quatro) modelos paramétricos descritos abaixo: 
+Utilizando-se do ajuste \textbf{AFT} por meio do comando Survreg, realizou-se a adequação do modelo de regressão a 4 (quatro) distribuições distintas de interesse (Weibull, Exponencial, Log-logistica e Log-normal) representados no gráfico presente na \textbf{Figura \ref{Figura16}}. Dessa maneira, considerou-se a abrangência da aplicabilidade dos modelos acima citados para elaboração dos 4 (quatro) modelos paramétricos descritos abaixo: 
 
 \begin{itemize}
 
@@ -983,7 +983,7 @@ Utilizando-se do ajuste \textbf{AFT} por meio do comando Survreg, realizou-se a 
 \end{landscape}
 \end{rotatepage}
 
-Observando os resultados obtidos pela \textbf{Figura \ref{Figura16}}, selecionou-se o modelo 2 como melhor opção de ajsute aos dados apresentados, já que este possui uma maior aproximação de enquadramento em relação aos valores evidenciados pela função de sobrevivência em todas as distribuições.\\
+Observando os resultados obtidos pela \textbf{Figura \ref{Figura16}}, selecionou-se o modelo 2 como melhor opção de ajuste aos dados apresentados, já que este possui uma maior aproximação de enquadramento em relação aos valores evidenciados pela função de sobrevivência em todas as distribuições.\\
 
 Posteriormente utilizando-se do intuito de gerar uma visualização mais robusta para selecionar quais distribuições dentre o modelo selecionado utilizam de um melhor ajuste, plotou-se o gráfico presente na \textbf{Figura \ref{Figura17}}. Este que em conjunto com a \textbf{Tabela 2} evidenciam a distribuição Exponencial como aquela que se destaca num melhor ajuste de resultados obtidos para esse conjunto de dados em estudo.\\
 
@@ -1014,7 +1014,7 @@ Posteriormente utilizando-se do intuito de gerar uma visualização mais robusta
 
 \subparagraph{}
 
-O motivo pelo qual selecionou-se a distribuição de probabilidade exponencial visualizada na \textbf{Figuras \ref{Figura17}} foi respectivo a análise visual e devido o resultado obtido pela razão de verossimilhança, esta que consiste na razão entre o logaritmo da verossimilhança de um modelo mais simples (que se deseja testar) e outro mais generalizado. Uma vez que esta razão segue uma distribuição qui-quadrada, pode-se ter seu p-valor calculado pela distribuição considerando o número de graus de liberdade como a diferença do número de parâmetros.
+O motivo pelo qual se selecionou a distribuição de probabilidade exponencial visualizada na \textbf{Figuras \ref{Figura17}} foi respectiva a análise visual e devido o resultado obtido pela razão de verossimilhança, esta que consiste na razão entre o logaritmo da verossimilhança de um modelo mais simples (que se deseja testar) e outro mais generalizado. Uma vez que esta razão segue uma distribuição qui-quadrada, pode-se ter seu p-valor calculado pela distribuição considerando o número de graus de liberdade como a diferença do número de parâmetros.
 
 \begin{equation}
 TRV = 2.log\Big( \frac{L(\theta)_{simples}}{L(\theta)_{generalizado}}\Big)
@@ -1022,9 +1022,9 @@ TRV = 2.log\Big( \frac{L(\theta)_{simples}}{L(\theta)_{generalizado}}\Big)
 
 \subparagraph{}
 
-Dessa maneira, com base nos valores presentes nas \textbf{Tabelas 3, 4, 5} e \textbf{6} observa-se que os modelos de distribuições em Weibull, Log-Logistica e Log-Normal realmente não teriam resultados significativos de P-value que comprovassem um ajuste adequado ao dados, ou seja, assim como mencionado anteriormente o ajuste realizado com a distribuição exponencial é aquele que melhor se adequa ao conjunto de dados existente.\\
+Dessa maneira, com base nos valores presentes nas \textbf{Tabelas 3, 4, 5} e \textbf{6} observa-se que os modelos de distribuições em Weibull, Log-Logistica e Log-Normal realmente não teriam resultados significativos de P-value que comprovassem um ajuste adequado aos dados, ou seja, assim como mencionado anteriormente o ajuste realizado com a distribuição exponencial é aquele que melhor se adequa ao conjunto de dados existente.\\
 
-Complementarmente as informações inseridas anteriormente, considera-se na \textbf{Tabela 2} que se o valor do parâmetro de modelagem \textbf{P} é proporcional ao parâmetro de escala, então define-se que as possíveis mudanças no \textit{hazard ratio (HR)} ao longo do tempo são emitidas em três possíveis interpretações de valores apresentadas abaixo com suas respecivas interpretações:
+Complementarmente as informações inseridas anteriormente, considera-se na \textbf{Tabela 2} que se o valor do parâmetro de modelagem \textbf{P} é proporcional ao parâmetro de escala, então define-se que as possíveis mudanças no \textit{hazard ratio (HR)} ao longo do tempo são emitidas em três possíveis interpretações de valores apresentadas abaixo com suas respectivas interpretações:
 
 
 \begin{itemize}
@@ -1261,15 +1261,15 @@ Assim, utilizando-se como base os resultados obtidos na \textbf{Tabela 2}, obser
 
 \subsection{Análise do sistema}
 
-O sistema foi desenvolvido por meio do software R com auxílio de pacotes, tanto destaque principalmente para o Shiny \footnote{\\ Shiny é um pacote R que facilita a criação de aplicativos interativos via Web. Você pode hospedar aplicativos independentes em uma página online ou incorporá-los aos documentos do R Markdown ou criar painéis interativos via Browser. Também é possivel obter uma extensão de seus aplicativos com temas CSS, widgets html e ações JavaScript.} e ShinyDashboard, que possibilitaram a modelagem da página Web em um layout de Bootstrap que fosse simples e agradável ao usuário final do produto.\\
+O sistema foi desenvolvido por meio do software R com auxílio de pacotes, tanto destaque principalmente para o Shiny \footnote{\\ Shiny é um pacote R que facilita a criação de aplicativos interativos via Web. Você pode hospedar aplicativos independentes em uma página online ou incorporá-los aos documentos do R Markdown ou criar painéis interativos via Browser. Também é possível obter uma extensão de seus aplicativos com temas CSS, widgets html e ações JavaScript.} e ShinyDashboard, que possibilitaram a modelagem da página Web em um layout de Bootstrap que fosse simples e agradável ao usuário final do produto.\\
 
-A página de acesso representada pela \textbf{Figura \ref{Figura18}} possibilita a descrição da aba de login de usuário (User Id), sendo esta existente devido uma necessidade de segurança com os dados públicos presentes no sistema e a possibilidade dos advogados e/ou usuários da instituição realizarem atualizações e adições de novos pleitos ao banco de dados. Também foram adicionados 3 (três) ícones ao topo da tela que servem para encaminhar o usuário para sites externos previamente selecionados e para advertir sobre novas atualizações ou informações a respeito da instituição.\\
+A página de acesso representada pela \textbf{Figura \ref{Figura18}} possibilita a descrição da aba de login de usuário (User Id), sendo este existente devido uma necessidade de segurança com os dados públicos presentes no sistema e a possibilidade dos advogados e/ou usuários da instituição realizarem atualizações e adições de novos pleitos ao banco de dados. Também foram adicionados 3 (três) ícones ao topo da tela que servem para encaminhar o usuário para sites externos previamente selecionados e para advertir sobre novas atualizações ou informações a respeito da instituição.\\
 
-Após a inserção do login e senha para liberação de acesso ao sistema, ocorre a possibilidade de do usuário usufruir de 10 diferentes abas alocadas no canto superior esquerdo do Browser. A primeira opção representada pela \textbf{Figura \ref{Figura19}} disponibiliza uma visualização dos prazos pré definidos pela instituição para elaboração de cada uma das atividades processuais, segundo cada setor interno. Dessa maneira, o usuário pode manter-se atento ao tempo sobressalente ou faltante para conclusão de sua etapa atualmente administrada ao processo. Também é possivel ainda na mesma aba por meio de filtros, a seleção dos meses, anos e classes processuais de interesse para análises descritivas dos números de pleitos com classificação aberta ou fechada, número de categorias dentre os status, com alocação de valores em Ok, Alerta, Atrasado, que possuem relação com as classes processuais fixadas anteriormente. Além disso, existem gráfcos de bolhas e setores que são referentes ao controle de tempo para determinadas etapas processuais e descrições do percentual de tempo demandado pela instituição para conclusão dos processos elaborados, respectivamente. \\
+Após a inserção do login e senha para liberação de acesso ao sistema, ocorre a possibilidade do usuário usufruir de 10 diferentes abas alocadas no canto superior esquerdo do Browser. A primeira opção representada pela \textbf{Figura \ref{Figura19}} disponibiliza uma visualização dos prazos pré definidos pela instituição para elaboração de cada uma das atividades processuais, segundo cada setor interno. Dessa maneira, o usuário pode manter-se atento ao tempo sobressalente ou faltante para conclusão de sua etapa atualmente administrada ao processo. Também é possível ainda na mesma aba por meio de filtros, a seleção dos meses, anos e classes processuais de interesse para análises descritivas dos números de pleitos com classificação aberta ou fechada, número de categorias dentre os status, com alocação de valores em Ok, Alerta, Atrasado, que possuem relação com as classes processuais fixadas anteriormente. Além disso, existem gráficos de bolhas e setores que são referentes ao controle de tempo para determinadas etapas processuais e descrições do percentual de tempo demandado pela instituição para conclusão dos processos elaborados, respectivamente. \\
 
-Na segunda opção de menu, Manual de Uso, visualizada na \textbf{Figura \ref{Figura20}} é disponibilizada uma descrição prévia sobre as funcionalidades do sistema como um todo, além de possuir uma análise sobre a aplicabilidade existente em cada uma das dez abas presentes modelo. Também é evidenciando nesse menu uma interpreteabilidade de todos os gráficos apresentados no sistema, ou seja, é descrito como interpretar e analisar as saídas dos plots, sendo que estes foram expostos na localidade inferior da página web. Com relação aos gráficos que foram referenciados acima, é possivel uma visualização completa destes por meio de auxílio do pacote \textit{Ploty} que possibilita uma interação em tempo real com os valores expostos no gráfico, além da permitir um conjunto de funcionalidades extras que beneficiariam numa comparação direta e eficiente entre valores apresentados nas variáveis, além disso também é possível a realização de um download simples e prático para armazanamento dos gráficos caso seja de interesse do usuário. \\
+Na segunda opção de menu, Manual de Uso, visualizada na \textbf{Figura \ref{Figura20}} é disponibilizada uma descrição prévia sobre as funcionalidades do sistema como um todo, além de possuir uma análise sobre a aplicabilidade existente em cada uma das dez abas presentes no modelo. Também é evidenciando nesse menu uma interpretabilidade de todos os gráficos apresentados no sistema, ou seja, é descrito como interpretar e analisar as saídas dos plots, sendo que estes foram expostos na localidade inferior da página web. Com relação aos gráficos que foram referenciados acima, é possível uma visualização completa destes por meio de auxílio do pacote \textit{Ploty} que possibilita uma interação em tempo real com os valores expostos no gráfico, além da permitir um conjunto de funcionalidades extras que beneficiariam numa comparação direta e eficiente entre valores apresentados nas variáveis, além disso, também é possível a realização de um download simples e prático para armazenamento dos gráficos caso seja de interesse do usuário. \\
 
-A \textbf{Figura \ref{Figura21}}, Quadro Resumo, serve para ilustrar o Dashboard desenvolvido e utilizadao de maneira dinâmica para referenciar o controle geral de todos os processos finalizados ou em andamento presentes na instituição ate o atual momento. Inicialmente no topo da página, existem infoboxes capazes de informar as medidas quantitativas dos pleitos segundo suas classificações ou status, posteriormente ainda na mesma aba, foram plotados dois gráficos para salientar um maior detalhamento das informações referentes a cada  classe processual já existente no banco, vale ressaltar, que a informação presente no quarto gráfico, gráfico de setores, possui como intuito destacar quais classes de pleitos estão gerando uma maior demanda de tempo em dias da instituição.
+A \textbf{Figura \ref{Figura21}}, Quadro Resumo, serve para ilustrar o Dashboard desenvolvido e utilizado de maneira dinâmica para referenciar o controle geral de todos os processos finalizados ou em andamento presente na instituição ate o atual momento. Inicialmente no topo da página, existem infoboxes capazes de informar as medidas quantitativas dos pleitos segundo suas classificações ou status, posteriormente ainda na mesma aba, foram plotados dois gráficos para salientar um maior detalhamento das informações referentes a cada  classe processual já existente no banco, vale ressaltar, que a informação presente no quarto gráfico, gráfico de setores, possui como intuito destacar quais classes de pleitos estão gerando uma maior demanda de tempo em dias da instituição.
 
 \newenvironment{rotatepage}%
     {\clearpage\pagebreak[4]\global\pdfpageattr\expandafter{\the\pdfpageattr/Rotate 90}}%
@@ -1313,7 +1313,7 @@ A \textbf{Figura \ref{Figura21}}, Quadro Resumo, serve para ilustrar o Dashboard
     \centering
     \subfloat{{\includegraphics[scale=0.27]{Figuras/imagem61.png} }}%
     \qquad
-    \subfloat{{\includegraphics[scale=0.30]{Figuras/imagem62.png} }}%
+    \subfloat{{\includegraphics[scale=0.35]{Figuras/imagem62.png} }}%
     \caption{Tela referente ao Manual de uso}%
     \label{Figura20}
 \end{figure}
@@ -1335,13 +1335,13 @@ A \textbf{Figura \ref{Figura21}}, Quadro Resumo, serve para ilustrar o Dashboard
 \end{landscape}
 \end{rotatepage}
 
-O quarto menu da página Web, \textbf{Figura \ref{Figura22}}, utiliza uma estrutura de tabela dinâmica para evidenciar uma visualização das relações entre as diferenças de valores em dias já decorridos dos pleitos e os prazos de duração dos mesmos, ou seja, o sistema calcula de maneira automatizada o tempo faltante ou excedente para a realização das atividades nas etapas de interesse, caso estas ainda não estejam com seus status concluídos. De maneira geral, a aba referenciada serve para englobar e expor os períodos em dias ja decorridos ou faltantes de todos os processos presentes no banco de dados e viabilizar a possibilidade do usuário ter acesso de maneira direta aos dados por meio de impressão (\textbf{Figura \ref{Figura23}}), cópia de observações que foram enquadradas no layout da página na tabela (existe a possibilidade de seleção do número de observações que se deseja dispor para cada página) ou download via CSV, EXCEL ou PDF.\\
+O quarto menu da página Web, \textbf{Figura \ref{Figura22}}, utiliza uma estrutura de tabela dinâmica para evidenciar uma visualização das relações entre as diferenças de valores em dias já decorridos dos pleitos e os prazos de duração dos mesmos, ou seja, o sistema calcula de maneira automatizada o tempo faltante ou excedente para a realização das atividades nas etapas de interesse, caso estas ainda não estejam com seus status concluídos. De maneira geral, a aba referenciada serve para englobar e expor os períodos em dias já decorridos ou faltantes de todos os processos presentes no banco de dados e viabilizar a possibilidade de o usuário ter acesso de maneira direta aos dados por meio de impressão (\textbf{Figura \ref{Figura23}}), cópia de observações que foram enquadradas no layout da página na tabela (existe a possibilidade de seleção do número de observações que se deseja dispor para cada página) ou download via CSV, EXCEL ou PDF.\\
 
-Vale ressaltar que as opções de obtenção dos dados citadas no parágrafo anterior também estão presentes em todas as tabelas subsequentes do sistema, ou seja, encontram-se disponíveis nas abas número cinco, seis, sete e oito.\\
+Vale ressaltar que as opções de obtenção dos dados citados no parágrafo anterior também estão presentes em todas as tabelas subsequentes do sistema, ou seja, encontram-se disponíveis nas abas número cinco, seis, sete e oito.\\
 
-Na \textbf{Figura \ref{Figura24}}, Seleção dos Prazos, o usuário tem a possibilidade de adentrar com os novos prazos referentes as novas etapas que serão cumpridas pela instituição de maneira automática (apenas explicitando  número do processo e apelido do pleito) ou selecionar de maneira manual os valores desejados utilizando-se de um input em scroll lateral que se referencia aos períodos de duração a serem seguidos em algumas ou em várias diferentes etapas do processo. Caso o utilizador do sistema necessite efetuar algumas mudanças em relação aos prazos selecionados anteriormente, também é possível a utilização da aba número 6, \textbf{Figura \ref{Figura25}}, para esta ação, ou seja, adição de etapas e mudanças de valores / períodos são realizadas de maneira simples e direta por meio do próprio usuário em relação a página web.\\
+Na \textbf{Figura \ref{Figura24}}, Seleção dos Prazos, o usuário tem a possibilidade de adentrar com os novos prazos referentes as novas etapas que serão cumpridas pela instituição de maneira automática (apenas explicitando  número do processo e apelido do pleito) ou selecionar de maneira manual os valores desejados utilizando-se de um input em scroll lateral que se referencia aos períodos de duração a serem seguidos em algumas ou em várias diferentes etapas do processo. Caso o utilizador do sistema necessite efetuar algumas mudanças em relação aos prazos selecionados anteriormente, também é possível a utilização da aba número 6, \textbf{Figura \ref{Figura25}}, para esta ação, ou seja, adição de etapas e mudanças de valores / períodos são realizadas de maneira simples e direta por meio do próprio usuário em relação à página web.\\
 
-Posteriormente à adição dos prazos é necessário ao usuário a imputação dos dados brutos de cada um dos processos referenciados, destacando-se assim apenas a carência de seleção dos períodos de início de cada uma das etapas presentes no processo, \textbf{Figura \ref{Figura26}}, ou seja, o usuário não necessita memorizar datas de etapas anteriores para efetuar o cadastramento do processo ao sistema. Dessa maneira, serão disponibilizados aos utilizadores inputs em formatos de calendários, Scrolls e textos para escrita e seleção das informações básicas para manipulação, análises e descrição dos pleitos. Assim como ocorrido anteriormente com a \textbf{Figura \ref{Figura25}}, foi implementado uma aba, \textbf{Figura \ref{Figura27}}, capaz de realizar atualizações de dados para etapas anteriores a atual ou mudanças nas datas de etapas futuras, já que essas por default adimitem a alocação de valores zero.
+Posteriormente à adição dos prazos, é necessário ao usuário a imputação dos dados brutos de cada um dos processos referenciados, destacando-se assim apenas a carência de seleção dos períodos de início de cada uma das etapas presentes no processo, \textbf{Figura \ref{Figura26}}, ou seja, o usuário não necessita memorizar datas de etapas anteriores para efetuar o cadastramento do processo ao sistema. Dessa maneira, serão disponibilizados aos utilizadores inputs em formatos de calendários, Scrolls e textos para escrita e seleção das informações básicas para manipulação, análises e descrição dos pleitos. Assim como ocorrido anteriormente com a \textbf{Figura \ref{Figura25}}, foi implementado uma aba, \textbf{Figura \ref{Figura27}}, capaz de realizar atualizações de dados para etapas anteriores a atual ou mudanças nas datas de etapas futuras, já que essas por default admitem a alocação de valores zero.
 
 
 
@@ -1432,9 +1432,11 @@ Posteriormente à adição dos prazos é necessário ao usuário a imputação d
 
 Na \textbf{Figura \ref{Figura28}}, Dashboard, é possível o usuário do sistema selecionar por meio de filtros os meses a serem analisados, os anos de interesse, a classificação do pleito e a classe processual que para si possui relevância, podendo-se assim obter as medidas estatísticas que estão disponíveis na área da análise de sobrevivência e que para o estudo são úteis. Dessa maneira, inicialmente logo no topo da página, são evidenciadas medidas descritivas como: número de processos existentes, função de sobrevivência, taxa de risco acumulada, taxa de risco, tempo médio de sobrevivência e a vida média residual para todos os processos selecionados pelos filtros existentes na lateral esquerda do browser. Vale ressaltar que os infoboxes apresentados são dinâmicos em cores e desenhos para assim oferecer uma simplicidade maior na compreensão dos valores expostos.\\
 
-Posteriormente ainda na figura acima referenciada, são gerados os gráficos para as análises das funções de sobrevivência e risco acumulado ao longo do tempo. Ressaltando-se a importância visual do primeiro gráfico (Função de Sobrevivência) devido a necessidade de averiguar os pré-requisitos existentes no modelo de Cox relacionados a existência de sobresalência entre as linhas dos três status processuais representados no plot.  Além disso, também são realizados dois gráfico adicionais, sendo eles: gráfico de barras horizontais referente ao prazo médio em dias para execução de cada uma das atividades internas da instituição e o gráfico de setores que evidencia o tempo médio utilizado por cada área interna da 5ª vara da justiça federal para realização dos trabalhos, possibilitando assim, uma visão geral de quais setores necessitam de apoio técnico ou melhoria na produtividade.\\
+Posteriormente ainda na figura acima referenciada, são gerados os gráficos para as análises das funções de sobrevivência e risco acumulado ao longo do tempo. Ressaltando-se a importância visual do primeiro gráfico (Função de Sobrevivência) devido à necessidade de averiguar os pré-requisitos existentes no modelo de Cox relacionados a existência de sobressaliência entre as linhas dos três status processuais representados no plot.  Além disso, também são realizados dois gráficos adicionais, sendo eles: gráfico de barras horizontais referente ao prazo médio em dias para execução de cada uma das atividades internas da instituição e o gráfico de setores que evidencia o tempo médio utilizado por cada área interna da 5ª vara da justiça federal para realização dos trabalhos, possibilitando assim, uma visão geral de quais setores necessitam de apoio técnico ou melhoria na produtividade.\\
 
-A última aba da página Web, \textbf{Figura \ref{Figura29}}, é composta por dois testes estatísticos voltados a área de análise de sobrevivência, sendo estes utilizados para verificar a qualidade do ajuste da função de sobrevivência ao modelo proposto em estudo (\textbf{Surv(Tempo de vida, Grupo de censura) $_{\tilde{}}$ etapa processual}), ou seja, o modelo apresentado leva em consideração a presença de interceptos em cada uma das etapas processuais presentes no banco). Dessa maneira utilizou-se dos resíduos de Cox-Snell, representado por um gráfico de pontos, para tentar se ajustar a uma reta caso este indica-se uma ótima qualidade de modelagem dos dados ao modelo proposto, ou caso contrário, ocorreria uma dispersão de pontos. Já o segundo teste é referente aos resíduos de Schoenfield, que também por meio de um plot, serve para evidenciar a qualidade de ajuste. Caso o modelo de Schoenfield não apresente nenhuma tendência de linearidade (H0:~$\rho = 0$), admite-se uma boa qualidade na adequação dos dados ao modelo proposto na função de sobrevivência.
+A última aba da página Web, \textbf{Figura \ref{Figura29}}, é composta por dois testes estatísticos voltados para a área de análise de sobrevivência, sendo estes utilizados para verificar a qualidade do ajuste da função de sobrevivência ao modelo proposto em estudo (\textbf{Surv(Tempo de vida, Grupo de censura) $_{\tilde{}}$ etapa processual}), ou seja, o modelo apresentado leva em consideração a presença de interceptos em cada uma das etapas processuais presentes no banco.\\
+
+Dessa maneira utilizou-se dos resíduos de Cox-Snell, representado por um gráfico de pontos, para tentar medir a qualidade da modelagem proposta. Assim, caso o plot se ajuste a uma reta, este indicaria uma ótima qualidade de modelagem dos dados, ou caso contrário, ocorreria uma dispersão de pontos. Já o segundo teste referenciado aos resíduos de Schoenfield, que também é representado por meio de um plot, serve para evidenciar a qualidade de ajuste. Caso o modelo de Schoenfield não apresente nenhuma tendência de linearidade (H0:~$\rho = 0$), admite-se uma boa qualidade na adequação dos dados ao modelo proposto na função de sobrevivência.
 
 % Imagem número 13
 
@@ -1467,13 +1469,13 @@ A última aba da página Web, \textbf{Figura \ref{Figura29}}, é composta por do
 
 \section{Conclusão}
 
-O trabalho acima desenvolvido  foi realizado com o intuito de otimizar o controle interno dos processos elaborados pela instituição, sendo este gerado por meio da parceria entre o departamento de estatística e a 5ª vara da justiça federal. Dessa maneira, observou-se um avanço técnico relacionado a capacidade de visualização e análise em tempo real já que anteriormente essas atividades eram realizadas de maneira manual por um servidor que adentrava com os pleitos de interesse numa planilha em excel e o atualizavam diariamente.\\
+O trabalho acima desenvolvido foi realizado com o intuito de otimizar o controle interno dos processos elaborados pela instituição, sendo estes obtidos por meio da parceria entre o departamento de estatística e a 5ª vara da justiça federal. Dessa maneira, observou-se um avanço técnico relacionado a capacidade de visualização e análise em tempo real quando comparado ao antigo modelo de análise existente na instituição (escrita e atualização manual de pleitos por meio de planilhas em excel).\\
 
-O sistema desenvolvido foi programado utilizando-se o software R com auxílio de alguns pacotes, destacando-se as bibliotecas Shiny e ShinyDashboard, que permitiram a realização de uma página web interativa que possui-se separações simples de layout em Bootstrap e que fosse capaz de auxiliar numa compreensão direta advinda do usuário na hora de selecionar as abas de interesse. Dessa maneira, estruturou-se dez abas que possuisem funcionalidades distintas (análises exploratórias do banco em tempo real, descrição das informações, visualização dos dados e análise de pré-requisitos estatísticos) para assim poder englobar todas as necessidades apresentadas em reuniões pelos membros da instituição. Mas caso ocorra necessidades futuras de uma manipulação diferente dos dados, também existe a possibilidade de obtenção do banco por meio de download pelas abas internas.\\
+O sistema desenvolvido foi programado utilizando-se o software R com auxílio de alguns pacotes, destacando-se as bibliotecas Shiny e ShinyDashboard, que permitiram a realização de uma página web interativa que possuí-se separações simples de layout em Bootstrap com capacidade de auxiliar diretamente o usuário na hora de selecionar as abas de interesse. Dessa maneira, estruturou-se dez abas que possuíssem funcionalidades distintas (análises exploratórias do banco, descrição das informações, visualização dos dados e análise de pré-requisitos estatísticos) para assim poder englobar todas as necessidades apresentadas em reuniões pelos membros da instituição. Mas caso ocorra necessidades futuras de uma manipulação diferente dos dados, também existe a possibilidade de obtenção do banco por meio de download pelas abas internas.\\
 
-Complementarmente as atividades voltadas a análise de sobrevivência desenvolvida na página Web, também foi elaborado um estudo aprofundado nessas mesmas métricas com base nos dados presentes na classificação Pje para os anos de 2014 a 2019, tendo estes evidênciado que processos que possuíram tempo de duração superior ou igual a seiscentos  e vinte e cinco dias apontam probabilidade de conclusão antes do arquivamento quase nula, já em contra partida de maneira complementar, o gráfico da Taxa de falha acumulada apresenta chance de falha quase de $100\%$ após o mesmo período. Além disso, vale ressaltar que grande parte das classes processuais analisadas pela \textbf{Figura \ref{Figura26}} sofreram a ação de interesse antes de trezentos dias.\\
+Complementarmente as atividades voltadas a análise de sobrevivência desenvolvida na página Web, também foi elaborado um estudo aprofundado nessas mesmas métricas com base nos dados presentes na classificação Pje para os anos de 2014 a 2019. Tendo estes evidenciado que processos que possuíram tempo de duração superior ou igual a seiscentos  e vinte e cinco dias apontam probabilidade de conclusão antes do arquivamento quase nulo, já em contrapartida, por meio do gráfico da Taxa de falha acumulada obtém-se chance de falha quase de $100\%$ após o mesmo período. Além disso, vale ressaltar que grande parte das classes processuais analisadas pela \textbf{Figura \ref{Figura26}} sofreram a ação de interesse antes de trezentos dias.\\
 
-Como medida para melhorar a compreensão sobre a distribuição e comportamento dos dados, também foi realizada uma regressão paramétrica do modelo para selecionar se o melhor ajuste é referente a distribuição Exponencial, Weibull, Log-Logistica ou Log-Normal. Dessa maneira, considerando-se os resultados apresentados na \textbf{Figura \ref{Figura17}} e \textbf{Tabela 2} que evidencia-se que o ajuste Exponencial enquadra-se melhor para o conjunto de dados analisados com parceria da 5ª Vara da Justiça Federal, o que já seria esperado já que as variáveis em análise utilizadas na função de sobrevivência e regressão se caracterizam num modelo de contagens de dias.
+Como medida para melhorar a compreensão sobre a distribuição e comportamento dos dados, também foi realizada uma regressão paramétrica do modelo para selecionar se o melhor ajuste é referente a distribuição Exponencial, Weibull, Log-Logistica ou Log-Normal. Dessa maneira, considerando-se os resultados apresentados na \textbf{Figura \ref{Figura17}} e \textbf{Tabela 2} evidencia-se que o ajuste Exponencial enquadra-se melhor para o conjunto de dados analisados com parceria da 5ª Vara da Justiça Federal, o que já seria esperado já que as variáveis utilizadas em análise na função de sobrevivência e regressão se caracterizam num modelo de contagens.
 
 \subparagraph{}
 \subparagraph{}
@@ -1575,6 +1577,12 @@ Como medida para melhorar a compreensão sobre a distribuição e comportamento 
 \end{flushleft}
 
 \begin{flushleft} \normalsize{PACHECO ET AL.; ANTONIO ET AL., APRENDENDO R, ESCOLA NACIONAL DE SAÚDE PÚBLICA - FIOCRUZ, RIO DE JANEIRO, 2014.} \\
+\end{flushleft}
+
+\begin{flushleft} \normalsize{NAKANO, E. Y. UM CURSO DE ANÁLISE DE SOBREVIVÊNCIA. BRASÍLIA: UNIVERSIDADE DE BRASILIA, 2018.} \\
+\end{flushleft}
+
+\begin{flushleft} \normalsize{GIOLO, S. R. MODELOS DE RISCOS PROPORCIONAIS. PARANÁ: UNIVERSIDADE FEDERAL DO PARANÁ, 2018.} \\
 \end{flushleft}
 
 \end{document}

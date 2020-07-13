@@ -5,11 +5,12 @@
 login_details <- data.frame(user = c("sam", "pam", "ron"),     # Logins e Senhas para acesso
                             pswd = c("123", "123", "123"))
 login <- box(
-  title = "Login",
+  title = "Login",height = 270,
   textInput("userName", "Username"),
   passwordInput("passwd", "Password"),    # Estruturando a caixa de login que fica na página principal
   br(),
-  actionButton("Login", "Log in")
+  actionButton("Login", "Log in"),
+  div(class="topimg",img(src = "https://raw.githubusercontent.com/FernandoCesar12/TCC/master/Slogan/UNB_JF2.png", height = 420, width = 500, align = "right")) # Adicionando a foto da logo na pagina de login
 )
 
 # Entrando com o server
@@ -50,8 +51,9 @@ shinyServer(function(input, output, session){
       div(
         sidebarUserPanel(
           isolate(input$userName),
-          subtitle = a(icon("usr"), "Logout", href = login.page)
-        ),
+          subtitle = a("Logout", href = login.page),
+          image = "https://image.flaticon.com/icons/svg/892/892781.svg"), #Serve para adicionar a foto do usuário
+        
         sidebarMenu(
           
           # É necessário que parte da interface pessoal (SidebarMenu) esteja no server já que ele vai ser ocultado enquanto
@@ -1624,29 +1626,19 @@ shinyServer(function(input, output, session){
     
     output$histogramManual4 <- renderPlotly({ ########################## Imagem 4 - Manual de Uso
       
-      supp <- c("OJ","OJ","OJ","VC","VC","VC","VC")
-      dose <- c(0.5,0.5,0.5,1,1,1,2)
-      len <- c(15,10,22,10,31,25,10)
-      sd <- c(3,2,2,5,4,5,5)
-      df3 <- data.frame(supp,dose,len,sd)
-      df3$supp <- as.character(df3$supp)
-      
-      for (i in 1:nrow(df3)) {
-        if(df3$supp[i]=="OJ"){df3$supp[i] = "Encerrado"} else{df3$supp[i] = "Aberto"}
-      }
-      
-      for (i in 1:nrow(df3)) {
-        if(df3$dose[i]==0.5){df3$dose[i] = "Processo 1"} else if(df3$dose[i]==1){df3$dose[i] = "Processo 2"} else{df3$dose[i] = "Processo 3"}
-      }
-      
-      df5 <- df2
+      df3 <- data.frame(supp=c("Encerrado","Encerrado","Encerrado","Aberto","Aberto","Aberto"), 
+                        dose= c("Processo 1","Proceso 2","Proceso 3","Processo 1","Proceso 2","Proceso 3"),
+                        len=c(15.23,21.70,14.06,4.98,21.77,28.14),sd=c(7.459709,1.910953,
+                                                                       5.655058,2.746634,
+                                                                       4.515309,6.797731))
+    
       sf22 <- df3
-      sf33 <- df5
+      sf33 <- df2
       names(sf22) <- c("Status", "dose", "Data de uma Ação de interesse Y", "Tempo de vida")
       names(sf33) <- c("Status", "dose", "Data de uma Ação de interesse Y", "Tempo de vida")
       
       df4 <- rbind(sf22,sf33)
-      df4$`Data de uma Ação de interesse Y`[13] <- 20
+      df4$`Data de uma Ação de interesse Y`[12] <- 20
       
       names(df4)[names(df4) == "Tempo de vida"] <- "Duracao"
       names(df4)[names(df4) == "dose"] <- "Nº_Processo"
@@ -1665,9 +1657,6 @@ shinyServer(function(input, output, session){
     
     output$histogramManual3 <- renderPlotly({ ########################## Imagem 3 - Manual de Uso
       
-      # make some data
-      df <- ToothGrowth
-      df$dose <- as.factor(df$dose)
       data_summary <- function(data, varname, groupnames){
         require(plyr)
         summary_func <- function(x, col){
@@ -1680,20 +1669,16 @@ shinyServer(function(input, output, session){
         return(data_sum)
       }
       
-      df2 <- data_summary(ToothGrowth, varname="len",
-                          groupnames=c("supp", "dose"))
-      
-      df2$supp <- as.character(df2$supp)
-      
-      for (i in 1:nrow(df2)) {
-        if(df2$supp[i]=="OJ"){df2$supp[i] = "Encerrado"} else{df2$supp[i] = "Aberto"}
-      }
-      
-      for (i in 1:nrow(df2)) {
-        if(df2$dose[i]==0.5){df2$dose[i] = "Processo 1"} else if(df2$dose[i]==1){df2$dose[i] = "Processo 2"} else{df2$dose[i] = "Processo 3"}
-      }
-      
+      df2 <- data.frame(supp=c("Encerrado","Encerrado","Encerrado","Aberto","Aberto","Aberto"), 
+                        dose= c("Processo 1","Proceso 2","Proceso 3","Processo 1","Proceso 2","Proceso 3"),
+                        len=c(13.23,22.70,26.06,7.98,16.77,26.14),sd=c(4.459709,3.910953,
+                                                                       2.655058,2.746634,
+                                                                       2.515309,4.797731))
+
+      df2$dose=as.factor(df2$dose)
+    
       names(df2) <- c("Status", "Nº_Processo", "Frequencia", "Tempo de vida")
+      
       # Convert dose to a factor variable
       df2$Nº_Processo=as.factor(df2$Nº_Processo)
       
