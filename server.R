@@ -475,6 +475,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Despacho para notificação do Requerido'",
                      dateInput('Entrada8',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Despacho para notificação do Requerido'",
+                     dateInput('Saida8',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -483,6 +492,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Expedição de notificação'",
                      dateInput('Entrada9',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Expedição de notificação'",
+                     dateInput('Saida9',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -491,6 +508,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Cumprimento da notificação'",
                      dateInput('Entrada10',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Cumprimento da notificação'",
+                     dateInput('Saida10',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -499,14 +524,31 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Oferecimento de manifestação por escrito'",
                      dateInput('Entrada11',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Oferecimento de manifestação por escrito'",
+                     dateInput('Saida11',
                                label = 'Data do termino',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Decisão rejeição da ação ou recebimento pet. inicial'",
+                     dateInput('Entrada12',
+                               label = 'Data de inicio',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
                    
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Decisão rejeição da ação ou recebimento pet. inicial'",
-                     dateInput('Entrada12',
+                     dateInput('Saida12',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -515,6 +557,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Expedição de intimação e/ou citação'",
                      dateInput('Entrada13',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Expedição de intimação e/ou citação'",
+                     dateInput('Saida13',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -523,14 +573,31 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Cumprimento da intimação e/ou citação'",
                      dateInput('Entrada14',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Cumprimento da intimação e/ou citação'",
+                     dateInput('Saida14',
                                label = 'Data do termino',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Contestação e/ou agravo de instrumento'",
+                     dateInput('Entrada15',
+                               label = 'Data de inicio',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
                    
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Contestação e/ou agravo de instrumento'",
-                     dateInput('Entrada15',
+                     dateInput('Saida15',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -539,6 +606,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Ato ordinatório (Réplica)'",
                      dateInput('Entrada16',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Ato ordinatório (Réplica)'",
+                     dateInput('Saida16',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -547,6 +622,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Expedição de intimação'",
                      dateInput('Entrada17',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Expedição de intimação'",
+                     dateInput('Saida17',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -555,6 +638,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Cumprimento da intimação'",
                      dateInput('Entrada18',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Cumprimento da intimação'",
+                     dateInput('Saida18',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -563,6 +654,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Réplica'",
                      dateInput('Entrada19',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Réplica'",
+                     dateInput('Saida19',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -571,6 +670,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Ato ordinatório (Provas)'",
                      dateInput('Entrada20',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Ato ordinatório (Provas)'",
+                     dateInput('Saida20',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -579,6 +686,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Expedição de intimação (Requerente)'",
                      dateInput('Entrada21',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Expedição de intimação (Requerente)'",
+                     dateInput('Saida21',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -587,6 +702,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Cumprimento  da intimação'",
                      dateInput('Entrada22',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Cumprimento  da intimação'",
+                     dateInput('Saida22',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -595,6 +718,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Provas'",
                      dateInput('Entrada23',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Provas'",
+                     dateInput('Saida23',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -603,20 +734,46 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Expedição de intimação (Requerido)'",
                      dateInput('Entrada24',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Expedição de intimação (Requerido)'",
+                     dateInput('Saida24',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
+                   
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Cumprimento da intimação 1'",
                      dateInput('Entrada25',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Cumprimento da intimação 1'",
+                     dateInput('Saida25',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
+                   
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Provas 1'",
                      dateInput('Entrada26',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Provas 1'",
+                     dateInput('Saida26',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -625,13 +782,30 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Decisão saneamento'",
                      dateInput('Entrada27',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Decisão saneamento'",
+                     dateInput('Saida27',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
+                   
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Expedição de intimação (Requerente) 1'",
                      dateInput('Entrada28',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Expedição de intimação (Requerente) 1'",
+                     dateInput('Saida28',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -639,6 +813,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Cumprimento da intimação 2'",
                      dateInput('Entrada29',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Cumprimento da intimação 2'",
+                     dateInput('Saida29',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -647,13 +829,30 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Pedido de esclarecimento ou solicitação de ajustes'",
                      dateInput('Entrada30',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Pedido de esclarecimento ou solicitação de ajustes'",
+                     dateInput('Saida30',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
+                   
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Expedição de intimação (Requerido) 1'",
                      dateInput('Entrada31',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Expedição de intimação (Requerido) 1'",
+                     dateInput('Saida31',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -661,6 +860,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Cumprimento da intimação 3'",
                      dateInput('Entrada32',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Cumprimento da intimação 3'",
+                     dateInput('Saida32',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -669,13 +876,29 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Pedido de esclarecimento ou solicitação de ajustes 1'",
                      dateInput('Entrada33',
-                               label = 'Data do termino',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Pedido de esclarecimento ou solicitação de ajustes 1'",
+                     dateInput('Saida33',
+                               label = 'Data de inicio',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Prova pericial'",
                      dateInput('Entrada34',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Prova pericial'",
+                     dateInput('Saida34',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -683,6 +906,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Prova oral (audiência de instrução e julgamento)'",
                      dateInput('Entrada35',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Prova oral (audiência de instrução e julgamento)'",
+                     dateInput('Saida35',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -691,6 +922,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Ato ordinário (Alegações finais)'",
                      dateInput('Entrada36',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Ato ordinário (Alegações finais)'",
+                     dateInput('Saida36',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -698,6 +937,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Expedição de intimação (Requerente) 2'",
                      dateInput('Entrada37',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Expedição de intimação (Requerente) 2'",
+                     dateInput('Saida37',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -705,6 +952,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Cumprimento da intimação 4'",
                      dateInput('Entrada38',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Cumprimento da intimação 4'",
+                     dateInput('Saida38',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -712,6 +967,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Alegações finais'",
                      dateInput('Entrada39',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Alegações finais'",
+                     dateInput('Saida39',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -720,6 +983,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Expedição de intimação (Requerido) 2'",
                      dateInput('Entrada40',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Expedição de intimação (Requerido) 2'",
+                     dateInput('Saida40',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -727,6 +998,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Cumprimento da intimação 5'",
                      dateInput('Entrada41',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Cumprimento da intimação 5'",
+                     dateInput('Saida41',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -734,6 +1013,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Alegações finais 1'",
                      dateInput('Entrada42',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Alegações finais 1'",
+                     dateInput('Saida42',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -741,6 +1028,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Recebimento e conclusão do processo'",
                      dateInput('Entrada43',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Recebimento e conclusão do processo'",
+                     dateInput('Saida43',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -748,6 +1043,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entrada6 == 'Sentença'",
                      dateInput('Entrada44',
+                               label = 'Data de inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entrada6 == 'Sentença'",
+                     dateInput('Saida44',
                                label = 'Data do termino',
                                value = Sys.Date(),
                                language = "pt-BR"
@@ -777,7 +1080,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Recebimento, triagem e conclusão do processo'",
                      dateInput('Entradas6',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Recebimento, triagem e conclusão do processo'",
+                     dateInput('Saidas6',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -785,7 +1096,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Despacho para notificação do Requerido'",
                      dateInput('Entradas8',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Despacho para notificação do Requerido'",
+                     dateInput('Saidas8',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -801,7 +1120,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Cumprimento da notificação'",
                      dateInput('Entradas12',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Cumprimento da notificação'",
+                     dateInput('Saidas12',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -809,7 +1136,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Oferecimento de manifestação por escrito'",
                      dateInput('Entradas14',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Oferecimento de manifestação por escrito'",
+                     dateInput('Saidas14',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -817,7 +1152,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Decisão rejeição da ação ou recebimento pet. inicial'",
                      dateInput('Entradas16',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Decisão rejeição da ação ou recebimento pet. inicial'",
+                     dateInput('Saidas16',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -825,7 +1168,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Expedição de intimação e/ou citação'",
                      dateInput('Entradas18',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Expedição de intimação e/ou citação'",
+                     dateInput('Saidas18',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -833,7 +1184,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Cumprimento da intimação e/ou citação'",
                      dateInput('Entradas20',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Cumprimento da intimação e/ou citação'",
+                     dateInput('Saidas20',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -841,7 +1200,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Contestação e/ou agravo de instrumento'",
                      dateInput('Entradas22',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Contestação e/ou agravo de instrumento'",
+                     dateInput('Saidas22',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -849,7 +1216,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Ato ordinatório (Réplica)'",
                      dateInput('Entradas24',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Ato ordinatório (Réplica)'",
+                     dateInput('Saidas24',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -857,7 +1232,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Expedição de intimação'",
                      dateInput('Entradas26',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Expedição de intimação'",
+                     dateInput('Saidas26',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -873,7 +1256,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Réplica'",
                      dateInput('Entradas30',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Réplica'",
+                     dateInput('Saidas30',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -881,7 +1271,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Ato ordinatório (Provas)'",
                      dateInput('Entradas32',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Ato ordinatório (Provas)'",
+                     dateInput('Entradas32',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -889,7 +1287,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Expedição de intimação (Requerente)'",
                      dateInput('Entradas34',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Expedição de intimação (Requerente)'",
+                     dateInput('Saidas34',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -897,7 +1303,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Cumprimento  da intimação'",
                      dateInput('Entradas36',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Cumprimento  da intimação'",
+                     dateInput('Saidas36',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -905,7 +1319,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Provas'",
                      dateInput('Entradas38',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Provas'",
+                     dateInput('Saidas38',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -913,7 +1335,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Expedição de intimação (Requerido)'",
                      dateInput('Entradas40',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Expedição de intimação (Requerido)'",
+                     dateInput('Saidas40',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -921,7 +1351,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Cumprimento da intimação 1'",
                      dateInput('Entradas42',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Cumprimento da intimação 1'",
+                     dateInput('Saidas42',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -929,7 +1367,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Provas 1'",
                      dateInput('Entradas44',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Provas 1'",
+                     dateInput('Saidas44',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -937,7 +1383,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Decisão saneamento'",
                      dateInput('Entradas46',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Decisão saneamento'",
+                     dateInput('Saidas46',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -945,7 +1399,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Expedição de intimação (Requerente) 1'",
                      dateInput('Entradas48',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Expedição de intimação (Requerente) 1'",
+                     dateInput('Saidas48',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -953,15 +1415,30 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Cumprimento da intimação 2'",
                      dateInput('Entradas50',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Cumprimento da intimação 2'",
+                     dateInput('Saidas50',
+                               label = 'Data de Termino',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Pedido de esclarecimento ou solicitação de ajustes'",
+                     dateInput('Entradas52',
+                               label = 'Data de Inicio',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
                    
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Pedido de esclarecimento ou solicitação de ajustes'",
-                     dateInput('Entradas52',
-                               label = 'Data de Fim',
+                     dateInput('Saidas52',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -977,7 +1454,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Cumprimento da intimação 3'",
                      dateInput('Entradas56',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Cumprimento da intimação 3'",
+                     dateInput('Saidas56',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -985,7 +1470,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Pedido de esclarecimento ou solicitação de ajustes 1'",
                      dateInput('Entradas58',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Pedido de esclarecimento ou solicitação de ajustes 1'",
+                     dateInput('Entradas58',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -993,7 +1486,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Prova pericial'",
                      dateInput('Entradas60',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Prova pericial'",
+                     dateInput('Saidas60',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1001,7 +1502,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Prova oral (audiência de instrução e julgamento)'",
                      dateInput('Entradas62',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Prova oral (audiência de instrução e julgamento)'",
+                     dateInput('Saidas62',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1009,7 +1518,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Ato ordinário (Alegações finais)'",
                      dateInput('Entradas64',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Ato ordinário (Alegações finais)'",
+                     dateInput('Saidas64',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1017,7 +1534,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Expedição de intimação (Requerente) 2'",
                      dateInput('Entradas66',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Expedição de intimação (Requerente) 2'",
+                     dateInput('Saidas66',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1025,7 +1550,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Cumprimento da intimação 4'",
                      dateInput('Entradas68',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Cumprimento da intimação 4'",
+                     dateInput('Saidas68',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1033,7 +1566,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Alegações finais'",
                      dateInput('Entradas70',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Alegações finais'",
+                     dateInput('Saidas70',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1041,7 +1582,14 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Expedição de intimação (Requerido) 2'",
                      dateInput('Entradas72',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Expedição de intimação (Requerido) 2'",
+                     dateInput('Saidas72',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1049,7 +1597,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Cumprimento da intimação 5'",
                      dateInput('Entradas74',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Cumprimento da intimação 5'",
+                     dateInput('Saidas74',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1057,7 +1613,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Alegações finais 1'",
                      dateInput('Entradas76',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Alegações finais 1'",
+                     dateInput('Saidas76',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1065,7 +1629,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Recebimento e conclusão do processo'",
                      dateInput('Entradas78',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Recebimento e conclusão do processo'",
+                     dateInput('Saidas78',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1073,7 +1645,15 @@ shinyServer(function(input, output, session){
                    conditionalPanel(
                      condition = "input.Entradas4 == 'Sentença'",
                      dateInput('Entradas80',
-                               label = 'Data de Fim',
+                               label = 'Data de Inicio',
+                               value = Sys.Date(),
+                               language = "pt-BR"
+                     )),
+                   
+                   conditionalPanel(
+                     condition = "input.Entradas4 == 'Sentença'",
+                     dateInput('Saidas80',
+                               label = 'Data de Termino',
                                value = Sys.Date(),
                                language = "pt-BR"
                      )),
@@ -1123,13 +1703,13 @@ shinyServer(function(input, output, session){
   observe({  # Representa o primeiro critério de atualização do banco de dados (no total são 3)
     # Nesse momento o servidor será reiniciado a cada 20.000 milésimos ou 20 segundos para que os dados de criação e atualização sejam atualizados na aba de visualização e os gráficos fiquem sempre atualizados também
     
-    invalidateLater(300000, session) # Código para reiniciar
+    invalidateLater(40000, session) # Código para reiniciar
     
     ######################### Entrando com os bancos de dados para criação #################################
     
     #dados <<- read_excel("D:\\Base.xlsx", sheet=1, col_names=TRUE)
     dadosP <<- read_excel("D:\\Base.xlsx", sheet=2, col_names=TRUE)
-    Date <<- read_excel("D:\\Base.xlsx", sheet=3, col_names=TRUE)
+    Date <- read_excel("D:\\Base.xlsx", sheet=3, col_names=TRUE)
     
     #save(dados,file="dados")
     save(dadosP,file="dadosP")
@@ -1301,12 +1881,13 @@ shinyServer(function(input, output, session){
     
     # Foi removido o processo mais antigo e substituido pelo processo mais novo 
     
-    linhas_tabela_limpeza_Prazos <- grep(AtuaP$Apelido, dadosP$Apelido, fixed=TRUE)
+    linhas_tabela_limpeza_Prazos <- grep(AtuaP$`Nº Processo`, dadosP$`Nº Processo`, fixed=TRUE)
     
-    if(length(linhas_tabela_limpeza_Prazos) != 0){
-      dadosP <- dadosP[-c(linhas_tabela_limpeza_Prazos[1:(length(linhas_tabela_limpeza_Prazos)-1)]),]
+    if(length(linhas_tabela_limpeza_Prazos) > 1){
+      dadosP <- dadosP[-linhas_tabela_limpeza_Prazos[1],]
     }
     
+    dadosP <<- rbind(dadosP,AtuaP)
     
     ######################## Juntando os Prazos já atualizados com o Banco de dados ##########################
     
@@ -1325,6 +1906,7 @@ shinyServer(function(input, output, session){
                        "Recebimento e conclusão do processo","Sentença")
     
     dadosPrazo <- merge(dados,dadosP, by="Nº Processo")
+    dadosPrazo <- dadosPrazo[,-c(45)]
     
     # O loop abaixo foi para realizar a análise dos Status dos processos e colocar as denominações "OK", "Atrasado" e "Alerta"
     
@@ -1336,8 +1918,8 @@ shinyServer(function(input, output, session){
       
       if(length(locali) != 0 & length(locali) > 1){
         
-        if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] == 0 & dadosPrazo[i,locali[2]] == 0 & 
-           dadosPrazo[i,locali[2]+1] == 0 & dadosPrazo[i,locali[2]-1] < dadosPrazo[i,locali[2]+38]*0.80){ dadosPrazo[i,4] = "Ok"}
+        if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] == 0 & dadosPrazo[i,8] == 0 & 
+           dadosPrazo[i,9] == 0 & dadosPrazo[i,10]){ dadosPrazo[i,4] = "Ok"}
       }
       
       else{dadosPrazo[i,4] = dadosPrazo[i,4]}
@@ -1348,16 +1930,17 @@ shinyServer(function(input, output, session){
       locali <- grep("^0",dadosPrazo[i,1:44])
       
       if(length(locali) != 0 & length(locali) > 1){
-        
-        if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] != 0 & dadosPrazo[i,locali[1]] == 0 & 
-           dadosPrazo[i,locali[1]+1] == 0 & dadosPrazo[i,locali[1]-1] < dadosPrazo[i,locali[1]+38]*0.80){dadosPrazo[i,4] = "Ok"}
-      }
+        if(locali[1] != 7){
+          if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] != 0 & dadosPrazo[i,locali[1]] == 0 & 
+             dadosPrazo[i,locali[1]+1] == 0 & dadosPrazo[i,locali[1]-1] < dadosPrazo[i,locali[1]+38]*0.80){dadosPrazo[i,4] = "Ok"}
+        }}
+      
       else{dadosPrazo[i,4] = dadosPrazo[i,4]}
     }
     
     for (i in 1:nrow(dadosPrazo)) { # Para colocar o Status de "OK" no ultimo termo (Sentença)
       
-      if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,44] != 0 & dadosPrazo[i,44] < dadosPrazo[i,44+39]*0.80){ dadosPrazo[i,4] = "Ok"}
+      if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,44] != 0 & dadosPrazo[i,44] < dadosPrazo[i,44+38]*0.80){ dadosPrazo[i,4] = "Ok"}
       
     }
     
@@ -1369,8 +1952,8 @@ shinyServer(function(input, output, session){
       
       if(length(locali) != 0 & length(locali) > 1){
         
-        if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] == 0 & dadosPrazo[i,locali[2]] == 0 & 
-           dadosPrazo[i,locali[2]+1] == 0 & dadosPrazo[i,locali[2]-1] >= dadosPrazo[i,locali[2]+38]*0.80 & dadosPrazo[i,locali[2]-1] <= dadosPrazo[i,locali[2]+38]
+        if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] != 0 & dadosPrazo[i,8] == 0 & 
+           dadosPrazo[i,9] == 0 & dadosPrazo[i,10]==0 & dadosPrazo[i,7]*0.80 >= dadosPrazo[i,46] & dadosPrazo[i,7] < dadosPrazo[i,46]
         ){ dadosPrazo[i,4] = "Alerta"}}
       
       else{dadosPrazo[i,4] = dadosPrazo[i,4]}
@@ -1382,16 +1965,17 @@ shinyServer(function(input, output, session){
       
       if(length(locali) != 0 & length(locali) > 1){
         
-        if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] != 0 & dadosPrazo[i,locali[1]] == 0 & 
-           dadosPrazo[i,locali[1]+1] == 0 & dadosPrazo[i,locali[1]-1] >= dadosPrazo[i,locali[1]+38]*0.80 & dadosPrazo[i,locali[1]-1] <= dadosPrazo[i,locali[1]+38]
-        ){ dadosPrazo[i,4] = "Alerta"}}
+        if(locali[1] != 7){
+          if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] != 0 & dadosPrazo[i,locali[1]] == 0 & 
+             dadosPrazo[i,locali[1]+1] == 0 & dadosPrazo[i,locali[1]-1] >= dadosPrazo[i,locali[1]+38]*0.80 & dadosPrazo[i,locali[1]-1] <= dadosPrazo[i,locali[1]+38]
+          ){ dadosPrazo[i,4] = "Alerta"}}}
       
       else{dadosPrazo[i,4] = dadosPrazo[i,4]}
     }
     
     for (i in 1:nrow(dadosPrazo)) { # Para colocar o Status de "Alerta" no ultimo termo (Sentença)
       
-      if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,44] != 0 & dadosPrazo[i,44] >= dadosPrazo[i,44+39]*0.80 & dadosPrazo[i,44] <= dadosPrazo[i,44+39])
+      if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,44] != 0 & dadosPrazo[i,44] >= dadosPrazo[i,44+38]*0.80 & dadosPrazo[i,44] <= dadosPrazo[i,44+38])
       { dadosPrazo[i,4] = "Alerta"}
       
     }
@@ -1404,9 +1988,9 @@ shinyServer(function(input, output, session){
       
       if(length(locali) != 0 & length(locali) > 1){
         
-        if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] == 0 & dadosPrazo[i,locali[2]] == 0 & 
-           dadosPrazo[i,locali[2]+1] == 0 & dadosPrazo[i,locali[2]-1] > dadosPrazo[i,locali[2]+38]){ dadosPrazo[i,4] = "Atrasado"}
-      }
+        if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] != 0 & dadosPrazo[i,8] == 0 & 
+           dadosPrazo[i,9] == 0 & dadosPrazo[i,10]==0 & dadosPrazo[i,7] >= dadosPrazo[i,46]
+        ){ dadosPrazo[i,4] = "Atrasado"}}
       
       else{dadosPrazo[i,4] = dadosPrazo[i,4]}
     }
@@ -1416,17 +2000,17 @@ shinyServer(function(input, output, session){
       locali <- grep("^0",dadosPrazo[i,1:44])
       
       if(length(locali) != 0 & length(locali) > 1){
-        
-        if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] != 0 & dadosPrazo[i,locali[1]] == 0 & 
-           dadosPrazo[i,locali[1]+1] == 0 & dadosPrazo[i,locali[1]-1] > dadosPrazo[i,locali[1]+38]){ dadosPrazo[i,4] = "Atrasado"}
-      } 
+        if(locali[1] != 7){
+          if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,7] != 0 & dadosPrazo[i,locali[1]] == 0 & 
+             dadosPrazo[i,locali[1]+1] == 0 & dadosPrazo[i,locali[1]-1] > dadosPrazo[i,locali[1]+38]){ dadosPrazo[i,4] = "Atrasado"}
+        }}
       
       else{dadosPrazo[i,4] = dadosPrazo[i,4]}
     }
     
     for (i in 1:nrow(dadosPrazo)) { # Para colocar o Status de "Atrasado" no ultimo termo (Sentença)
       
-      if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,44] != 0 & dadosPrazo[i,44] > dadosPrazo[i,44+39]){ dadosPrazo[i,4] = "Atrasado"}
+      if(dadosPrazo[i,3] == "Aberto" & dadosPrazo[i,44] != 0 & dadosPrazo[i,44] > dadosPrazo[i,44+38]){ dadosPrazo[i,4] = "Atrasado"}
       
     }
     
@@ -1509,7 +2093,7 @@ shinyServer(function(input, output, session){
     
     # Juntando as bases de datas atualizadas com o banco de tempos decorridos pelo processo
     
-    dadosData <<- merge(dados,Date, by="Nº Processo")
+    dadosData <- merge(dados,Date, by="Nº Processo")
     
     # Foram realizados loops para descobrir em qual periodo de tempo foi realizado a última movimentação no processo
     
@@ -1626,12 +2210,18 @@ shinyServer(function(input, output, session){
     
     output$histogramManual4 <- renderPlotly({ ########################## Imagem 4 - Manual de Uso
       
+      df2 <- data.frame(supp=c("Encerrado","Encerrado","Encerrado","Aberto","Aberto","Aberto"), 
+                        dose= c("Processo 1","Proceso 2","Proceso 3","Processo 1","Proceso 2","Proceso 3"),
+                        len=c(13.23,22.70,26.06,7.98,16.77,26.14),sd=c(4.459709,3.910953,
+                                                                       2.655058,2.746634,
+                                                                       2.515309,4.797731))
+      
       df3 <- data.frame(supp=c("Encerrado","Encerrado","Encerrado","Aberto","Aberto","Aberto"), 
                         dose= c("Processo 1","Proceso 2","Proceso 3","Processo 1","Proceso 2","Proceso 3"),
                         len=c(15.23,21.70,14.06,4.98,21.77,28.14),sd=c(7.459709,1.910953,
                                                                        5.655058,2.746634,
                                                                        4.515309,6.797731))
-    
+      
       sf22 <- df3
       sf33 <- df2
       names(sf22) <- c("Status", "dose", "Data de uma Ação de interesse Y", "Tempo de vida")
@@ -1674,9 +2264,9 @@ shinyServer(function(input, output, session){
                         len=c(13.23,22.70,26.06,7.98,16.77,26.14),sd=c(4.459709,3.910953,
                                                                        2.655058,2.746634,
                                                                        2.515309,4.797731))
-
+      
       df2$dose=as.factor(df2$dose)
-    
+      
       names(df2) <- c("Status", "Nº_Processo", "Frequencia", "Tempo de vida")
       
       # Convert dose to a factor variable
@@ -2394,9 +2984,7 @@ shinyServer(function(input, output, session){
           
           resumorp <- resumorp[resumorp$Classificação=="Aberto",]
           
-          for (i in 1:nrow(resumorp)) {
-            resumorp[i,4] <- resumorp[i,3]/sum(resumorp[,3])
-          }
+          resumorp$Prop <- resumorp$Media/sum(resumorp$Media)
           
           names(resumorp) <- c("Status","Classe","Media", "Prop")
           
@@ -2423,9 +3011,7 @@ shinyServer(function(input, output, session){
           
           resumorp <- resumorp[resumorp$Classificação=="Aberto",]
           
-          for (i in 1:nrow(resumorp)) {
-            resumorp[i,4] <- resumorp[i,3]/sum(resumorp[,3])
-          }
+          resumorp$Prop <- resumorp$Media/sum(resumorp$Media)
           
           names(resumorp) <- c("Status","Classe","Media", "Prop")
           
@@ -2451,9 +3037,7 @@ shinyServer(function(input, output, session){
           
           resumorp <- resumorp[resumorp$Classificação=="Aberto",]
           
-          for (i in 1:nrow(resumorp)) {
-            resumorp[i,4] <- resumorp[i,3]/sum(resumorp[,3])
-          }
+          resumorp$Prop <- resumorp$Media/sum(resumorp$Media)
           
           names(resumorp) <- c("Status","Classe","Media", "Prop")
           
@@ -2478,9 +3062,7 @@ shinyServer(function(input, output, session){
           
           resumorp <- resumorp[resumorp$Classificação=="Aberto",]
           
-          for (i in 1:nrow(resumorp)) {
-            resumorp[i,4] <- resumorp[i,3]/sum(resumorp[,3])
-          }
+          resumorp$Prop <- resumorp$Media/sum(resumorp$Media)
           
           names(resumorp) <- c("Status","Classe","Media", "Prop")
           
@@ -11104,6 +11686,7 @@ shinyServer(function(input, output, session){
                          "Recebimento e conclusão do processo","Sentença")
       
       
+      
       dadosi2 <- rbind(dadosP,dadosi)
       
       
@@ -11138,10 +11721,10 @@ shinyServer(function(input, output, session){
     
     observeEvent(input$Entrada45, { # Tabela de Criação
       
-      dados1 <- data.frame(input$Entrada1,input$Entrada2,input$Entrada3,c("Em análise"), input$Entrada5, format(as.Date(input$Entrada51), "%Y-%m-%d") , input$Entrada7-input$Entrada51,input$Entrada8-input$Entrada7,input$Entrada9-input$Entrada8,input$Entrada10-input$Entrada9,input$Entrada11-input$Entrada10,input$Entrada12-input$Entrada11,input$Entrada13-input$Entrada12,input$Entrada14-input$Entrada13,
-                           input$Entrada15-input$Entrada14,input$Entrada16-input$Entrada15,input$Entrada17-input$Entrada16,input$Entrada18-input$Entrada17,input$Entrada19-input$Entrada18,input$Entrada20-input$Entrada19,input$Entrada21-input$Entrada20,input$Entrada22-input$Entrada21,input$Entrada23-input$Entrada22,input$Entrada24-input$Entrada23,input$Entrada25-input$Entrada24,input$Entrada26-input$Entrada25,
-                           input$Entrada27-input$Entrada26,input$Entrada28-input$Entrada27,input$Entrada29-input$Entrada28,input$Entrada30-input$Entrada29,input$Entrada31-input$Entrada30,input$Entrada32-input$Entrada31,input$Entrada33-input$Entrada32,input$Entrada34-input$Entrada33,input$Entrada35-input$Entrada34,input$Entrada36-input$Entrada35,input$Entrada37-input$Entrada36,input$Entrada38-input$Entrada37,
-                           input$Entrada39-input$Entrada38,input$Entrada40-input$Entrada39,input$Entrada41-input$Entrada40,input$Entrada42-input$Entrada41,input$Entrada43-input$Entrada42,input$Entrada44-input$Entrada43)
+      dados1 <- data.frame(input$Entrada1,input$Entrada2,input$Entrada3,c("Em analise"), input$Entrada5, format(as.Date(input$Entrada51), "%Y-%m-%d") , input$Entrada7-input$Entrada51,input$Saida8-input$Entrada8,input$Saida9-input$Entrada9,input$Saida10-input$Entrada10,input$Saida11-input$Entrada11,input$Saida12-input$Entrada12,input$Saida13-input$Entrada13,input$Saida14-input$Entrada14,
+                           input$Saida15-input$Entrada15,input$Saida16-input$Entrada16,input$Saida17-input$Entrada17,input$Saida18-input$Entrada18,input$Saida19-input$Entrada19,input$Saida20-input$Entrada20,input$Saida21-input$Entrada21,input$Saida22-input$Entrada22,input$Saida23-input$Entrada23,input$Saida24-input$Entrada24,input$Saida25-input$Entrada25,input$Saida26-input$Entrada26,
+                           input$Saida27-input$Entrada27,input$Saida28-input$Entrada28,input$Saida29-input$Entrada29,input$Saida30-input$Entrada30,input$Saida31-input$Entrada31,input$Saida32-input$Entrada32,input$Saida33-input$Entrada33,input$Saida34-input$Entrada34,input$Saida35-input$Entrada35,input$Saida36-input$Entrada36,input$Saida37-input$Entrada37,input$Saida38-input$Entrada38,
+                           input$Saida39-input$Entrada39,input$Saida40-input$Entrada40,input$Saida41-input$Entrada41,input$Saida42-input$Entrada42,input$Saida43-input$Entrada43,input$Saida44-input$Entrada44)
       
       
       names(dados1) <- c("Nº Processo","Apelido","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
@@ -11232,81 +11815,81 @@ shinyServer(function(input, output, session){
       
       dados3[,3] <- input$Entradas2
       
-      if(input$Entradas4 == "Recebimento, triagem e conclusão do processo"){dados3[,7] <- input$Entradas6 - as.Date(dados3$`Data Inicial`)}
+      if(input$Entradas4 == "Recebimento, triagem e conclusão do processo"){dados3[,7] <- input$Saidas6 - input$Entradas6}
       
-      if(input$Entradas4 == "Despacho para notificação do Requerido"){dados3[,8] <- input$Entradas8 - as.Date(Dateiii[1,3][[1]],"%Y-%m-%d")}
+      if(input$Entradas4 == "Despacho para notificação do Requerido"){dados3[,8] <- input$Saidas8 - input$Entradas8}
       
-      if(input$Entradas4 == "Expedição de notificação"){dados3[,9] <- input$Entradas10 - as.Date(Dateiii[1,4][[1]],"%Y-%m-%d")}
+      if(input$Entradas4 == "Expedição de notificação"){dados3[,9] <- input$Saidas10 - input$Entradas10}
       
-      if(input$Entradas4 == "Cumprimento da notificação"){dados3[,10] <- input$Entradas12 - as.Date(Dateiii[1,5],"%Y-%m-%d")}
+      if(input$Entradas4 == "Cumprimento da notificação"){dados3[,10] <- input$Saidas12 - input$Entradas12}
       
-      if(input$Entradas4 == "Oferecimento de manifestação por escrito"){dados3[,11] <- input$Entradas14 - as.Date(Dateiii[1,6],"%Y-%m-%d")}
+      if(input$Entradas4 == "Oferecimento de manifestação por escrito"){dados3[,11] <- input$Saidas14 - input$Entradas14}
       
-      if(input$Entradas4 == "Decisão rejeição da ação ou recebimento pet. inicial"){dados3[,12] <- input$Entradas16 - as.Date(Dateiii[1,7],"%Y-%m-%d")}
+      if(input$Entradas4 == "Decisão rejeição da ação ou recebimento pet. inicial"){dados3[,12] <- input$Saidas16 - input$Entradas16}
       
-      if(input$Entradas4 == "Expedição de intimação e/ou citação"){dados3[,13] <- input$Entradas18 - as.Date(Dateiii[1,8],"%Y-%m-%d")}
+      if(input$Entradas4 == "Expedição de intimação e/ou citação"){dados3[,13] <- input$Saidas18 - input$Entradas18}
       
-      if(input$Entradas4 == "Cumprimento da intimação e/ou citação"){dados3[,14] <- input$Entradas20 - as.Date(Dateiii[1,9],"%Y-%m-%d")}
+      if(input$Entradas4 == "Cumprimento da intimação e/ou citação"){dados3[,14] <- input$Saidas20 - input$Entradas20 }
       
-      if(input$Entradas4 == "Contestação e/ou agravo de instrumento"){dados3[,15] <- input$Entradas22 - as.Date(Dateiii[1,10],"%Y-%m-%d")}
+      if(input$Entradas4 == "Contestação e/ou agravo de instrumento"){dados3[,15] <- input$Saidas22 - input$Entradas22 }
       
-      if(input$Entradas4 == "Ato ordinatório (Réplica)"){dados3[,16] <- input$Entradas24 - as.Date(Dateiii[1,11],"%Y-%m-%d")}
+      if(input$Entradas4 == "Ato ordinatório (Réplica)"){dados3[,16] <- input$Saidas24 - input$Entradas24 }
       
-      if(input$Entradas4 == "Expedição de intimação"){dados3[,17] <- input$Entradas26 - as.Date(Dateiii[1,12],"%Y-%m-%d")}
+      if(input$Entradas4 == "Expedição de intimação"){dados3[,17] <- input$Saidas26 - input$Entradas26 }
       
-      if(input$Entradas4 == "Cumprimento da intimação"){dados3[,18] <- input$Entradas28 - as.Date(Dateiii[1,13],"%Y-%m-%d")}
+      if(input$Entradas4 == "Cumprimento da intimação"){dados3[,18] <- input$Saidas28 - input$Entradas28 }
       
-      if(input$Entradas4 == "Réplica"){dados3[,19] <- input$Entradas30 - as.Date(Dateiii[1,14],"%Y-%m-%d")}
+      if(input$Entradas4 == "Réplica"){dados3[,19] <- input$Saidas30 - input$Entradas30 }
       
-      if(input$Entradas4 == "Ato ordinatório (Provas)"){dados3[,20] <- input$Entradas32 - as.Date(Dateiii[1,15],"%Y-%m-%d")}
+      if(input$Entradas4 == "Ato ordinatório (Provas)"){dados3[,20] <- input$Saidas32 - input$Entradas32}
       
-      if(input$Entradas4 == "Expedição de intimação (Requerente)"){dados3[,21] <- input$Entradas34 - as.Date(Dateiii[1,16],"%Y-%m-%d")}
+      if(input$Entradas4 == "Expedição de intimação (Requerente)"){dados3[,21] <- input$Saidas34 - input$Entradas34}
       
-      if(input$Entradas4 == "Cumprimento  da intimação"){dados3[,22] <- input$Entradas36 - as.Date(Dateiii[1,17],"%Y-%m-%d")}
+      if(input$Entradas4 == "Cumprimento  da intimação"){dados3[,22] <- input$Saidas36 - input$Entradas36 }
       
-      if(input$Entradas4 == "Provas"){dados3[,23] <- input$Entradas38 - as.Date(Dateiii[1,18],"%Y-%m-%d")}
+      if(input$Entradas4 == "Provas"){dados3[,23] <- input$Saidas38 - input$Entradas38 }
       
-      if(input$Entradas4 == "Expedição de intimação (Requerido)"){dados3[,24] <- input$Entradas40 - as.Date(Dateiii[1,19],"%Y-%m-%d")}
+      if(input$Entradas4 == "Expedição de intimação (Requerido)"){dados3[,24] <- input$Saidas40 - input$Entradas40 }
       
-      if(input$Entradas4 == "Cumprimento da intimação 1"){dados3[,25] <- input$Entradas42 - as.Date(Dateiii[1,20],"%Y-%m-%d")}
+      if(input$Entradas4 == "Cumprimento da intimação 1"){dados3[,25] <- input$Saidas42 - input$Entradas42 }
       
-      if(input$Entradas4 == "Provas 1"){dados3[,26] <- input$Entradas44 - as.Date(Dateiii[1,21],"%Y-%m-%d")}
+      if(input$Entradas4 == "Provas 1"){dados3[,26] <- input$Saidas44  - input$Entradas44 }
       
-      if(input$Entradas4 == "Decisão saneamento"){dados3[,27] <- input$Entradas46 - as.Date(Dateiii[1,22],"%Y-%m-%d")}
+      if(input$Entradas4 == "Decisão saneamento"){dados3[,27] <- input$Saidas46 - input$Entradas46 }
       
-      if(input$Entradas4 == "Expedição de intimação (Requerente) 1"){dados3[,28] <- input$Entradas48 - as.Date(Dateiii[1,23],"%Y-%m-%d")}
+      if(input$Entradas4 == "Expedição de intimação (Requerente) 1"){dados3[,28] <- input$Saidas48 - input$Entradas48 }
       
-      if(input$Entradas4 == "Cumprimento da intimação 2"){dados3[,29] <- input$Entradas50 - as.Date(Dateiii[1,24],"%Y-%m-%d")}
+      if(input$Entradas4 == "Cumprimento da intimação 2"){dados3[,29] <- input$Saidas50 - input$Entradas50 }
       
-      if(input$Entradas4 == "Pedido de esclarecimento ou solicitação de ajustes"){dados3[,30] <- input$Entradas52 - as.Date(Dateiii[1,25],"%Y-%m-%d")}
+      if(input$Entradas4 == "Pedido de esclarecimento ou solicitação de ajustes"){dados3[,30] <- input$Saidas52 - input$Entradas52 }
       
-      if(input$Entradas4 == "Expedição de intimação (Requerido) 1"){dados3[,31] <- input$Entradas54 - as.Date(Dateiii[1,26],"%Y-%m-%d")}
+      if(input$Entradas4 == "Expedição de intimação (Requerido) 1"){dados3[,31] <- input$Saidas54 - input$Entradas54 }
       
-      if(input$Entradas4 == "Cumprimento da intimação 3"){dados3[,32] <- input$Entradas56 - as.Date(Dateiii[1,27],"%Y-%m-%d")}
+      if(input$Entradas4 == "Cumprimento da intimação 3"){dados3[,32] <- input$Saidas56 - input$Entradas56 }
       
-      if(input$Entradas4 == "Pedido de esclarecimento ou solicitação de ajustes 1"){dados3[,33] <- input$Entradas58 - as.Date(Dateiii[1,28],"%Y-%m-%d")}
+      if(input$Entradas4 == "Pedido de esclarecimento ou solicitação de ajustes 1"){dados3[,33] <- input$Saidas58 - input$Entradas58 }
       
-      if(input$Entradas4 == "Prova pericial"){dados3[,34] <- input$Entradas60 - as.Date(Dateiii[1,29],"%Y-%m-%d")}
+      if(input$Entradas4 == "Prova pericial"){dados3[,34] <- input$Saidas60 - input$Entradas60 }
       
-      if(input$Entradas4 == "Prova oral (audiência de instrução e julgamento)"){dados3[,35] <- input$Entradas62 - as.Date(Dateiii[1,30],"%Y-%m-%d")}
+      if(input$Entradas4 == "Prova oral (audiência de instrução e julgamento)"){dados3[,35] <- input$Saidas62 - input$Entradas62 }
       
-      if(input$Entradas4 == "Ato ordinário (Alegações finais)"){dados3[,36] <- input$Entradas64 - as.Date(Dateiii[1,31],"%Y-%m-%d")}
+      if(input$Entradas4 == "Ato ordinário (Alegações finais)"){dados3[,36] <- input$Saidas64 - input$Entradas64 }
       
-      if(input$Entradas4 == "Expedição de intimação (Requerente) 2"){dados3[,37] <- input$Entradas66 - as.Date(Dateiii[1,32],"%Y-%m-%d")}
+      if(input$Entradas4 == "Expedição de intimação (Requerente) 2"){dados3[,37] <- input$Saidas66 - input$Entradas66 }
       
-      if(input$Entradas4 == "Cumprimento da intimação 4"){dados3[,38] <- input$Entradas68 - as.Date(Dateiii[1,33],"%Y-%m-%d")}
+      if(input$Entradas4 == "Cumprimento da intimação 4"){dados3[,38] <- input$Saidas68 - input$Entradas68 }
       
-      if(input$Entradas4 == "Alegações finais"){dados3[,39] <- input$Entradas70 - as.Date(Dateiii[1,34],"%Y-%m-%d")}
+      if(input$Entradas4 == "Alegações finais"){dados3[,39] <- input$Saidas70 - input$Entradas70 }
       
-      if(input$Entradas4 == "Expedição de intimação (Requerido) 2"){dados3[,40] <- input$Entradas72 - as.Date(Dateiii[1,35],"%Y-%m-%d")}
+      if(input$Entradas4 == "Expedição de intimação (Requerido) 2"){dados3[,40] <- input$Saidas72 - input$Entradas72 }
       
-      if(input$Entradas4 == "Cumprimento da intimação 5"){dados3[,41] <- input$Entradas74 - as.Date(Dateiii[1,36],"%Y-%m-%d")}
+      if(input$Entradas4 == "Cumprimento da intimação 5"){dados3[,41] <- input$Saidas74 - input$Entradas74 }
       
-      if(input$Entradas4 == "Alegações finais 1"){dados3[,42] <- input$Entradas76 - as.Date(Dateiii[1,37],"%Y-%m-%d")}
+      if(input$Entradas4 == "Alegações finais 1"){dados3[,42] <- input$Saidas76 - input$Entradas76 }
       
-      if(input$Entradas4 == "Recebimento e conclusão do processo"){dados3[,43] <- input$Entradas78 - as.Date(Dateiii[1,38],"%Y-%m-%d")}
+      if(input$Entradas4 == "Recebimento e conclusão do processo"){dados3[,43] <- input$Saidas78 - input$Entradas78 }
       
-      if(input$Entradas4 == "Sentença"){dados3[,44] <- input$Entradas80 - as.Date(Dateiii[1,39],"%Y-%m-%d")}
+      if(input$Entradas4 == "Sentença"){dados3[,44] <- input$Saidas80 - input$Entradas80 }
       
       # Para colocar as Datas 
       
@@ -11417,7 +12000,7 @@ shinyServer(function(input, output, session){
                         "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
                         "Recebimento e conclusão do processo","Sentença")
       
-      write.csv(Date3,"Data2.csv")
+     # write.csv(Date3,"Data2.csv")
       write.csv(dados3, "output2.csv")
       
       output$table3 <- DT::renderDataTable({
@@ -11454,11 +12037,42 @@ shinyServer(function(input, output, session){
       
       #Arrumando o banco de dados
       
-      dadosi2 <- dados[order(dados$Apelido),]
-      dadosdif <- merge(dadosi2,dadosP,by = "Apelido")
+      dadosi2 <<- dados2[order(dados2$Apelido),]
+      
+      names(dadosi2) <- c("Nº Processo","Apelido","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
+                          "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
+                          "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação","Provas","Decisão saneamento",
+                          "Expedição de intimação (Requerente)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes",
+                          "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
+                          "Recebimento e conclusão do processo","Sentença")
+      
+      dadosdif <<- merge(dadosi2,dadosP,by = "Nº Processo")
       
       dadosdif2 <- dadosdif[,7:44]-dadosdif[,46:83]
       dadosdif2 <- data.frame(dadosdif[,1:6],dadosdif2)
+      
+      # Colocando valores 0 nas novas linhas 
+      
+      for (j in 1:(ncol(dadosdif2)-3)) {
+        for (i in 1:nrow(dadosdif2)) {
+          if(dadosdif2[i,j] < 0 & dadosdif2[i,j+1] < 0 & dadosdif2[i,j+2] < 0){
+            dadosdif2[i,j] = 0}
+          else{dadosdif2[i,j] = dadosdif2[i,j]}
+        }
+      }
+      
+      # Arrumando os valores 0 nas colunas 42 a 44
+      
+      for (j in 1:3) {
+        for (i in 1:nrow(dadosdif2)) {
+          if(dadosdif2[i,42] < 0 & dadosdif2[i,43] < 0 & dadosdif2[i,44] < 0){
+            dadosdif2[i,42:44] = 0}
+          if(dadosdif2[i,43] < 0 & dadosdif2[i,44] < 0){
+            dadosdif2[i,43:44] = 0}
+          if(dadosdif2[i,44] < 0){
+            dadosdif2[i,44] = 0}
+        }
+      }
       
       names(dadosdif2) <- c("Apelido","Nº Processo","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
                             "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
@@ -11471,34 +12085,34 @@ shinyServer(function(input, output, session){
       
       # Estruturando os loops para colocar Status OK
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,7] == 0 & dadosi2[i,8] == 0 & dadosi2[i,9] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,7] == 0 & dadosdif2[i,8] == 0 & dadosdif2[i,9] == 0){
           dadosdif2[i,7:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,7] != 0 & dadosi2[i,8] == 0 & dadosi2[i,9] == 0 & dadosi2[i,10] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,7] != 0 & dadosdif2[i,8] == 0 & dadosdif2[i,9] == 0 & dadosdif2[i,10] == 0){
           dadosdif2[i,8:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,8] != 0 & dadosi2[i,9] == 0 & dadosi2[i,10] == 0 & dadosi2[i,11] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,8] != 0 & dadosdif2[i,9] == 0 & dadosdif2[i,10] == 0 & dadosdif2[i,11] == 0){
           dadosdif2[i,7] = "OK"
           dadosdif2[i,9:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,9] != 0 & dadosi2[i,10] == 0 & dadosi2[i,11] == 0 & dadosi2[i,12] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,9] != 0 & dadosdif2[i,10] == 0 & dadosdif2[i,11] == 0 & dadosdif2[i,12] == 0){
           dadosdif2[i,7:8] = "OK"
           dadosdif2[i,10:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,10] != 0 & dadosi2[i,11] == 0 & dadosi2[i,12] == 0 & dadosi2[i,13] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,10] != 0 & dadosdif2[i,11] == 0 & dadosdif2[i,12] == 0 & dadosdif2[i,13] == 0){
           dadosdif2[i,7:9] = "OK"
           dadosdif2[i,11:44] = 0
         }
@@ -11511,78 +12125,78 @@ shinyServer(function(input, output, session){
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,12] != 0 & dadosi2[i,13] == 0 & dadosi2[i,14] == 0 & dadosi2[i,15] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,12] != 0 & dadosdif2[i,13] == 0 & dadosdif2[i,14] == 0 & dadosdif2[i,15] == 0){
           dadosdif2[i,7:11] = "OK"
           dadosdif2[i,13:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,13] != 0 & dadosi2[i,14] == 0 & dadosi2[i,15] == 0 & dadosi2[i,16] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,13] != 0 & dadosdif2[i,14] == 0 & dadosdif2[i,15] == 0 & dadosdif2[i,16] == 0){
           dadosdif2[i,7:12] = "OK"
           dadosdif2[i,14:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,14] != 0 & dadosi2[i,15] == 0 & dadosi2[i,16] == 0 & dadosi2[i,17] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,14] != 0 & dadosdif2[i,15] == 0 & dadosdif2[i,16] == 0 & dadosdif2[i,17] == 0){
           dadosdif2[i,7:13] = "OK"
           dadosdif2[i,15:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,15] != 0 & dadosi2[i,16] == 0 & dadosi2[i,17] == 0 & dadosi2[i,18] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,15] != 0 & dadosdif2[i,16] == 0 & dadosdif2[i,17] == 0 & dadosdif2[i,18] == 0){
           dadosdif2[i,7:14] = "OK"
           dadosdif2[i,16:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,16] != 0 & dadosi2[i,17] == 0 & dadosi2[i,18] == 0 & dadosi2[i,19] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,16] != 0 & dadosdif2[i,17] == 0 & dadosdif2[i,18] == 0 & dadosdif2[i,19] == 0){
           dadosdif2[i,7:15] = "OK"
           dadosdif2[i,17:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,17] != 0 & dadosi2[i,18] == 0 & dadosi2[i,19] == 0 & dadosi2[i,20] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,17] != 0 & dadosdif2[i,18] == 0 & dadosdif2[i,19] == 0 & dadosdif2[i,20] == 0){
           dadosdif2[i,7:16] = "OK"
           dadosdif2[i,18:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,18] != 0 & dadosi2[i,19] == 0 & dadosi2[i,20] == 0 & dadosi2[i,21] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,18] != 0 & dadosdif2[i,19] == 0 & dadosdif2[i,20] == 0 & dadosdif2[i,21] == 0){
           dadosdif2[i,7:17] = "OK"
           dadosdif2[i,19:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,19] != 0 & dadosi2[i,20] == 0 & dadosi2[i,21] == 0 & dadosi2[i,22] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,19] != 0 & dadosdif2[i,20] == 0 & dadosdif2[i,21] == 0 & dadosdif2[i,22] == 0){
           dadosdif2[i,7:18] = "OK"
           dadosdif2[i,20:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,20] != 0 & dadosi2[i,21] == 0 & dadosi2[i,22] == 0 & dadosi2[i,23] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,20] != 0 & dadosdif2[i,21] == 0 & dadosdif2[i,22] == 0 & dadosdif2[i,23] == 0){
           dadosdif2[i,7:19] = "OK"
           dadosdif2[i,21:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,21] != 0 & dadosi2[i,22] == 0 & dadosi2[i,23] == 0 & dadosi2[i,24] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,21] != 0 & dadosdif2[i,22] == 0 & dadosdif2[i,23] == 0 & dadosdif2[i,24] == 0){
           dadosdif2[i,7:20] = "OK"
           dadosdif2[i,22:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,22] != 0 & dadosi2[i,23] == 0 & dadosi2[i,24] == 0 & dadosi2[i,25] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,22] != 0 & dadosdif2[i,23] == 0 & dadosdif2[i,24] == 0 & dadosdif2[i,25] == 0){
           dadosdif2[i,7:21] = "OK"
           dadosdif2[i,23:44] = 0
         }
@@ -11595,113 +12209,113 @@ shinyServer(function(input, output, session){
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,24] != 0 & dadosi2[i,25] == 0 & dadosi2[i,26] == 0 & dadosi2[i,27] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,24] != 0 & dadosdif2[i,25] == 0 & dadosdif2[i,26] == 0 & dadosdif2[i,27] == 0){
           dadosdif2[i,7:23] = "OK"
           dadosdif2[i,25:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,25] != 0 & dadosi2[i,26] == 0 & dadosi2[i,27] == 0 & dadosi2[i,28] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,25] != 0 & dadosdif2[i,26] == 0 & dadosdif2[i,27] == 0 & dadosdif2[i,28] == 0){
           dadosdif2[i,7:24] = "OK"
           dadosdif2[i,26:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,26] != 0 & dadosi2[i,27] == 0 & dadosi2[i,28] == 0 & dadosi2[i,29] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,26] != 0 & dadosdif2[i,27] == 0 & dadosdif2[i,28] == 0 & dadosdif2[i,29] == 0){
           dadosdif2[i,7:25] = "OK"
           dadosdif2[i,27:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,27] != 0 & dadosi2[i,28] == 0 & dadosi2[i,29] == 0 & dadosi2[i,30] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,27] != 0 & dadosdif2[i,28] == 0 & dadosdif2[i,29] == 0 & dadosdif2[i,30] == 0){
           dadosdif2[i,7:26] = "OK"
           dadosdif2[i,28:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,28] != 0 & dadosi2[i,29] == 0 & dadosi2[i,30] == 0 & dadosi2[i,31] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,28] != 0 & dadosdif2[i,29] == 0 & dadosdif2[i,30] == 0 & dadosdif2[i,31] == 0){
           dadosdif2[i,7:27] = "OK"
           dadosdif2[i,29:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,29] != 0 & dadosi2[i,30] == 0 & dadosi2[i,31] == 0 & dadosi2[i,32] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,29] != 0 & dadosdif2[i,30] == 0 & dadosdif2[i,31] == 0 & dadosdif2[i,32] == 0){
           dadosdif2[i,7:28] = "OK"
           dadosdif2[i,30:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,30] != 0 & dadosi2[i,31] == 0 & dadosi2[i,32] == 0 & dadosi2[i,33] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,30] != 0 & dadosdif2[i,31] == 0 & dadosdif2[i,32] == 0 & dadosdif2[i,33] == 0){
           dadosdif2[i,7:29] = "OK"
           dadosdif2[i,31:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,31] != 0 & dadosi2[i,32] == 0 & dadosi2[i,33] == 0 & dadosi2[i,34] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,31] != 0 & dadosdif2[i,32] == 0 & dadosdif2[i,33] == 0 & dadosdif2[i,34] == 0){
           dadosdif2[i,7:30] = "OK"
           dadosdif2[i,32:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,32] != 0 & dadosi2[i,33] == 0 & dadosi2[i,34] == 0 & dadosi2[i,35] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,32] != 0 & dadosdif2[i,33] == 0 & dadosdif2[i,34] == 0 & dadosdif2[i,35] == 0){
           dadosdif2[i,7:31] = "OK"
           dadosdif2[i,33:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,33] != 0 & dadosi2[i,34] == 0 & dadosi2[i,35] == 0 & dadosi2[i,36] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,33] != 0 & dadosdif2[i,34] == 0 & dadosdif2[i,35] == 0 & dadosdif2[i,36] == 0){
           dadosdif2[i,7:32] = "OK"
           dadosdif2[i,34:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,34] != 0 & dadosi2[i,35] == 0 & dadosi2[i,36] == 0 & dadosi2[i,37] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,34] != 0 & dadosdif2[i,35] == 0 & dadosdif2[i,36] == 0 & dadosdif2[i,37] == 0){
           dadosdif2[i,7:33] = "OK"
           dadosdif2[i,35:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,35] != 0 & dadosi2[i,36] == 0 & dadosi2[i,37] == 0 & dadosi2[i,38] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,35] != 0 & dadosdif2[i,36] == 0 & dadosdif2[i,37] == 0 & dadosdif2[i,38] == 0){
           dadosdif2[i,7:34] = "OK"
           dadosdif2[i,36:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,36] != 0 & dadosi2[i,37] == 0 & dadosi2[i,38] == 0 & dadosi2[i,39] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,36] != 0 & dadosdif2[i,37] == 0 & dadosdif2[i,38] == 0 & dadosdif2[i,39] == 0){
           dadosdif2[i,7:35] = "OK"
           dadosdif2[i,37:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,37] != 0 & dadosi2[i,38] == 0 & dadosi2[i,39] == 0 & dadosi2[i,40] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,37] != 0 & dadosdif2[i,38] == 0 & dadosdif2[i,39] == 0 & dadosdif2[i,40] == 0){
           dadosdif2[i,7:36] = "OK"
           dadosdif2[i,38:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,38] != 0 & dadosi2[i,39] == 0 & dadosi2[i,40] == 0 & dadosi2[i,41] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,38] != 0 & dadosdif2[i,39] == 0 & dadosdif2[i,40] == 0 & dadosdif2[i,41] == 0){
           dadosdif2[i,7:37] = "OK"
           dadosdif2[i,39:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,39] != 0 & dadosi2[i,40] == 0 & dadosi2[i,41] == 0 & dadosi2[i,42] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,39] != 0 & dadosdif2[i,40] == 0 & dadosdif2[i,41] == 0 & dadosdif2[i,42] == 0){
           dadosdif2[i,7:38] = "OK"
           dadosdif2[i,40:44] = 0
         }
@@ -11714,29 +12328,29 @@ shinyServer(function(input, output, session){
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,41] != 0 & dadosi2[i,42] == 0 & dadosi2[i,43] == 0 & dadosi2[i,44] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,41] != 0 & dadosdif2[i,42] == 0 & dadosdif2[i,43] == 0 & dadosdif2[i,44] == 0){
           dadosdif2[i,7:40] = "OK"
           dadosdif2[i,42:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,42] != 0 & dadosi2[i,43] == 0 & dadosi2[i,44] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,42] != 0 & dadosdif2[i,43] == 0 & dadosdif2[i,44] == 0){
           dadosdif2[i,7:41] = "OK"
           dadosdif2[i,43:44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,43] != 0 & dadosi2[i,44] == 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,43] != 0 & dadosdif2[i,44] == 0){
           dadosdif2[i,7:42] = "OK"
           dadosdif2[i,44] = 0
         }
       }
       
-      for (i in 1:nrow(dadosi2)) {
-        if(dadosi2[i,44] != 0){
+      for (i in 1:nrow(dadosdif2)) {
+        if(dadosdif2[i,44] != 0){
           dadosdif2[i,7:43] = "OK"
         }
       }
@@ -11872,16 +12486,14 @@ shinyServer(function(input, output, session){
   observe({
     
     
-    invalidateLater(300000, session)
+    invalidateLater(40000, session)
     
     comparacao <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\completo.csv")
     comparacao <- comparacao[,-1]
     save(comparacao,file="comparacao")
     load("comparacao")
     
-    dadosteste <- dados2[nrow(dados2),]
-    
-    linhas_tabela_limpeza_Prazos <- grep(dadosteste$Apelido,comparacao$Apelido, fixed=TRUE)
+    linhas_tabela_limpeza_Prazos <- grep(dados5$Apelido,comparacao$Apelido, fixed=TRUE)
     
     if(length(linhas_tabela_limpeza_Prazos) == 0){
       dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta\\teste.csv")
@@ -11919,8 +12531,8 @@ shinyServer(function(input, output, session){
       
       linhas_tabela_limpeza <- grep(dados5$`Nº Processo`, dados$`Nº Processo`, fixed=TRUE)
       
-      if(length(linhas_tabela_limpeza) != 0){
-        dados <- dados[-c(linhas_tabela_limpeza[1:(length(linhas_tabela_limpeza)-1)]),]
+      if(length(linhas_tabela_limpeza) > 1){
+        dados <- dados[-linhas_tabela_limpeza[1],]
       }
       
       linhas_tabela_limpeza2 <- grep("Enter text...", dados$`Nº Processo`, fixed=TRUE)
@@ -11934,11 +12546,22 @@ shinyServer(function(input, output, session){
     }
     
     names(dados) <- c("Nº Processo","Apelido","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
-                      "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
-                      "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação","Provas","Decisão saneamento",
-                      "Expedição de intimação (Requerente)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes",
-                      "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
-                      "Recebimento e conclusão do processo","Sentença")
+                       "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
+                       "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação","Provas","Decisão saneamento",
+                       "Expedição de intimação (Requerente)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes",
+                       "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
+                       "Recebimento e conclusão do processo","Sentença")
+    
+    names(dados2) <- c("Nº Processo","Apelido","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
+                       "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
+                       "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação","Provas","Decisão saneamento",
+                       "Expedição de intimação (Requerente)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes",
+                       "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
+                       "Recebimento e conclusão do processo","Sentença")
+    
+    linhas_tabela_limpeza <- grep(dados2[nrow(dados2),2], dados$Apelido, fixed=TRUE)
+    
+    if(length(linhas_tabela_limpeza) == 0){dados <- rbind(dados,dados2[nrow(dados2),])}
     
     # Estruturando os loops para colocar +1 dia
     
@@ -12175,14 +12798,14 @@ shinyServer(function(input, output, session){
         dados[i,44] = dados[i,44] + 1
       }
     }
-    
+    setwd("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\pasta")
     write.csv(dados,'completo.csv')
     
   })
   
   observe({
     
-    invalidateLater(3600000, session)
+    invalidateLater(50000, session)
     
     Atualizacao <- data.frame("1235XXX","Apelido 1")
     Atualizacao[,c(3:40)] <- "2020-01-13 09:00:00" 
