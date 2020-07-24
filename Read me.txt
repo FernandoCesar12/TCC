@@ -1,9 +1,0 @@
-Ações necessárias na primeira vez que rodar o sistema:
-
-1- Remover os comentários das linhas número 1.130, 1.134 e 1.137 (Após rodar pela primeira vez, retorne o comentário);
-
-2- Remover temporariamente as linhas 1.141 até a 1.606 (Após rodar pela primeira vez retorne elas);
-
-3- Comentar as linhas 11.877 até 11.880 e 11.894 até 11.897 (Após rodar pela primeira vez, remova os comentários)
-
-4- Dentro do Dashboard clique em todos os botões das abas (Visualização de dados, Seleção de prazos, Atualização de prazos, Criação dos dados e Atualização dos dados);
