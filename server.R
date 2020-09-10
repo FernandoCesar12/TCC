@@ -12000,7 +12000,7 @@ shinyServer(function(input, output, session){
                         "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
                         "Recebimento e conclusão do processo","Sentença")
       
-     # write.csv(Date3,"Data2.csv")
+      # write.csv(Date3,"Data2.csv")
       write.csv(dados3, "output2.csv")
       
       output$table3 <- DT::renderDataTable({
@@ -12546,11 +12546,11 @@ shinyServer(function(input, output, session){
     }
     
     names(dados) <- c("Nº Processo","Apelido","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
-                       "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
-                       "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação","Provas","Decisão saneamento",
-                       "Expedição de intimação (Requerente)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes",
-                       "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
-                       "Recebimento e conclusão do processo","Sentença")
+                      "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
+                      "Cumprimento da intimação","Réplica","Ato ordinatório (Provas)","Expedição de intimação (Requerente)","Cumprimento  da intimação","Provas","Expedição de intimação (Requerido)","Cumprimento da intimação","Provas","Decisão saneamento",
+                      "Expedição de intimação (Requerente)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes","Expedição de intimação (Requerido)","Cumprimento da intimação","Pedido de esclarecimento ou solicitação de ajustes",
+                      "Prova pericial","Prova oral (audiência de instrução e julgamento)","Ato ordinário (Alegações finais)","Expedição de intimação (Requerente)","Cumprimento da intimação","Alegações finais","Expedição de intimação (Requerido)","Cumprimento da intimação","Alegações finais",
+                      "Recebimento e conclusão do processo","Sentença")
     
     names(dados2) <- c("Nº Processo","Apelido","Classificação","Status","Classe do Processo", "Data Inicial", "Recebimento, triagem e conclusão do processo","Despacho para notificação do Requerido", "Expedição de notificação","Cumprimento da notificação","Oferecimento de manifestação por escrito",
                        "Decisão rejeição da ação ou recebimento pet. inicial","Expedição de intimação e/ou citação","Cumprimento da intimação e/ou citação","Contestação e/ou agravo de instrumento","Ato ordinatório (Réplica)","Expedição de intimação",
@@ -12821,5 +12821,4 @@ shinyServer(function(input, output, session){
   })
   
 })
-
 

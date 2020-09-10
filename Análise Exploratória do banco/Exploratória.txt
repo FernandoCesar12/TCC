@@ -322,7 +322,6 @@ tabela3 <- aggregate(tabela3$Freq,
 
 names(tabela3) <- c("by","Freq") 
 
-
 ggplot(tabela3, aes(x = reorder(by, -Freq), y = Freq)) +
   geom_col(fill = "dodgerblue") +
   labs(title = "",
@@ -706,3 +705,103 @@ legend(650,0.75, legend=c("Weibull", "Exponential", "Log-logistic", "Log-normal"
        xpd = TRUE, horiz=FALSE, bty = "n",
        xjust=0, yjust=0)
 
+########################################################################################################
+#                                         Novo Gráfico de censuras
+########################################################################################################
+
+# Frequencia de etapas nao censuradas
+
+censura <- dados[dados$Censura == 1,]
+tabela2 <- as.data.frame(table(censura$V7, by=censura$Tipo_Movimentação))
+tabela2 <- tabela2[,-1]
+tabela2 <- tabela2[tabela2$Freq != 0,]
+
+tabela2$by <- as.character(tabela2$by)
+
+if(length(grep("Conclusão-",tabela2$by)) != 0){
+  tabela2[grep("Conclusão-",tabela2$by),1] <- substring(tabela2[grep("Conclusão-",tabela2$by),1],11)
+}
+
+tabela2 <- aggregate(tabela2$Freq,
+                     by = list(tabela2$by),
+                     FUN = sum)
+
+names(tabela2) <- c("by","Freq")
+
+#Frequencia de etapas censuradas
+
+nao_censura <- dados[dados$Censura == 0,]
+tabela3 <- as.data.frame(table(nao_censura$V7, by=nao_censura$Tipo_Movimentação))
+tabela3 <- tabela3[,-1]
+tabela3 <- tabela3[tabela3$Freq != 0,]
+
+tabela3$by <- as.character(tabela3$by)
+
+if(length(grep("Conclusão-",tabela3$by)) != 0){
+  tabela3[grep("Conclusão-",tabela3$by),1] <- substring(tabela3[grep("Conclusão-",tabela3$by),1],11)
+}
+
+tabela3 <- aggregate(tabela3$Freq,
+                     by = list(tabela3$by),
+                     FUN = sum)
+
+names(tabela3) <- c("by","Freq") 
+
+# Juntando o banco de dados
+
+df1 <- merge(tabela2,tabela3,by='by')
+
+names(df1) <- c("Etapas","Censurado","Não censurado") 
+
+df2 <- tidyr::pivot_longer(df1, cols=c('Censurado', 'Não censurado'), names_to='Legenda', 
+                           values_to="value")
+
+ggplot(df2, aes(x = reorder(Etapas, -value), y = value, fill=Legenda)) +
+  geom_bar(stat='identity', position='dodge')+ coord_flip()+
+  labs(title = "",
+       subtitle = "5ª Vara da Justiça Federal",
+       x = "Frequência",
+       y = "Etapas processuais")+ theme(legend.position="bottom")+ 
+  scale_fill_manual(values=c("#004C99", "#3399FF", "#56B4E9"))+
+  scale_y_continuous( limits = c(0, 2400))
+
+########################################################################################################
+#                                     Gráfico de residuos Cox-snell
+########################################################################################################
+
+
+fit1 <- coxph(formula = Surv(Tempo, Censura) ~ Objeto,
+              data    = dados)
+
+dados$resid_mart <- residuals(fit1, type = "martingale")
+
+## Cox-Snell residuals
+dados$resid_coxsnell <- -(dados$resid_mart - dados$Censura)
+
+
+## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
+fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, Censura) ~ 1,
+                      data    = dados,
+                      ties    = c("efron","breslow","exact")[1])
+
+## Nelson-Aalen estimator for baseline hazard (all covariates zero)
+df_base_haz <- basehaz(fit_coxsnell, centered = FALSE)
+
+## Plot
+ggplot(data = df_base_haz, mapping = aes(x = time, y = hazard)) +
+  geom_point() +
+  scale_x_continuous(limit = c(0,3.5)) +
+  scale_y_continuous(limit = c(0,3.5)) +
+  labs(subtitle = "5ª Vara da Justiça Federal",
+       x = "Cox-Snell residuals as pseudo observed times",
+       y = "Estimated cumulative hazard at pseudo observed times") +
+  theme_bw() + theme(legend.key = element_blank())
+
+########################################################################################################
+#                                   Gráfico de residuos Schoenfeld
+########################################################################################################
+
+Ajuste <-coxph(Surv(Tempo, Censura) ~ Objeto, data = dados)
+cox.zph(Ajuste)
+
+ggcoxzph(cox.zph(Ajuste))
