@@ -6,6 +6,8 @@
 
 #install.packages("readxl")
 library(readxl)
+#install.packages("dplyr")
+library(dplyr)
 
 #dados <- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\TCC\\dadosteste.xlsx", sheet=1, col_names=TRUE)
 dados <- read_excel("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\TCC\\Planilha processos 5ª vara movimentacao, assunto e parte (2).xlsx", sheet=1, col_names=TRUE)
@@ -72,19 +74,23 @@ geradados <- function(j){
     dados[i,5] <- as.Date("2019-12-2") - as.Date(dados[i,3],"%Y-%m-%d")
   }
   
+  # Concertando o problema de duas etapas diferentes no mesmo dia
+  
+  for (i in (nrow(dados)-1):1){
+    if (dados[i+1,3] == dados[i,3]){dados[i,5] = dados[i+1,5]}
+  }
+  
+  # Removendo valores duplicados no dia com mesmo nome
+
+  dados = dados %>%
+    distinct(Data, Tipo_Movimentação, .keep_all = TRUE)
+  
   dados
 }
-
-# Visualizando uma das saídas de cálculo acima
-
-geradados(3)
 
 # Criando um único Data Frame e gerando um Excel 
 
 teste <- lapply(1:length(banco),geradados)
-
-#install.packages("dplyr")
-library(dplyr)
 
 Data <- bind_rows(teste)
 

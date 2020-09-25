@@ -805,3 +805,58 @@ Ajuste <-coxph(Surv(Tempo, Censura) ~ Objeto, data = dados)
 cox.zph(Ajuste)
 
 ggcoxzph(cox.zph(Ajuste))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Entrando com os pacotes necessários
+
+library(survival)
+
+# Entrando com o banco de dados
+
+dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Análise Exploratória do banco\\Banco2.csv")
+
+dados <- dados[,-1]
+
+dados <- dados[dados$Tempo > 50,]
+
+##########################################################################################################
+#                                                Deviance
+##########################################################################################################
+
+weibull = survreg(Surv(Tempo, Censura) ~ Objeto, data = dados, dist='weibull')
+
+exponential = survreg(Surv(Tempo, Censura) ~ Objeto, data = dados, dist='exponential')
+
+loglogistic = survreg(Surv(Tempo, Censura) ~ Objeto, data = dados, dist='loglogistic')
+
+lognormal = survreg(Surv(Tempo, Censura) ~ Objeto, data = dados, dist='lognormal')
+
+sum(resid(weibull, type = 'deviance')^2)
+sum(resid(exponential, type = 'deviance')^2)
+sum(resid(loglogistic, type = 'deviance')^2)
+sum(resid(lognormal, type = 'deviance')^2)
+
+# Utilizada para obter a medida global de qualidade de ajuste do modelo
+
+# Quanto maior a deviance pior o ajuste
+
+# Quanto menor a deviance, maior o p-valor (melhor a qualidade do ajuste do modelo)
+
+# H0: o modelo se ajusta aos dados
+
+pvalue = 1-pchisq(sum(resid(exponential, type = 'deviance')^2), exponential$df)
+pvalue
+
+plot(resid(exponential, type = 'deviance')^2)
