@@ -17,9 +17,7 @@ library(data.table)
 #                                      Inportando e manipulando o banco de dados 
 #################################################################################################################
 
-dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Análise Exploratória do banco\\Banco2.csv")
-
-dados <- dados[,-1]
+dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Análise Exploratória do banco\\Banco2.csv",sep=';')
 
 for (i in 1:nrow(dados)) {
   if(dados[i,4 ] == "FUNDEF/Fundo de Manutenção e Desenvolvimento do Ensino Fundamental e de Valorização do Magistério"){
@@ -463,9 +461,8 @@ ggsurvplot(
 #                                  Conferindo qual é o melhor ajuste ao modelo
 #################################################################################################################
 
-dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Análise Exploratória do banco\\Banco2.csv")
+dados <- read.csv("C:\\Users\\ferna\\OneDrive\\Área de Trabalho\\Sistema\\Análise Exploratória do banco\\Banco2.csv",sep=';')
 
-dados <- dados[,-1]
 
 dados <- dados[dados$Tempo > 50,]
 
@@ -705,6 +702,12 @@ legend(650,0.75, legend=c("Weibull", "Exponential", "Log-logistic", "Log-normal"
        xpd = TRUE, horiz=FALSE, bty = "n",
        xjust=0, yjust=0)
 
+
+summary(Modelo1)
+summary(Modelo2)
+summary(Modelo3)
+summary(Modelo4)
+
 ########################################################################################################
 #                                         Novo Gráfico de censuras
 ########################################################################################################
@@ -769,15 +772,21 @@ ggplot(df2, aes(x = reorder(Etapas, -value), y = value, fill=Legenda)) +
 #                                     Gráfico de residuos Cox-snell
 ########################################################################################################
 
-
 fit1 <- coxph(formula = Surv(Tempo, Censura) ~ Objeto,
               data    = dados)
 
 dados$resid_mart <- residuals(fit1, type = "martingale")
 
+
+plot(dados$Tempo,dados$resid_mart)
+identify(dados$Tempo,dados$resid_mart)
+
+plot(survfit(Surv(Tempo, Censura) ~ 1,type="kaplan-meier",conf.type="log",data = dados))
+tapply(dados$Tempo,dados$Censura, summary)
+
+
 ## Cox-Snell residuals
 dados$resid_coxsnell <- -(dados$resid_mart - dados$Censura)
-
 
 ## Fit model on Cox-Snell residuals (Approximately Expo(1) distributed under correct model)
 fit_coxsnell <- coxph(formula = Surv(resid_coxsnell, Censura) ~ 1,

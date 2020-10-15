@@ -58,7 +58,7 @@
         
         \vspace{100pt}
         
-        \Large{\textbf{Automatização na análise do tempo de sobrevivência em processos públicos}}\\ %Entre com o título do experimento
+        \Large{\textbf{Acompanhamento e análise de processos em \textit{Shiny}}\\ %Entre com o título do experimento
         
         \vspace{130pt}
         
@@ -83,7 +83,7 @@
         \vspace{100pt}
         
         \begin{center}
-        \Large{\textbf{Automatização na análise do tempo de sobrevivência em processos públicos}}\\ %Entre com o título do experimento
+        \Large{\textbf{Acompanhamento e análise de processos em \textit{Shiny}}}\\ %Entre com o título do experimento
         \end{center}
         
         \vspace{160pt}
@@ -118,7 +118,9 @@
 
 Por meio de parceria com a instituição da 5ª vara da justiça federal, foi realizado um projeto capaz de criar visualizações, armazenamento de dados e análises estatísticas em tempo real com o manuseio de páginas Web. Dessa maneira, utilizou-se o software R com auxílio de alguns pacotes, destacando-se o ShinyDashboard, para estruturar um layout interativo e de simples manuseio para os advogados e usuários da instituição.\\
 
-O sistema acima citado é composto de 10 (dez) abas moldadas no tema de bootstrap, sendo 2 (dois) delas referentes as análises estatísticas conceituadas na análise de sobrevivência, 1 (um) aba voltada para explicação e resumo das funcionalidades da página Web, 2 (dois) menus alusivos a análise exploratória dos dados e 5 (cinco) abas direcionadas para visualização, atualização e controle dos processos administrados. Além das estruturas já citadas, também foi adicionado como medida de segurança um identificador de usuário para liberação do manuseio e acesso a página Web, pois advogados e usuários do sistema terão a total possibilidade de atualização de etapas e prazos referentes aos pleitos classificados como de interesse.
+O sistema acima citado é composto de 10 (dez) abas moldadas no tema de bootstrap, sendo 2 (dois) delas referentes as análises estatísticas conceituadas na análise de sobrevivência, 1 (um) aba voltada para explicação e resumo das funcionalidades da página Web, 2 (dois) menus alusivos a análise exploratória dos dados e 5 (cinco) abas direcionadas para visualização, atualização e controle dos processos administrados. Além das estruturas já citadas, também foi adicionado como medida de segurança um identificador de usuário para liberação do manuseio e acesso a página Web, pois advogados e usuários do sistema terão a total possibilidade de atualização de etapas e prazos referentes aos pleitos classificados como de interesse.\\
+
+Utilizando-se de um banco de dados composto por 78.260 processos com classificação PJe (Processo Judicial eletrônico), realizou-se um conjunto de análises teóricas e descritivas voltadas à disciplina de análise de sobrevivência, ou seja, efetuou-se os cálculos referentes a probabilidade de conclusão dos pleitos, tempo médio de duração das classes processuais (dias), tempo médio estimado de sobrevida dos processos (dias), entre outras medidas. Além disso, também foram consideradas as análises de pré-requisitos do modelo melhor ajustado em relação aos dados observados no trabalho.
 
 
 \newpage
@@ -164,15 +166,15 @@ Dessa maneira, tendo em vista que os prazos limites para resolução dos pleitos
 consignação em pagamento - 15 dias; Art. 1.065 - restauração de autos - 5 dias; Art.
 1.106 - procedimentos de jurisdição voluntária - 10 dias; Lei nº 4.717/65 - art. 7º -
 Ação Popular - 15 dias; Sobre embargos de declaração - art. 536 do CPC - 5 dias (não
-estão sujeitos a preparo); Sobre apelação - art. 508 - 15 dias; Embargos - art 740; Entre outros." (MANUAL DE ROTINAS E PROCEDIMENTOS INTERNOS, 2009)\\} núm. 297, núm.º 508, núm. 536, núm. 802, núm. 896, núm. 1.065 e núm. 1.106, buscou-se criar um sistema de dashboard online que fosse capaz de informar os advogados e servidores da instituição sobre o tempo de vida existente dos pleitos e suas respectivas análises estatísticas, utilizando-se de gráficos e infobox's para análises descritivas dos processos institucionais. Além disso, também foram estudados plots referentes às análises de sobrevivência para averiguação das probabilidades de término em tempo hábil ou finalizações processuais fora da etapa de conclusão sequencial, sentença do pleito, essa que se caracteriza como a última etapa de uma sequência pré-existente de fases a serem seguidas pela instituição.\\
+estão sujeitos a preparo); Sobre apelação - art. 508 - 15 dias; Embargos - art 740; Entre outros." (MANUAL DE ROTINAS E PROCEDIMENTOS INTERNOS, 2009)\\} núm. 297, núm.º 508, núm. 536, núm. 802, núm. 896, núm. 1.065 e núm. 1.106, buscou-se criar um sistema de \textit{dashboard} online que fosse capaz de informar os advogados e servidores da instituição sobre o tempo de vida existente dos pleitos e suas respectivas análises estatísticas, utilizando-se de gráficos e \textit{infobox's} para análises descritivas dos processos institucionais. Além disso, também foram estudados \textit{plots} referentes às análises de sobrevivência para averiguação das probabilidades de término em tempo hábil ou finalizações processuais fora da etapa de conclusão sequencial, sentença do pleito, essa que se caracteriza como a última etapa de uma sequência pré-existente de fases a serem seguidas pela instituição.\\
 
-Com o intuito de melhorar ainda mais o controle interno da instituição em relação aos prazos referentes a cada uma das datas relativas às atividades nos pleitos (Causa civil, Busca e apreensão, Cautela fiscal, Embargo à execução, Incidentes e etc), conjuntamente com o tempo de duração das etapas processuais pré-definidas pela instituição, delimitou-se um conjunto de procedimentos a serem analisados no software de programação R com o auxílio do pacote de visualizações Web denominado Shiny, para que assim sejam evitadas as quebras de prazos limites no decorrer das ações. Dessa maneira, visando um estudo dos dados na teoria de análise de sobrevivência, gerou-se um grupo de censuras (pleitos que até o atual momento de análise não obtiveram a conclusão de suas atividades, ou seja, são aqueles processos que possuem seus status em aberto) para todas as observações contidas no banco de dados disponibilizado pela 5ª Vara da Justiça Federal, com a intenção de produzir um conjunto de análises que sejam capazes de evidenciar o tempo médio decorrido pelo pleito, o tempo que ainda faltaria para seu término ou até mesmo a probabilidade desde ser concluído somente quando este chegasse na etapa de Conclusão da Sentença.\\
+Com o intuito de melhorar o controle interno da instituição em relação aos prazos referentes a cada uma das datas relativas às atividades nos pleitos (Causa civil, Busca e apreensão, Cautela fiscal, Embargo à execução, Incidentes e etc), conjuntamente com o tempo de duração das etapas processuais pré-definidas pela instituição, delimitou-se um conjunto de procedimentos a serem analisados no software de programação R com o auxílio do pacote de visualizações Web denominado Shiny, para que assim ocorra uma amenização das quebras de prazos limites no decorrer das ações. Dessa maneira, visando um estudo dos dados na teoria de análise de sobrevivência, considerou-se um grupo de censuras (pleitos que até o atual momento de análise não obtiveram a conclusão de suas atividades, ou seja, são aqueles processos que possuem seus status em aberto) para todas as observações contidas no banco de dados disponibilizado pela 5ª Vara da Justiça Federal, com a intenção de produzir um conjunto de análises que sejam capazes de evidenciar o tempo médio decorrido pelo pleito, o tempo que ainda faltaria para seu término ou até mesmo a probabilidade desde ser concluído somente quando este chegasse na etapa de Conclusão da Sentença.\\
 
 \section{Objetivos}
 
 Com o intuito de auxiliar a 5ª Vara da Justiça Federal a informar os servidores e advogados da casa a respeito dos prazos de respostas remanescentes para elaboração e estruturação dos processos descritos como de interesse, foi desenvolvido com parceria do departamento de Estatística da UnB um sistema Web capaz de inteirar os usuários sobre as estatísticas e informações bases dos pleitos administrados pela instituição. Dessa maneira, utilizou-se integralmente o software de programação R com auxílio de pacotes, ressaltando-se o Shiny, para desenvolvimento e estruturação dos parâmetros necessários para compilação dos resultados.\\
 
-Comparativamente com o método de controle anteriormente utilizado pela instituição, planilhas em Excel, o sistema desenvolvido tem como objetivo possuir um ganho considerável em capacidade de visualização pelos usuários: maior escala de armazenamento dos dados, análises processuais em tempo real e maior capacidade de controle dos prazos referentes as etapas processuais. Além disso, é uma possibilidade do usuário usufruir de um layout simples e dinâmico projetado com base numa página Web.\\
+Comparativamente com o método de controle anteriormente utilizado pela instituição, planilhas em Excel, o sistema desenvolvido tem como objetivo gerar um ganho considerável em capacidade de visualização pelos usuários: análises gráficas em tempo real e maior capacidade de controle dos prazos referentes as etapas processuais. Além disso, é uma possibilidade do usuário usufruir de um layout simples e dinâmico projetado com base numa página Web.\\
 
 Dentre as análises estatísticas presentes no modelo, vale ressaltar os estudos efetuados em análise de sobrevivência. Pois, estes caracterizam as medidas analisadas mais relevantes a instituição, possuindo descrições sobre as projeções do tempo médio de duração de pleitos, probabilidades de conclusão, tempos médios restantes para finalizações dos processos que ainda se encontram com etapas em aberto e etc.
 
@@ -180,28 +182,31 @@ Dentre as análises estatísticas presentes no modelo, vale ressaltar os estudos
 
 \begin{itemize}
 
-\item Estruturar um breve manual de uso afim de inteirar novos usuários sobre as características descritivas de cada processo analisado, conjuntamente evidenciando os prazos delimitados para as conclusões dos pleitos;
-
-\item Evidenciar medidas de como prosseguir com a utilização do software e dos códigos estruturados, disponibilizando documentação e concedendo arquivos via Github;
-
 \item Realizar um conjunto de visualizações simples e diretas que sejam capazes de informar o usuário a cerca dos tempos restantes ou tardios para conclusão dos processos;
 
 \item Gerar gráficos que mostrem o desenvolvimento dos pleitos dentro da instituição de maneira interativa e eficiente; 
 
 \item Realizar um estudo descritivo e analítico na área de análise de sobrevivência utilizando o banco de dados da Justiça Federal.
 
+\item Estruturar um breve manual de uso afim de inteirar novos usuários sobre as características descritivas de cada processo analisado, conjuntamente evidenciando os prazos delimitados para as conclusões dos pleitos;
+
+\item Evidenciar medidas de como prosseguir com a utilização do software e dos códigos estruturados, disponibilizando documentação e concedendo arquivos via Github;
+
 \end{itemize}
 
 \section{Metodologia}
 
-Os dados obtidos por meio de parceria com a 5ª Vara da Justiça Federal correspondem a cinquenta e cinco diferentes tipos de classes processuais com diferentes tempos de circulação, sendo estas administradas nos seis setores internos ao órgão (Secretaria, Gabinete, Central de mandados, Requerido, Requerente e Perito). Dessa maneira, para elaborar uma análise estatística mais aprofundada em relação ao banco utilizou-se primeiramente de uma separação das classes processuais em PJe, com o intuito de obter processos mais recentes e com melhores imputações de valores ao banco de dados. \\
+Os dados obtidos por meio de parceria com a 5ª Vara da Justiça Federal correspondem a cinquenta e cinco diferentes tipos de classes processuais com diferentes tempos de circulação, sendo estas administradas nos seis setores internos ao órgão (Secretaria, Gabinete, Central de mandados e Requerido). Dessa maneira, para elaborar uma análise estatística mais aprofundada em relação ao banco utilizou-se dos processos classificados como Pje (Processo Judicial Eletrônico), já que estes se classificariam como processos mais recentes, com melhores imputações de valores, e não precisariam de digitalização. \\
 
 Posteriormente, verificou-se a necessidade de realização de uma limpeza nas variáveis relacionadas as etapas processuais devido ao fato destas possuírem repetições nas movimentações entre os períodos de início e término das fases. Dessa maneira, possibilitou-se a estruturação de censuras à direita \footnote{\\Ocorre quando o tempo de falha é superior ao tempo registrado, ou seja, a informação faria com que o risco de ocorrência do evento de interesse fosse superestimado, pois o tempo até a ocorrência da falha é desconhecido. No entanto, sabe-se que o evento de interesse não ocorreu até o último
-momento observado.} para os pleitos que até o momento da extração dos dados (dia 02/12/2019) não haviam concluído a realização de suas atividades para aquelas etapas em desenvolvimento. Assim, já delimitado os termos que virão a ser censurados, utilizou-se da teoria de análise de sobrevivência no ramo da estatística para realizar os cálculos referentes aos parâmetros da \textit{função de sobrevivência}, \textit{função taxa de risco}, \textit{função taxa de falha acumulada}, \textit{tempo médio de vida}, \textit{vida média residual}, \textit{Modelo de Regressão de Cox}, \textit{Resíduos de Cox-Snell} e \textit{Resíduos de Schoenfeld}, para assim gerar medidas descritivas por meio de infoboxes que sejam visualmente simples e de fácil compreensão para o usuário final.\\
+momento observado.} para os pleitos que até o momento da extração dos dados (dia 02/12/2019) não haviam concluído a realização de suas atividades para aquelas etapas em desenvolvimento. Assim, já delimitado os termos que serão censurados, utilizou-se da teoria de análise de sobrevivência no ramo da estatística para realizar os cálculos referentes as métricas de interesse posteriormente disponibilizadas ao sistema por meio de infoboxes visualmente simples e de fácil compreensão para o usuário final. \\
+
+
+As principais métricas em estudo são representadas por meio da \textit{função de sobrevivência}, \textit{função taxa de risco}, \textit{função taxa de falha acumulada}, \textit{tempo médio de vida}, \textit{vida média residual}, \textit{Modelo de Regressão de Cox}, \textit{Resíduos de Cox-Snell} e \textit{Resíduos de Schoenfeld}, sendo cada uma dessas descritas detalhadamente nos tópicos abaixo. \\
 
 \subsection{Função de sobrevivência} 
 
-Esta é uma das principais funções probabilísticas usadas para descrever estudos na área de análise de sobrevivência $S(t)$, sendo esta representada como uma função que admite uma forma similar a uma escada que possui degraus nos tempos de falha observados de tamanho $\frac{d_j}{n}$, e é estimada com base nos dados obtidos em amostras e calculada com base no número de observações que não falharam ou sofreram o evento de interesse até o período de tempo $t$.
+É uma das principais funções probabilísticas utilizadas para descrever estudos na área de análise de sobrevivência, dispondo de notação descrita por $S(t)$. Esta métrica é representada como uma função que admite uma forma similar a uma escada possuindo degraus nos tempos de falha observados de tamanho $\frac{d_j}{n}$, e é estimada com base nos dados obtidos em amostras e calculada com base no número de observações que não falharam ou sofreram o evento de interesse até o período de tempo $t$.
 
 \subparagraph{}
 
@@ -219,11 +224,11 @@ Uma maneira mais eficaz e direta de estruturar o estimador da função de sobrev
 
 Onde $n_j$ representa o número de observações sobre risco no tempo $t_{(j)}$ (contido) e $d_j$ retrata o número de observações que sofreram censura no tempo $t_{(j)}$, $j=1,2,...,k$\\
 
-O estimador também pode ser definido como a probabilidade de um objeto em estudo não falhar até um determinado período de tempo $t_{(j)}$, ou seja, a probabilidade da observação analisada não ser censurada até o tempo $t_{(j)}$. Uma das técnicas amplamente utilizadas na estimação de \textit{S(t)} são os Estimadores de Kaplan-Meier e Nelson-Aalen, sendo ambos métodos não paramétricos de estimação.
+O estimador também pode ser definido como a probabilidade de um objeto em estudo não falhar até um determinado período de tempo $t_{(j)}$, ou seja, a probabilidade da observação analisada não ter sofrido censura até o tempo $t_{(j)}$. Uma das técnicas amplamente utilizadas na estimação de \textit{S(t)} são os Estimadores de Kaplan-Meier e Nelson-Aalen, sendo ambos métodos não paramétricos de estimação.
 
 \subsubsection{Estimador de Kaplan-Meier}
 
-O estimador não paramétrico de Kaplan-Meier proposto por Kaplan e Meier (1958), também denominado como estimador limite-produto, se defini como a medida mais popular para aferição da Função de Sobrevivência, estruturando assim a estimativa de $\hat{S}_{KM}(t)$ por meio de:
+O estimador não paramétrico de Kaplan-Meier proposto por Kaplan e Meier (1958), também denominado como estimador limite-produto, se define como a medida mais popular para aferição da Função de Sobrevivência, estruturando assim a estimativa de $\hat{S}_{KM}(t)$ por meio de:
 
 \begin{equation}
 \hat{S}_{KM}(t) = \prod_{j:t_(j) \leq t}^{} \Big( 1- \frac{d_j}{n_j} \Big)
@@ -233,7 +238,7 @@ O estimador não paramétrico de Kaplan-Meier proposto por Kaplan e Meier (1958)
 
 Onde $n_j$ representa o número de observações sobre risco no tempo $t_{(j)}$ (contido) e $d_j$ retrata o número de observações que sofreram censura no tempo $t_{(j)}$, $j=1,2,...,k$\\
 
-Como consequência do estimador de Kaplan-Meier ser uma adaptação da função de sobrevivência empírica, sua formação leva como base uma sequência de passos dependentes das anteriores, ou seja, para que uma observação sobreviva até o período de tempo $t_{(j)}$ é necessário que esta tenha sobrevivido até o período $t_{(j-1)}$, isto é, {\color{black}{(NAKANO, 2018)}}
+Como consequência do estimador de Kaplan-Meier ser uma adaptação da função de sobrevivência empírica, sua formação leva como base uma sequência de passos dependentes das anteriores, ou seja, para que uma observação sobreviva até o período de tempo $t_{(j)}$ é necessário que esta tenha sobrevivido até o período $t_{(j-1)}$, isto é, {\color{black}{(RUPERT et al., 1998)}}
 
 
 \begin{equation}
@@ -250,9 +255,9 @@ Para obter os valores do estimador na Função de Sobrevivência considerando $S
 
 \subparagraph{}
 
-Vale salientar que naturalmente, o estimador de Kaplan-Meier se reduz à função de Sobrevivência empírica se não existirem censuras. O estimador também apresenta esta forma em estudos envolvendo mecanismos de censuras do tipo I ou II mas que não assumem $\hat{S}_{KM}(t) = 0$, pois suas últimas observações são censuradas.\\
+Vale salientar que naturalmente, o estimador de Kaplan-Meier se reduz à função de Sobrevivência empírica se não existirem censuras. O estimador também apresenta esta forma em estudos envolvendo mecanismos de censuras do tipo I ou II que não assumem $\hat{S}_{KM}(t) = 0$.\\
 
-Devido ao fato da função de sobrevivência de Kaplan-Meier está suscetível a variações amostrais presentes em sua variância, pode-se descrever três diferentes modelos de intervalos de confiança ao estudo.\\
+Devido ao fato da função de sobrevivência de Kaplan-Meier está suscetível a variações amostrais que devem ser descritas em termos de sua variância, pode-se aplicar três diferentes modelos de intervalos de confiança ao estudo.\\
 
 \begin{itemize}
 
@@ -279,7 +284,7 @@ Entretanto, para os valores contidos nos extremos de $t$, este intervalo de conf
 
 \item \textbf{Intervalo de Confiança Log:}
 
-Uma forma alternativa de efetuar um intervalo de confiança para a função de sobrevivência é estruturá lo com base na estimativa do risco acumulado, apresentando assim sua variância estimada obtida por meio de: {\color{black}{(NAKANO, 2018)}}
+Uma forma alternativa de efetuar um intervalo de confiança para a função de sobrevivência é estruturá lo com base na estimativa do risco acumulado, apresentando assim sua variância estimada obtida por meio de: {\color{black}{(MARILIA et al, 2019)}}
 
 \begin{equation}
 \hat{Var}(\hat{H}_{KM}_{(t)}) = \sum_{j:t_(j) \leq t}^{} \frac{d_j}{n_j(n_j - d_j)}
@@ -295,6 +300,8 @@ Assim para todo $t$ fixo, possui-se um intervalo $100(1-\alpha)\%$ de confiança
 \left[ e^{-Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{KM}_{(t)})}}\hat{S}_{KM}(t);e^{Z_{(1-\frac{\alpha}{2})}\sqrt{\hat{Var}(\hat{H}_{KM}_{(t)})}}\hat{S}_{KM}(t)\right]
 \end{equation}\\
 
+Onde a função de risco acumulada descrita por $\hat{K}_{KM}(t)$ representa a soma das probabilidades de um evento de interesse falhar até um periodo de tempo $t$.\\
+
 \item \textbf{Intervalo de Confiança Log-log:}
 
 Baseia se na aplicação do logaritmo na função de risco acumulado, ou uma transformação "log-log"~na função de sobrevivência de Kaplan-Meier, isto é:
@@ -306,7 +313,7 @@ Baseia se na aplicação do logaritmo na função de risco acumulado, ou uma tra
 
 \subparagraph{}
 
-Gerando-se assim uma variância dada por,
+Ocasionando-se assim uma variância dada por,
 
 \begin{equation}
 \hat{Var}(\hat{L}_{KM}(t)) = \frac{1}{\Big( log \big( \hat{S}_{KM}(t)\big) \Big)^{2}} \sum_{j:t_(j) \leq t}^{} \frac{d_j}{n_j(n_j - d_j)}
@@ -324,7 +331,7 @@ Logo, para todo $t$ fixo, assume-se um intervalo $100(1-\alpha)\%$ de confiança
 
 \subsubsection{Estimador de Nelson-Aalen}
 
-Proposto por Nelson-Aalen (1972), o  estimador da função de sobrevivência baseia-se na relação entre a função de sobrevivência e a função de risco acumulado. Dessa maneira, utilizando a equação $S(t) = exp \left[ -H(t) \right]$ assume-se que o estimador para função de sobrevivência é obtido por meio de: {\color{black}{(NAKANO, 2018)}}
+Proposto por Nelson-Aalen (1972), o  estimador da função de sobrevivência baseia-se na relação entre a função de sobrevivência e a função de risco acumulado. Dessa maneira, utilizando a equação $S(t) = exp \left[ -H(t) \right]$ assume-se que o estimador para função de sobrevivência é obtido por meio de: {\color{black}{(COLOSIMO et al., 2006)}}
 
 \begin{equation}
 \hat{S}_{NA}(t)= exp\big( -\hat{H}_{NA}(t)\big) = exp \big(-\sum_{j:t_(j) \leq t}^{} \frac{d_j}{n_j} \big)
@@ -334,7 +341,7 @@ Proposto por Nelson-Aalen (1972), o  estimador da função de sobrevivência bas
 
 Vale salientar que o estimador $\hat{S}_{NA}(t)$ e o de Kaplan-Meier possuem na maioria das vezes suas estimativas muito próximas de $S(t)$. Bohoris(1994) demonstrou que $\hat{S}_{NA}(t) \geq  \hat{S}_{KM}(t)$ para todo $t$. Ou seja, o estimador de Nelson-Aalen é maior ou igual que o de Kaplan-Meier.\\
 
-Considerando-se o fato da função de sobrevivência de Nelson-Aalen está sujeita a variações amostrais presentes em sua variância, pode-se descrever três diferentes modelos de intervalos de confiança ao estudo.\\
+Considerando-se o fato da função de sobrevivência de Nelson-Aalen está sujeita a variações amostrais que devem ser descritas em termos de sua variância, pode-se descrever três diferentes modelos de intervalos de confiança ao estudo.\\
 
 \begin{itemize}
 
@@ -358,7 +365,7 @@ Considerando-se que $\hat{S}_{NA}(t)$ converge assintoticamente para uma distrib
 
 \item \textbf{Intervalo de Confiança Log:}
 
-Considerando que a função de risco pode ser escrita por meio da relação entre a função de sobrevivência e o risco acumulado pela fórmula $H(t) = -log\left[ S(t) \right]$, possui-se uma variação assintótica obtido por:  {\color{black}{(NAKANO, 2018)}}
+Considerando que a função de risco pode ser escrita por meio da relação entre a função de sobrevivência e o risco acumulado pela fórmula $H(t) = -log\left[ S(t) \right]$, possui-se uma variação assintótica obtido por:  {\color{black}{(COLOSIMO et al., 2006)}}
 
 \begin{equation}
 \hat{Var}(\hat{H}_{NA}(t)) = \sum_{j:t_(j) \leq t}^{} \frac{d_j}{n^{2}_j} 
@@ -414,17 +421,17 @@ De maneira geral, pode-se assumir o intervalo como sendo $[t,t+\Delta t)$. Acarr
 
 \subparagraph{}
 
-Considerando-se $\Delta(t)$ como um valor muito pequeno, $\lambda(t)$ representa a taxa de falha instantânea no tempo $t$ condicional à sobrevivência até o instante $t$. Observe que as taxas de falhas são números que assumem seus valores postivos, mas sem limite superior. A função de taxa de falha $\lambda(t)$ é bastante utilizada para enunciar a distribuição do tempo de vida das observações. {\color{black}{(COLONISMO et al., 2006)}}\\
+Considerando-se $\Delta(t)$ como um valor muito pequeno, $\lambda(t)$ representa a taxa de falha instantânea no tempo $t$ condicional à sobrevivência até o instante $t$. Observe que as taxas de falhas são números que assumem seus valores postivos, mas sem limite superior. A função de taxa de falha $\lambda(t)$ é bastante utilizada para enunciar a distribuição do tempo de vida das observações. {\color{black}{(COLOSIMO et al., 2006)}}\\
 
 
-Graficamente, a taxa de risco de um objeto pode vir a assumir três formulações diferentes entre si, sendo estas: Função crescente (indicando um aumento na taxa de falha ao longo do tempo, este comportamento representa um efeito progressivo de envelhecimento), Função constante (evidencia que a taxa não se altera com o passar do tempo, ou seja, uma constante) e Função decrescente (demonstra uma redução da taxa de falha à medida que o tempo passa). {\color{black}{(COLONISMO et al., 2006)}}
+Graficamente, a taxa de risco de um objeto pode vir a assumir quatro formulações diferentes entre si, sendo estas: Função crescente (indicando um aumento na taxa de falha ao longo do tempo, este comportamento representa um efeito progressivo de envelhecimento), Função constante (evidencia que a taxa não se altera com o passar do tempo, ou seja, uma constante), Função banheira (representa uma taxa de falha que é frequentemente alta inicialmente, baixa no centro e alta novamente no final da vida, ou seja, o modelo divide a vida operacional de um elemento em três estágios) e Função decrescente (demonstra uma redução da taxa de falha à medida que o tempo passa). {\color{black}{(COLOSIMO et al., 2006)}}
 
 \subparagraph{}
 
 	\begin{figure}[htb!]
 	\caption{\it Função de taxa de falha}
 	\label{Figura1}
-			\begin{center}	\includegraphics[width=10cm]{Figuras/Imagem1.png}
+			\begin{center}	\includegraphics[width=10cm]{Figuras/Taxa de risco.png}
 			\end{center}
 		\end{figure}
 		
@@ -436,7 +443,7 @@ H(t) = \int_{0}^{t} \lambda(u) du , \thinspace t\geq 0
 
 \subparagraph{}
 
-A função de Taxa de falha acumulada, $H(t)$, não tem interpretação direta como visto em outras medidas mas pode ser útil na avaliação de uma função mais relevante, que seria a taxa de falha ($\lambda(t)$). Isto ocorre substancialmente na estimação não-paramétrica onde $\lambda(t)$ apresenta um estimador com propriedades ótimas e dificeis de serem estimadas. {\color{black}{(COLONISMO et al., 2006)}}\\
+A função de Taxa de falha acumulada, $H(t)$, não tem interpretação direta como visto em outras medidas mas pode ser útil na avaliação de uma função mais relevante, que seria a taxa de falha ($\lambda(t)$). Isto ocorre substancialmente na estimação não-paramétrica onde $\lambda(t)$ apresenta um estimador com propriedades ótimas e dificeis de serem estimadas. {\color{black}{(COLOSIMO et al., 2006)}}\\
 
 Uma das técnicas amplamente usufruídas na estimação de $H(t)$ são os estimadores de Kaplan-Meier e Nelson-Aalen. Sendo ambos métodos não paramétricos de estimação.
 
@@ -468,7 +475,7 @@ Como visto anteriormente, a função da taxa de risco acumulado pode ser descrit
 
 \subsubsection{Estimador de Nelson-Aalen}
 
-Nelson (1972) propôs um estimador não paramétrico para a função de risco acumulado, $H(t)$, cujas propriedades assintóticas foram comprovadas por Aalen (1978). Este estimador recebe a denominação na literatura de Nelson-Aalen e é definido por: {\color{black}{(NAKANO, 2018)}}
+Nelson (1972) propôs um estimador não paramétrico para a função de risco acumulado, $H(t)$, cujas propriedades assintóticas foram comprovadas por Aalen (1978). Este estimador recebe a denominação na literatura de Nelson-Aalen e é definido por: {\color{black}{(COLOSIMO et al., 2006)}}
 
 \begin{equation}
 \hat{H}_{NA}(t) = \sum_{j:t_(j) \leq t}^{} \frac{d_j}{n_j} 
@@ -500,7 +507,7 @@ Dessa maneira, cacteriza-se para todo $t$ fixo um intervalo de confiança de $10
 
 \subsection{Tempo médio de vida} É a representação da área gerada abaixo do gráfico da \textit{Função de sobrevivência}, ou seja, o tempo médio que o objeto sobrevive sem presenciar a censura.\\
 
-Considerando que $T$ (tempo) é uma variável aleatória discreta que assume valores não negativos, então o R-ésimo momento, se existir, pode ser descrito por: {\color{black}{(NAKANO, 2018)}}
+Considerando que $T$ (tempo) é uma variável aleatória discreta que assume valores não negativos, então o R-ésimo momento, se existir, pode ser descrito por: {\color{black}{(A. KAUFMANN, 1997)}}
 
 \begin{equation}
 E(T^{r}) = \sum_{j:t_(j) \leq t}^{\infty} t^{r} p(t),~ para~todo~r\geq 0
@@ -510,7 +517,7 @@ E(T^{r}) = \sum_{j:t_(j) \leq t}^{\infty} t^{r} p(t),~ para~todo~r\geq 0
 
 Sendo $p(t)$ obtido por meio da relação $p(t) = S(t-1)-S(t)$ se $t$ for maior que zero.\\
 
-Em particular, o primeiro e segundo momento da variável aleatória $T$ podem ser expressos respectivamente por meio de sua relação com a função de sobrevivência: {\color{black}{(NAKANO, 2018)}}
+Em particular, o primeiro e segundo momento da variável aleatória $T$ podem ser expressos respectivamente por meio de sua relação com a função de sobrevivência: {\color{black}{(A. KAUFMANN, 1997)}}
 
 \begin{equation}
 E(T) = \sum_{t=0}^{\infty} S(t)
@@ -641,9 +648,9 @@ Se as hipóteses forem válidas, as curvas de $log~\hat{H}_{0j}(t)$ contra $t$, 
 
 \subsection{Análise de adequação ao modelo ajustado}
 
-Uma avaliação da qualidade do modelo ajustado é parte essencial na análise dos dados. No modelo de regressão linear usualmente utilizado, uma análise gráfica dos resíduos é fundamental para esta finalidade. Nos modelos de regressão apresentados anterioremente, a definição de resíduos não é tão evidente e, desse modo, diversos resíduos têm sido propostos na literatura para averiguar um ajuste ao modelo. {\color{black}{(COLONISMO et al., 2006)}}\\
+Uma avaliação da qualidade do modelo ajustado é parte essencial na análise dos dados. No modelo de regressão linear usualmente utilizado, uma análise gráfica dos resíduos é fundamental para esta finalidade. Nos modelos de regressão apresentados anterioremente, a definição de resíduos não é tão evidente e, desse modo, diversos resíduos têm sido propostos na literatura para averiguar um ajuste ao modelo. {\color{black}{(COLOSIMO et al., 2006)}}\\
 
-Técnicas gráficas, que utilizam dos diferentes resíduos propostos são, em particular, bastante utilizadas para examinar os diversos aspectos do modelo. Um desses aspectos é o de validar, por meio dos resíduos, a distribuição dos erros. Estas técnicas, no entanto, como observado por Klein e Moeschberger (1997), devem ser usufruidas como um meio de recusar modelos evidentemente inapropriados e não para "provar"~que um particular modelo paramétrico está correto, mesmo porque, em muitas situações, dois ou mais modelos paramétricos podem prover ajustes razoáveis bem como estimativas próximas dos valores de interesse.  {\color{black}{(COLONISMO et al., 2006)}}
+Técnicas gráficas, que utilizam dos diferentes resíduos propostos são, em particular, bastante utilizadas para examinar os diversos aspectos do modelo. Um desses aspectos é o de validar, por meio dos resíduos, a distribuição dos erros. Estas técnicas, no entanto, como observado por Klein e Moeschberger (1997), devem ser usufruidas como um meio de recusar modelos evidentemente inapropriados e não para "provar"~que um particular modelo paramétrico está correto, mesmo porque, em muitas situações, dois ou mais modelos paramétricos podem prover ajustes razoáveis bem como estimativas próximas dos valores de interesse.  {\color{black}{(COLOSIMO et al., 2006)}}
 
 \subsubsection{Resíduos de Cox-Snell}
 
@@ -697,151 +704,101 @@ Em que $i(\beta)$ é a informação e $d$ é o número de falhas observadas.\\
 	\begin{figure}[htb!]
 	\caption{\it Resíduos de Schoenfeld}
 	\label{Figura3}
-			\begin{center}	\includegraphics[width=13cm]{Figuras/Imagem3.jpg}
+			\begin{center}	\includegraphics[width=9cm]{Figuras/Imagem3.jpg}
 			\end{center}
 		\end{figure}
 
 \section{Análise exploratória}
 
-A análise exploratória a seguir é referente ao banco de dados obtido em parceria com a 5ª vara da justiça federal no dia 02/12/2019 e consta inicialmente com 220.363 (duzentos e vinte mil trezentos e sessenta e três) observações separadas em duas classificações distintas, sendo estas Processual e Pje. Dessa maneira, foram selecionadas apenas as classificações Pje que contabilizaram 78.260 (setenta e oito mil duzentos e sessenta) termos plausíveis de uso para averiguação da qualidade das medidas estatísticas efetuadas e dos ajustes aos modelos propostos sequentemente.\\
+A análise exploratória a seguir é referente ao banco de dados obtido em parceria com a 5ª vara da justiça federal no dia 02/12/2019 e consta inicialmente com 220.363 (duzentos e vinte mil trezentos e sessenta e três) observações separadas em duas classificações distintas, sendo estas Processual e Pje. Dessa maneira, foram selecionadas apenas as classificações Pje que não incluíssem no mesmo dia duplicadas em suas etapas processuais, contabilizando-se 65.539 (sessenta e cinco mil quinhentos e trinta e nove) termos plausíveis de uso para averiguação da qualidade das medidas estatísticas efetuadas e dos ajustes aos modelos propostos sequentemente.\\
 
 Inicialmente na análise dos dados, foram observadas as frequências das classes processuais para saber como funcionaram as demandas da instituição entre os anos de 2014 a 2019. Observações com contagens inferiores a 50 unidades sofreram ajustes de nomenclatura para "Outros"~afim de reduzir a poluição gráfica e otimizar a compreensão dos resultados propostos.\\ 
 
 	\begin{figure}[htb!]
 	\caption{\it Frequência das classes processuais}
 	\label{Figura4}
-			\begin{center}	\includegraphics[width=17cm]{Figuras/imagem15.png}
+			\begin{center}	\includegraphics[width=17cm]{Figuras/imagem1.png}
 			\end{center}
 		\end{figure}
 
-Na \textbf{Figura \ref{Figura4}} obtém-se um grande destaque nas classes processuais compostas por Causas Supervenientes à Sentença e Contratos Bancários, sendo estes dois equivalentes a 3.747 (três mil setecentos e quarenta e sete) casos distintos, ou seja, aproximadamente $33\%$ entre todos os processos analisados pela instituição. No entanto, mesmo realizando a soma do segundo e terceiro maior número contabilizado de casos ainda não se supera os $34\%$ referentes a nomenclatura "outros"~presentes no gráfico, informando assim que a maior participação da 5ª vara da justiça federal é referente a pequenas classes de processos que necessitaram de julgamentos da instituição ao longo dos últimos 5 anos, mas que não obtiveram retornos frequentes.\\
+Na \textbf{Figura \ref{Figura4}} obtém-se um grande destaque nas classes processuais compostas por Causas Supervenientes à Sentença e Contratos Bancários, sendo estes dois equivalentes a 3.707 (três mil setecentos e sete) casos distintos, ou seja, aproximadamente $33\%$ entre todos os processos analisados pela instituição. No entanto, mesmo realizando a soma do segundo e terceiro maior número contabilizado de casos ainda não se supera os $34\%$ referentes a nomenclatura "outros"~presentes no gráfico, informando assim que a maior participação da 5ª vara da justiça federal é referente a pequenas classes de processos que necessitaram de julgamentos da instituição ao longo dos últimos 5 anos, mas que não obtiveram retornos frequentes.\\
 
-Para uma visualização percentual mais limpa e composta por um menor número de variáveis, maior alocação de classes processuais na nomenclatura "Outros", gerou-se o gráfico presente na \textbf{Figura \ref{Figura51}}. Sendo este composto pelas variáveis Causas supervenientes à sentença (24.2$\%$), Contratos bancários (8.9$\%$), Energia elétrica (1.9$\%$), Gratificação de incentivo (2.4$\%$), Gratificação de Atividades (2$\%$), Indenização por dano moral (1.8$\%$), Inscrição/Documentação (1.6$\%$), IRPF/ Imposto de renda de pessoa física (1.6$\%$) e Outros (55.7$\%$) respectivamente.\\
+Para uma visualização percentual mais limpa e composta por um menor número de variáveis, maior alocação de classes processuais na nomenclatura "Outros", gerou-se o gráfico presente na \textbf{Figura \ref{Figura51}}. Sendo este composto pelas variáveis Causas supervenientes à sentença (24.3$\%$), Contratos bancários (8.96$\%$), Energia elétrica (1.79$\%$), Gratificação de incentivo (2.43$\%$), Gratificação de Atividades (2$\%$), Indenização por dano moral (1.7$\%$) e Outros (58.82$\%$) respectivamente.\\
 
 
 	\begin{figure}[htb!]
 	\caption{\it Frequência das classes processuais}
 	\label{Figura51}
-			\begin{center}	\includegraphics[width=15cm]{Figuras/imagem17.png}
+			\begin{center}	\includegraphics[width=12cm]{Figuras/imagem2.png}
 			\end{center}
 		\end{figure}
 		
 		
-Após as informações obtidas pelos gráficos nas \textbf{Figuras \ref{Figura4}} e \textbf{\ref{Figura51}}, gerou-se o interesse em desmembrar ainda mais a análise realizada para poder usufruir de uma visualização detalhada em relação aos três anos mais influentes (2017, 2018 e 2019) na instituição em relação à classificação Pje, ou seja, na \textbf{Figura \ref{Figura5}} foi gerado um plot possuindo as separações das frequências observadas pelas classes processuais em cada um dos três anos mais recentes ao banco para tal classificação utilizada.\\
-
-
-\newenvironment{rotatepage}%
-    {\clearpage\pagebreak[4]\global\pdfpageattr\expandafter{\the\pdfpageattr/Rotate 90}}%
-    {\clearpage\pagebreak[4]\global\pdfpageattr\expandafter{\the\pdfpageattr/Rotate 0}}%
-
-% Imagem número 4
-
-\begin{rotatepage}
-\begin{landscape}
- \begin{figure}
-  \centering
-  \includegraphics[scale=0.7, inner]{Figuras/imagem16.png}
-  \caption{Frequência das classes processuais por ano}
-  \label{Figura5}
- \end{figure}
-
-\end{landscape}
-\end{rotatepage}
-
-Com base nos valores obtidos para a \textbf{Figura \ref{Figura5}} observa-se uma baixa frequência entre as classes processuais para os anos de 2017 e 2018, possuindo um aumento significativo na classificação Pje apenas no ano de 2019. O destaque numérico apresentado no gráfico se deu de forma mais considerável entre as variáveis "Causas Supervenientes à Sentença"~e "Contratos Bancários", apresentando-se assim entre os anos de 2017 a 2019 os respectivos valores de 877, 792, 1073, 110, 257 e 493 termos distintos observados.\\
-
-Para uma melhor visualização dos resultados apresentados anteriormente na \textbf{Figura \ref{Figura5}}, foram elaborados três gráficos de setores distintos para melhor informar sobre a frequência observada dos processos considerados mais relevantes dentre os três anos, os plots encontram-se presentes nas \textbf{Figura \ref{Figura6},~\ref{Figura7}} e \textbf{\ref{Figura8}}. 
-
-\subparagraph{}
+Após as informações obtidas pelos gráficos nas \textbf{Figuras \ref{Figura4}} e \textbf{\ref{Figura51}}, gerou-se o interesse em desmembrar ainda mais a análise realizada para poder usufruir de uma visualização detalhada em relação aos três anos mais influentes (2017, 2018 e 2019) na instituição em relação à classificação Pje, ou seja, nas \textbf{Figuras \ref{Figura6}, \ref{Figura7} e \ref{Figura8}} foram gerados gráficos de setores possuindo as separações das frequências observadas pelas classes processuais mais influentes em cada um dos três anos acima referenciados.\\
 
 	\begin{figure}[htb!]
 	\caption{\it Percentual de frequência das classes processuais no ano de 2017}
 	\label{Figura6}
-			\begin{center}	\includegraphics[width=12.5cm]{Figuras/imagem18.png}
+			\begin{center}	\includegraphics[width=10cm]{Figuras/imagem3.png}
 			\end{center}
 		\end{figure}
 
-Dessa maneira, consta-se que no ano de 2017 assim como observado na \textbf{Figura \ref{Figura4}}, a prevalência de frequência das observações eram obtidas nas classes processuais "Causas Supervenientes à Sentença"~(27.2$\%$)~e "Contratos Bancários"~(8.9$\%$), no entanto, em 2017 segundo a \textbf{Figura \ref{Figura6}} o percentual de frequência de ambas as classes eram consideravelmente maior que as presentes na \textbf{Figura \ref{Figura4}}, contabilizando cerca de $53\%$ do valor total presente.\\
+Dessa maneira, consta-se que no ano de 2017 assim como observado na \textbf{Figura \ref{Figura4}}, a prevalência de frequência das observações são obtidas nas classes processuais "Causas Supervenientes à Sentença"~(46.4$\%$)~e "Contratos Bancários"~(6$\%$), no entanto, ainda considerando o ano de 2017 segundo a \textbf{Figura \ref{Figura6}} observa-se que o percentual de frequência de ambas as classes são consideravelmente maiores que as presentes na \textbf{Figura \ref{Figura4}}, contabilizando cerca de $52.4\%$ do valor total presente.\\
 
-No ano subsequente de 2018, já se considera uma maior abrangência na variedade do número de frequências existentes para as diversas classes processuais, embora se tenha permanecido a prevalência dos mesmos grupos de categorias descritas para o ano anterior, contudo ocorre uma redução significativa do percentual existente na soma de ambas para $34.7\%$.
+No ano subsequente de 2018, já se considera uma maior abrangência na variedade do número de frequências existentes para as diversas classes processuais, embora se tenha permanecido a prevalência dos mesmos grupos de categorias descritas para o ano anterior, contudo ocorre uma redução significativa do percentual existente na soma de ambas para $34.44\%$.
 
 	\begin{figure}[htb!]
 	\caption{\it Percentual de frequência das classes processuais no ano de 2018}
 	\label{Figura7}
-			\begin{center}	\includegraphics[width=11.5cm]{Figuras/imagem19.png}
+			\begin{center}	\includegraphics[width=10cm]{Figuras/imagem4_1.png}
 			\end{center}
 		\end{figure}
 
-Para finalizar com o ano de 2019, a \textbf{Figura \ref{Figura8}} apresenta uma diversidade ainda maior entre as participações das diversas classes, mas ainda considerando a prevalência dos mesmos destaques dos anos anteriores, reduzindo-se apenas seu percentual para $25.7\%$ do valor total apresentado para o ano de 2019.\\
+Para finalizar com o ano de 2019, a \textbf{Figura \ref{Figura8}} apresenta uma diversidade ainda maior entre as participações das diversas classes, mas ainda considerando a prevalência dos mesmos destaques dos anos anteriores, reduzindo-se apenas seu percentual para $26.24\%$ do valor total apresentado para o ano de 2019.\\
 
 	\begin{figure}[htb!]
 	\caption{\it Percentual de frequência das classes processuais no ano de 2019}
 	\label{Figura8}
-			\begin{center}	\includegraphics[width=11.5cm]{Figuras/imagem20.png}
+			\begin{center}	\includegraphics[width=12cm]{Figuras/imagem5_1.png}
 			\end{center}
 		\end{figure}
 
-Voltando-se para a análise do funcionamento das etapas realizadas pela instituição em cada um dos processos efetuados, considerou-se duas maneiras distintas de avaliação dos resultados. Primeiramente, evidenciou-se a frequência de dados não censurados existentes para cada uma das etapas, com o objetivo de mostrar o número de vezes que estes estágios foram concluídos dentre as diversas classes processuais \textbf{Figura \ref{Figura11}} e posteriormente o número de frequências censuradas no banco, ou seja, o número de vezes que as diversas fases ainda se encontram com status aberto até o dia 02/12/2019 para as distintas classes de pleitos, \textbf{Figura \ref{Figura9}}.\\
+Voltando-se para a análise do funcionamento das etapas realizadas pela instituição em cada um dos processos efetuados, considerou-se duas maneiras distintas de avaliação dos resultados. Primeiramente, evidenciou-se a frequência de dados não censurados existentes para cada uma das etapas, com o objetivo de mostrar o número de vezes que estes estágios foram concluídos dentre as diversas classes processuais e posteriormente o número de frequências censuradas no banco, ou seja, o número de vezes que as diversas fases ainda se encontram com status aberto até o dia 02/12/2019 para as distintas classes de pleitos, \textbf{Figura \ref{Figura9}}.\\
+
+\newenvironment{rotatepage}%
+    {\clearpage\pagebreak[4]\global\pdfpageattr\expandafter{\the\pdfpageattr/Rotate 90}}%
+    {\clearpage\pagebreak[4]\global\pdfpageattr\expandafter{\the\pdfpageattr/Rotate 0}}%
+ 
+\begin{rotatepage}
+\begin{landscape}
 
 	\begin{figure}[htb!]
-	\caption{\it Frequência de censuras nas etapas processuais}
+	\caption{\it Frequência de observações censuradas e não censuradas nas etapas processuais}
 	\label{Figura9}
-			\begin{center}	\includegraphics[width=15.5cm]{Figuras/imagem21.png}
+			\begin{center}	\includegraphics[scale=0.7, inner]{Figuras/imagem6_1.png}
 			\end{center}
 		\end{figure}
+		
+\end{landscape}
+\end{rotatepage}
 
-\subparagraph{}
+Dessa maneira pode-se dizer que em relação as etapas não censuradas, "Decurso de prazo"~(1154 observações - 36.10\%)~e "Petição"~(1250 termos - 39.10\%)~sozinhas equivalem a 2.404 (duas mil quatrocentas e quatro) frequências de estágios com status ainda em aberto até o dia de coleta das informações, ou seja, são essas às duas principais etapas onde a maior parte dos processos da instituição se encontram em andamento.\\
 
-Dessa maneira pode-se dizer que as etapas de "Decurso de prazo"~(1277 observações)~e "Petição"~(1226 termos)~sozinhas equivalem a 2.503 (duas mil quinhentas e três) frequências de estágios com status ainda em aberto até o dia de coleta das informações, ou seja, são essas às duas principais etapas onde a maior parte dos processos da instituição se encontram estagnados.\\
-
-Levando-se em consideração apenas as classes de pleitos que possuíram uma maior influência entre os processos nos anos de 2014 a 2019, observa-se que os dois termos de maior relevância na \textbf{Figura \ref{Figura9}} em ordem crescente apresentam respectivamente os valores percentuais de $36.5\%$ e $38\%$ em relação ao banco como um todo.\\
-
-Assim como realizada nas medidas descritivas anteriores, foi elaborado um gráfico de setores, \textbf{Figura \ref{Figura10}}. Este que serve para auxiliar na análise do percentual de censuras em relação às etapas processuais com número de frequências relevantes dentre os valores observados no gráfico acima, \textbf{Figura \ref{Figura9}}.
-
-	\begin{figure}[htb!]
-	\caption{\it Percentual da frequência de censuras por etapa}
-	\label{Figura10}
-			\begin{center}	\includegraphics[width=12cm]{Figuras/imagem22.png}
-			\end{center}
-		\end{figure}
-
-Já em relação à frequências de etapas não censuradas, \textbf{Figura \ref{Figura11}}, destaca-se uma maior ocorrência em ordem crescente das etapas em  "Petição"~e "Remessa"~com respectivamente 1.860 e 2.383 casos distintos. Dessa maneira, vale ressaltar que sozinhas essas duas atividades foram responsáveis por 4.243 (quatro mil duzentas e vinte e três) observações dentre os 8.078 (oito mil e setenta e oito) casos, representando cerca de $52.52\%$ do valor total referenciado pelo sistema.
-
-	\begin{figure}[htb!]
-	\caption{\it Frequência de observações não censuradas por etapa}
-	\label{Figura11}
-			\begin{center}	\includegraphics[width=14.6cm]{Figuras/imagem23.png}
-			\end{center}
-		\end{figure}
-
-
-Para ter uma melhor representação da influência de cada uma das etapas não censuradas em relação ao volume total do banco, foi efetuado o gráfico presente na \textbf{Figura \ref{Figura12}}, sendo este uma maneira de evidenciar de forma mais clara a prevalência das etapas acima citadas.\\
-
-Valores menos influentes foram adicionados a nomenclatura "Outros"~com o intuito de melhorar a visualização gráfica.
-
-
-	\begin{figure}[htb!]
-	\caption{\it Percentual da frequência de observações não censuradas por etapa}
-	\label{Figura12}
-			\begin{center}	\includegraphics[width=10.4cm]{Figuras/imagem24.png}
-			\end{center}
-		\end{figure}
-
-\subparagraph{}
+Já em relação à frequências de etapas censuradas, destaca-se uma maior ocorrência em ordem crescente das etapas em  "Petição"~e "Remessa"~com respectivamente 1.855 e 2.374 casos distintos. Dessa maneira, vale ressaltar que sozinhas essas duas atividades foram responsáveis por 4.229 (quatro mil duzentas e vinte e nove) observações dentre os 7.890 (sete mil oitocentos e noventa) casos, representando cerca de $53.59\%$ do valor total referenciado pelo sistema.\\
 
 Com o intuito de compreender a evolução das classes processuais em relação ao tempo, foi efetuado o gráfico de Box-plot, \textbf{Figura \ref{Figura13}}, que evidencia os valores outliers da distribuição. Além disso, salientam-se as posições aproximadas do primeiro quartil, média, mediana e terceiro quartil de cada uma das variáveis presentes nas classes processuais.\\
 
-Assim, de maneira meramente visual ao se considerar apenas a \textbf{Figura \ref{Figura13}}, é possível acatar que os valores mais elevados das médias em relação ao tempo em dias se encontram nas variáveis "Outros", "Gratificação de incentivo", "Contratos Bancários"~e "Causas Supervenientes à Sentença". Já se considerando a amplitude interquartílica dos dados com o intuito de descrever uma possível desaglomeração de valores na duração das classes processuais analisadas, destacam-se as variáveis "Transportes terrestres", "Reintegração","Convênio"~e "Outros". Enquanto em contrapartida, os valores mais aglomerados estão em "Benefício Assistencial (Art. 203,V CF/88)"~e "Assistência Social". \\
+Assim, de maneira meramente visual ao se considerar apenas a \textbf{Figura \ref{Figura13}}, é possível acatar que os valores mais elevados das médias em relação ao tempo em dias se encontram nas variáveis "FUNDEF", "Contratos Bancários", "Anistia Política"~e "Indenização por Dano Material". Já se considerando a amplitude interquartílica dos dados com o intuito de descrever uma possível desaglomeração de valores na duração das classes processuais analisadas, destacam-se as variáveis "Reintegração", "FUNDEF","ICMS", Convênio"~e "Outros". Enquanto em contrapartida, os valores mais aglomerados estão em "Benefício Assistencial (Art. 203,V CF/88)"~e "Financiamento Público da Educação e/ou Pesquisa". \\
 
 Na \textbf{Tabela 1} abaixo encontram-se descritas todas as medidas descritivas utilizadas para elaboração do gráfico de Boxplot referente as classes processuais, \textbf{Figura \ref{Figura13}}.
-
+    
 \begin{rotatepage}
 \begin{landscape}
 
 	\begin{figure}[htb!]
 	\caption{\it Boxplot das classes processuais versus tempo de duração do pleito}
 	\label{Figura13}
-			\begin{center}	\includegraphics[scale=0.7, inner]{Figuras/imagem25.png}
+			\begin{center}	\includegraphics[scale=0.7, inner]{Figuras/imagem7_1.png}
 			\end{center}
 		\end{figure}
 
@@ -858,38 +815,38 @@ Na \textbf{Tabela 1} abaixo encontram-se descritas todas as medidas descritivas 
 \begin{table}[ht]
 \centering
 \caption{Medidas descritivas das variáveis presentes no Boxplot}
-\begin{tabular}{l|c|c|c|c|c|c|}
+\begin{tabular}{l|l|l|l|l|l|l|}
 \cline{2-7}
-{\color[HTML]{333333} }                                                                          & {\color[HTML]{333333} Mínimo} & {\color[HTML]{333333} 1º quartil} & {\color[HTML]{333333} Mediana} & {\color[HTML]{333333} Média} & {\color[HTML]{333333} 3º quartil} & {\color[HTML]{333333} Máximo} \\ \hline
-\multicolumn{1}{|l|}{{\color[HTML]{333333} 1/3 de férias}}                                       & {\color[HTML]{333333} 0.00}   & {\color[HTML]{333333} 5.25}       & {\color[HTML]{333333} 38.00}   & {\color[HTML]{333333} 47.66} & {\color[HTML]{333333} 68.00}      & {\color[HTML]{333333} 190.00} \\ \hline
-\multicolumn{1}{|l|}{{\color[HTML]{333333} Alienação Fiduciária}}                                & {\color[HTML]{333333} 0.00}   & {\color[HTML]{333333} 1.00}       & {\color[HTML]{333333} 31.00}   & {\color[HTML]{333333} 47.62} & {\color[HTML]{333333} 89.00}      & {\color[HTML]{333333} 189.00} \\ \hline
-\multicolumn{1}{|l|}{{\color[HTML]{333333} Anistia Política}}                                    & {\color[HTML]{333333} 0.00}   & {\color[HTML]{333333} 2.00}       & {\color[HTML]{333333} 45.50}   & {\color[HTML]{333333} 71.39} & {\color[HTML]{333333} 96.25}      & {\color[HTML]{333333} 651.00} \\ \hline
-\multicolumn{1}{|l|}{{\color[HTML]{333333} Anulação}}                                            & {\color[HTML]{333333} 0.00}   & {\color[HTML]{333333} 0.00}       & {\color[HTML]{333333} 5.00}    & {\color[HTML]{333333} 33.27} & {\color[HTML]{333333} 54.00}      & {\color[HTML]{333333} 189.00} \\ \hline
-\multicolumn{1}{|l|}{{\color[HTML]{333333} Aposentadoria por Tempo de Contribuição (Art. 55/6)}} & {\color[HTML]{333333} 0.00}   & {\color[HTML]{333333} 1.00}       & {\color[HTML]{333333} 5.00}    & {\color[HTML]{333333} 39.04} & {\color[HTML]{333333} 47.00}      & {\color[HTML]{333333} 218.00} \\ \hline
-\multicolumn{1}{|l|}{{\color[HTML]{333333} Assistência Social}}                                  & {\color[HTML]{333333} 0.00}   & {\color[HTML]{333333} 0.00}       & {\color[HTML]{333333} 2.00}    & {\color[HTML]{333333} 33.36} & {\color[HTML]{333333} 32.00}      & {\color[HTML]{333333} 804.00} \\ \hline
-\multicolumn{1}{|l|}{{\color[HTML]{333333} Atualização de Conta}}                                & {\color[HTML]{333333} 0.00}   & {\color[HTML]{333333} 4.25}       & {\color[HTML]{333333} 43.50}   & {\color[HTML]{333333} 54.69} & {\color[HTML]{333333} 96.25}      & {\color[HTML]{333333} 269.00} \\ \hline
-\multicolumn{1}{|l|}{{\color[HTML]{333333} Benefício Assistencial (Art. 203,V CF/88)}}           & {\color[HTML]{333333} 0.00}   & {\color[HTML]{333333} 0.00}       & {\color[HTML]{333333} 18.00}   & {\color[HTML]{333333} 32.25} & {\color[HTML]{333333} 49.00}      & {\color[HTML]{333333} 183.00} \\ \hline
-\multicolumn{1}{|l|}{Causas Supervenientes à Sentença}                                           & 0.0                           & 0.0                               & 15.0                           & 43.2                         & 55.0                              & 443.0                         \\ \hline
-\multicolumn{1}{|l|}{Classificação e/ou Preterição}                                              & 0.00                          & 1.00                              & 18.00                          & 46.06                        & 66.00                             & 651.00                        \\ \hline
-\multicolumn{1}{|l|}{CND/Certidão Negativa de Débito}                                            & 0.00                          & 1.00                              & 12.50                          & 53.81                        & 85.00                             & 407.00                        \\ \hline
-\multicolumn{1}{|l|}{Cofins}                                                                     & 0.00                          & 1.75                              & 37.00                          & 39.32                        & 55.50                             & 172.00                        \\ \hline
-\multicolumn{1}{|l|}{Concessão / Permissão / Autorização}                                        & 0.00                          & 0.00                              & 6.00                           & 37.92                        & 75.50                             & 189.00                        \\ \hline
-\multicolumn{1}{|l|}{Contratos Bancários}                                                        & 0.00                          & 3.00                              & 55.00                          & 62.15                        & 100.00                            & 651.00                        \\ \hline
-\multicolumn{1}{|l|}{Contribuições Previdenciárias}                                              & 0.00                          & 1.00                              & 35.00                          & 59.54                        & 100.00                            & 412.00                        \\ \hline
-\multicolumn{1}{|l|}{Convênio}                                                                   & 0.00                          & 0.00                              & 6.00                           & 44.08                        & 55.25                             & 379.00                        \\ \hline
-\multicolumn{1}{|l|}{Energia Elétrica}                                                           & 0.00                          & 1.00                              & 6.00                           & 39.55                        & 50.25                             & 236.00                        \\ \hline
-\multicolumn{1}{|l|}{Esbulho / Turbação / Ameaça}                                                & 0.00                          & 2.00                              & 7.00                           & 41.28                        & 62.00                             & 275.00                        \\ \hline
-\multicolumn{1}{|l|}{FGTS/Fundo de Garantia Por Tempo de Serviço}                                & 0.0                           & 2.0                               & 24.5                           & 46.0                         & 64.0                              & 651.0                         \\ \hline
-\multicolumn{1}{|l|}{Financiamento Público da Educação e/ou Pesquisa}                            & 0.00                          & 1.00                              & 6.50                           & 39.71                        & 47.00                             & 651.00                        \\ \hline
-\multicolumn{1}{|l|}{Fundo de Participação dos Municípios}                                       & 0.00                          & 1.00                              & 10.00                          & 40.84                        & 61.25                             & 178.00                        \\ \hline
-\multicolumn{1}{|l|}{Gratificação de Incentivo}                                                  & 0.00                          & 5.25                              & 43.00                          & 62.92                        & 100.00                            & 269.00                        \\ \hline
-\multicolumn{1}{|l|}{Gratificações de Atividade}                                                 & 0.00                          & 0.00                              & 30.00                          & 51.27                        & 83.00                             & 304.00                        \\ \hline
-\multicolumn{1}{|l|}{ICMS/ Imposto sobre Circulação de Mercadorias}                              & 0.00                          & 1.00                              & 15.00                          & 43.12                        & 66.00                             & 375.00                        \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Material}                                              & 0.00                          & 27.00                             & 63.00                          & 74.95                        & 103.00                            & 249.00                        \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Moral}                                                 & 0.00                          & 1.00                              & 44.00                          & 57.76                        & 86.00                             & 598.00                        \\ \hline
-\multicolumn{1}{|l|}{Inquérito / Processo / Recurso Administrativo}                              & 0.00                          & 1.75                              & 11.00                          & 51.04                        & 64.75                             & 651.00                        \\ \hline
-\multicolumn{1}{|l|}{Inscrição / Documentação}                                                   & 0.00                          & 0.00                              & 5.50                           & 50.75                        & 60.50                             & 651.00                        \\ \hline
-\multicolumn{1}{|l|}{IRPF/Imposto de Renda de Pessoa Física}                                     & 0.00                          & 3.00                              & 22.00                          & 48.49                        & 90.00                             & 220.00                        \\ \hline
+                                                                                  & Mínimo & 1º quartil & Mediana & Média  & 3º quartil & Máximo \\ \hline
+\multicolumn{1}{|l|}{1/3 de férias}                                               & 1.00   & 10.25      & 40.50   & 53.03  & 74.50      & 190.00 \\ \hline
+\multicolumn{1}{|l|}{Alienação Fiduciária}                                        & 1.00   & 3.25       & 42.00   & 53.84  & 100.00     & 189.00 \\ \hline
+\multicolumn{1}{|l|}{Anistia Política}                                            & 1.00   & 6.50       & 50.00   & 77.08  & 100.50     & 651.00 \\ \hline
+\multicolumn{1}{|l|}{Anulação}                                                    & 1.0    & 2.0        & 14.0    & 41.7   & 65.0       & 274.0  \\ \hline
+\multicolumn{1}{|l|}{Aposentadoria por Tempo de Contribuição (Art. 55/6)}         & 1.0    & 2.5        & 16.0    & 42.4   & 48.0       & 218.0  \\ \hline
+\multicolumn{1}{|l|}{Atualização de Conta}                                        & 1.00   & 22.00      & 50.00   & 61.41  & 98.00      & 269.00 \\ \hline
+\multicolumn{1}{|l|}{Benefício Assistencial (Art. 203,V CF/88)}                   & 1.0    & 2.0        & 18.0    & 31.0   & 47.5       & 183.0  \\ \hline
+\multicolumn{1}{|l|}{Causas Supervenientes à Sentença}                            & 1.00   & 3.00       & 34.00   & 49.76  & 70.00      & 443.00 \\ \hline
+\multicolumn{1}{|l|}{Classificação e/ou Preterição}                               & 1.00   & 2.75       & 31.50   & 50.74  & 74.00      & 651.00 \\ \hline
+\multicolumn{1}{|l|}{CND/Certidão Negativa de Débito}                             & 1.00   & 4.00       & 21.00   & 56.49  & 86.00      & 407.00 \\ \hline
+\multicolumn{1}{|l|}{Cofins}                                                      & 1.00   & 4.25       & 42.00   & 43.91  & 67.00      & 155.00 \\ \hline
+\multicolumn{1}{|l|}{Concessão / Permissão / Autorização}                         & 1.00   & 2.00       & 8.00    & 42.25  & 93.00      & 294.00 \\ \hline
+\multicolumn{1}{|l|}{Contratos Bancários}                                         & 1.00   & 33.00      & 65.00   & 78.73  & 101.00     & 651.00 \\ \hline
+\multicolumn{1}{|l|}{Contribuições Previdenciárias}                               & 1.00   & 6.75       & 38.50   & 73.19  & 122.00     & 412.00 \\ \hline
+\multicolumn{1}{|l|}{Convênio}                                                    & 1.00   & 2.00       & 7.50    & 47.29  & 58.25      & 379.00 \\ \hline
+\multicolumn{1}{|l|}{Energia Elétrica}                                            & 1.0    & 3.0        & 8.5     & 42.9   & 59.0       & 288.0  \\ \hline
+\multicolumn{1}{|l|}{Esbulho / Turbação / Ameaça}                                 & 1.00   & 3.00       & 13.50   & 42.88  & 66.25      & 275.00 \\ \hline
+\multicolumn{1}{|l|}{FGTS/Fundo de Garantia Por Tempo de Serviço}                 & 1.00   & 4.75       & 27.00   & 47.78  & 62.50      & 651.00 \\ \hline
+\multicolumn{1}{|l|}{Financiamento Público da Educação e/ou Pesquisa}             & 1.00   & 2.00       & 7.00    & 40.69  & 42.00      & 651.00 \\ \hline
+\multicolumn{1}{|l|}{FUNDEF}                                                      & 1.00   & 14.25      & 69.00   & 103.30 & 156.00     & 635.00 \\ \hline
+\multicolumn{1}{|l|}{Fundo de Participação dos Municípios}                        & 1.00   & 2.50       & 19.00   & 45.97  & 73.00      & 178.00 \\ \hline
+\multicolumn{1}{|l|}{Gratificação de Incentivo}                                   & 1.00   & 14.50      & 49.00   & 66.81  & 100.00     & 269.00 \\ \hline
+\multicolumn{1}{|l|}{Gratificações de Atividade}                                  & 1.00   & 3.00       & 34.00   & 55.64  & 86.25      & 304.00 \\ \hline
+\multicolumn{1}{|l|}{ICMS/ Imposto sobre Circulação de Mercadorias}               & 1.0    & 4.0        & 27.5    & 47.9   & 67.0       & 375.0  \\ \hline
+\multicolumn{1}{|l|}{Indenização por Dano Material}                               & 1.00   & 34.25      & 65.50   & 76.52  & 102.25     & 249.00 \\ \hline
+\multicolumn{1}{|l|}{Indenização por Dano Moral}                                  & 1.00   & 9.00       & 45.00   & 60.63  & 86.00      & 598.00 \\ \hline
+\multicolumn{1}{|l|}{Inquérito / Processo / Recurso Administrativo}               & 1.00   & 4.00       & 26.00   & 58.18  & 81.50      & 651.00 \\ \hline
+\multicolumn{1}{|l|}{Inscrição / Documentação}                                    & 1.00   & 2.00       & 18.00   & 54.69  & 65.50      & 651.00 \\ \hline
+\multicolumn{1}{|l|}{IRPF/Imposto de Renda de Pessoa Física}                      & 1.00   & 7.00       & 33.00   & 51.24  & 90.00      & 220.00 \\ \hline
 
 \end{tabular}
 \end{table}
@@ -906,19 +863,18 @@ Na \textbf{Tabela 1} abaixo encontram-se descritas todas as medidas descritivas 
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{l|c|c|c|c|c|c|}
+\begin{tabular}{l|l|l|l|l|l|l|}
 \cline{2-7}
-{\color[HTML]{333333} }                                                           & {\color[HTML]{333333} Mínimo} & {\color[HTML]{333333} 1º quartil} & {\color[HTML]{333333} Mediana} & {\color[HTML]{333333} Média} & {\color[HTML]{333333} 3º quartil} & {\color[HTML]{333333} Máximo} \\ \hline
-\multicolumn{1}{|l|}{Liberação de mercadorias}                                    & 0.00                          & 0.25                              & 3.00                           & 42.12                        & 34.00                             & 433.00                        \\ \hline
-\multicolumn{1}{|l|}{Limitação do salário-de-benefício e da renda mensal inicial} & 0.00                          & 15.25                             & 40.50                          & 48.84                        & 79.25                             & 146.00                        \\ \hline
-\multicolumn{1}{|l|}{Multas e demais Sanções}                                     & 0.00                          & 1.00                              & 15.00                          & 56.71                        & 99.00                             & 651.00                        \\ \hline
-\multicolumn{1}{|l|}{Outros}                                                      & 0.0                           & 1.0                               & 21.0                           & 55.3                         & 77.0                              & 809.0                         \\ \hline
-\multicolumn{1}{|l|}{Pensão por Morte (Art. 74/9)}                                & 0.00                          & 1.50                              & 15.00                          & 48.18                        & 84.00                             & 209.00                        \\ \hline
-\multicolumn{1}{|l|}{PIS}                                                         & 0.00                          & 1.50                              & 33.00                          & 49.95                        & 71.50                             & 651.00                        \\ \hline
-\multicolumn{1}{|l|}{Reintegração}                                                & 0.00                          & 2.50                              & 20.00                          & 52.53                        & 92.50                             & 270.00                        \\ \hline
-\multicolumn{1}{|l|}{RMI sem incidência de Teto Limitador}                        & 0.00                          & 19.00                             & 47.00                          & 56.69                        & 86.00                             & 274.00                        \\ \hline
-\multicolumn{1}{|l|}{Sustação/Alteração de Leilão}                                & 0.00                          & 1.00                              & 5.50                           & 31.62                        & 56.75                             & 146.00                        \\ \hline
-\multicolumn{1}{|l|}{Transporte Terrestre}                                        & 0.00                          & 0.00                              & 3.00                           & 29.79                        & 38.75                             & 224.00                        \\ \hline
+                                                                                  & Mínimo & 1º quartil & Mediana & Média  & 3º quartil & Máximo \\ \hline
+\multicolumn{1}{|l|}{Liberação de mercadorias}                                    & 1.00   & 1.00       & 5.50    & 50.81  & 49.25      & 433.00 \\ \hline
+\multicolumn{1}{|l|}{Limitação do salário-de-benefício e da renda mensal inicial} & 1.00   & 19.50      & 40.50   & 50.06  & 79.25      & 146.00 \\ \hline
+\multicolumn{1}{|l|}{Multas e demais Sanções}                                     & 1.00   & 3.00       & 31.00   & 63.07  & 105.00     & 651.00 \\ \hline
+\multicolumn{1}{|l|}{Outros}                                                      & 1.00   & 4.00       & 35.00   & 61.42  & 88.75      & 809.00 \\ \hline
+\multicolumn{1}{|l|}{PIS}                                                         & 1.00   & 4.00       & 35.00   & 55.87  & 85.00      & 651.00 \\ \hline
+\multicolumn{1}{|l|}{Reintegração}                                                & 1.00   & 4.00       & 20.50   & 53.29  & 93.75      & 270.00 \\ \hline
+\multicolumn{1}{|l|}{RMI sem incidência de Teto Limitador}                        & 1.00   & 31.75      & 59.00   & 65.60  & 93.00      & 274.00 \\ \hline
+\multicolumn{1}{|l|}{Sustação/Alteração de Leilão}                                & 1.00   & 2.00       & 10.00   & 33.62  & 57.50      & 146.00 \\ \hline
+\multicolumn{1}{|l|}{Transporte Terrestre}                                        & 1.00   & 1.00       & 5.50    & 30.91  & 40.25      & 224.00 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -934,11 +890,11 @@ Já a função da taxa de risco acumulada presente na \textbf{Figura \ref{Figura
 	\begin{figure}[htb!]
 	\caption{\it Função de sobrevivência}
 	\label{Figura14}
-			\begin{center}	\includegraphics[width=14cm]{Figuras/imagem26.png}
+			\begin{center}	\includegraphics[width=14cm]{Figuras/imagem8_1.png}
 			\end{center}
 		\end{figure}
 
-Com base nos valores obtidos no gráfico de sobrevivência, observa-se um rápido decaimento das probabilidades dos pleitos permanecerem em aberto ao longo do tempo. Dessa maneira, com cerca de $50\%$ do período de duração médio dos processos em dias, os pleitos já apresentam aproximadamente $15\%$ de probabilidade. Já com $81\%$ do tempo, essa probabilidade cai para cerca de $0\%$.
+Com base nos valores obtidos no gráfico de sobrevivência, observa-se um rápido decaimento das probabilidades dos pleitos permanecerem em aberto ao longo do tempo. Dessa maneira, com cerca de $50\%$ do período de duração médio dos processos em dias, os pleitos já apresentam aproximadamente $6\%$ de probabilidade. Já com $81\%$ do tempo, essa probabilidade cai para algo próximo de $5\%$.
 
 \subparagraph{}
 \subparagraph{}
@@ -946,11 +902,11 @@ Com base nos valores obtidos no gráfico de sobrevivência, observa-se um rápid
 			\begin{figure}[htb!]
 	\caption{\it Função taxa de risco acumulada}
 	\label{Figura15}
-			\begin{center}	\includegraphics[width=14cm]{Figuras/imagem27.png}
+			\begin{center}	\includegraphics[width=14cm]{Figuras/imagem9_1.png}
 			\end{center}
 		\end{figure}
 
-Já em relação ao gráfico da Função taxa de risco acumulada, observa-se que com $50\%$ do período de duração médio dos processos em dias, existe uma probabilidade de falha na conclusão do pleito antes da ocorrência de seu arquivamento de aproximadamente $87\%$. Já com $84\%$ do tempo, esse percentual sobe para quase $100\%$.\\
+Já em relação ao gráfico da Função taxa de risco acumulada, observa-se que com $50\%$ do período de duração médio dos processos em dias, existe uma probabilidade de falha na conclusão do pleito antes da ocorrência de seu arquivamento de aproximadamente $92\%$. Já com $81\%$ do tempo, esse percentual sobe para quase $94\%$.\\
 
 Abaixo nas \textbf{Figuras \ref{Figura16}} e \textbf{\ref{Figura17}} foram efetuados os cálculos dos modelos paramétricos de falhas aceleradas \textbf{(AFT)}, este que leva em consideração a existência de tempos de sobrevivência desacelerados ou acelerados por um fator que é constante quando comparado a diferentes leveis de covariáveis.\\
 
@@ -958,13 +914,13 @@ Utilizando-se do ajuste \textbf{AFT} por meio do comando Survreg, realizou-se a 
 
 \begin{itemize}
 
-\item \textbf{Modelo 1} apresenta em seus intereceptos apenas as relações entre as etapas processuais.
+\item \textbf{Modelo 1} apresenta em seus intereceptos apenas as relações entre as etapas processuais;
 
-\item \textbf{Modelo 2} possui em seus intereceptos apenas as relações entre as classes processuais.
+\item \textbf{Modelo 2} possui em seus intereceptos apenas as relações entre as classes processuais;
 
-\item \textbf{Modelo 3} dispõe em seus intereceptos uma relação de combinação por meio da soma entre as categorias de classes processuais e etapas processuais
+\item \textbf{Modelo 3} dispõe em seus interceptos uma junção entre as categorias de classes processuais e etapas processuais, considerando-se os valores duplicados removidos;
 
-\item \textbf{Modelo 4} retém em seus intereceptos uma relação de combinação por meio da multiplicação entre as categorias de classes processuais e etapas processuais
+\item \textbf{Modelo 4} retém em seus intereceptos uma relação de \textit{cross over} entre as categorias de classes processuais e etapas processuais.
 
 \end{itemize}
 
@@ -975,7 +931,7 @@ Utilizando-se do ajuste \textbf{AFT} por meio do comando Survreg, realizou-se a 
 
  \begin{figure}
   \centering
-  \includegraphics[scale=0.7, inner]{Figuras/imagem28.png}
+  \includegraphics[scale=0.7, inner]{Figuras/imagem10_1.png}
   \caption{Comparação entre a função de sobrevivência e alguns ajustes do modelo}
   \label{Figura16}
  \end{figure}
@@ -983,38 +939,49 @@ Utilizando-se do ajuste \textbf{AFT} por meio do comando Survreg, realizou-se a 
 \end{landscape}
 \end{rotatepage}
 
-Observando os resultados obtidos pela \textbf{Figura \ref{Figura16}}, selecionou-se o modelo 2 como melhor opção de ajuste aos dados apresentados, já que este possui uma maior aproximação de enquadramento em relação aos valores evidenciados pela função de sobrevivência em todas as distribuições.\\
+Observando os resultados obtidos pela \textbf{Figura \ref{Figura16}}, selecionou-se o modelo 1 como melhor opção de ajuste aos dados apresentados, já que este possui uma maior aproximação de enquadramento em relação aos valores evidenciados pela função de sobrevivência em todas as distribuições.\\
 
-Posteriormente utilizando-se do intuito de gerar uma visualização mais robusta para selecionar quais distribuições dentre o modelo selecionado utilizam de um melhor ajuste, plotou-se o gráfico presente na \textbf{Figura \ref{Figura17}}. Este que em conjunto com a \textbf{Tabela 2} evidenciam a distribuição Exponencial como aquela que se destaca num melhor ajuste de resultados obtidos para esse conjunto de dados em estudo.\\
+Posteriormente utilizando-se do intuito de gerar uma visualização mais robusta para selecionar quais distribuições dentre o modelo selecionado utilizam de um melhor ajuste, plotou-se o gráfico presente na \textbf{Figura \ref{Figura17}}. Este que em conjunto com as \textbf{Tabelas 2, 3, 4, 5, 6} e \textbf{7} evidenciam a distribuição Exponencial como aquela que se destaca num melhor ajuste de resultados obtidos para esse conjunto de dados em estudo.\\
 
 
 \begin{figure}[htb!]
 \caption{\it Comparação entre a função de sobrevivência e os melhores ajustes do modelo}
 \label{Figura17}
 \begin{center}
-\includegraphics[width=16cm]{Figuras/imagem29.png}
+\includegraphics[width=16cm]{Figuras/imagem11_1.png}
 \end{center}
 \end{figure}
-		
+	
+	
+\begin{table}[htb!]
+\centering
+\caption{Qualidade de ajuste dos modelos em relação ao Deviance}
+\begin{tabular}{c|c|c|c|c|}
+\cline{2-5}
+                               & Weibull  & Exponential & Log-logistic & Log-normal \\ \hline
+\multicolumn{1}{|c|}{Deviance} & 4777.141 & 3409.105    & 4611.491     & 4141.815   \\ \hline
+\end{tabular}
+\end{table}
+
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[htb!]
 \centering
 \caption{Resultados gerais apresentados pelos modelos de regressão}
-\begin{tabular}{l|c|c|c|c|c|}
+\begin{tabular}{c|c|c|c|c|c|}
 \cline{2-6}
-{\color[HTML]{333333} }             & \begin{tabular}[c]{@{}c@{}}Loglik\\ (modelo)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Loglik\\ (intercepto)\end{tabular} & Qui-quadrado   & P &\begin{tabular}[c]{@{}c@{}}Interações de \\ Newton-Raphson\end{tabular} \\ \hline
-\multicolumn{1}{|l|}{Weibull}       & -14228.4                                                  & -14354.2                                                      & 251.62 (39 gl) & 6.8e-33 & 5                                                                       \\ \hline
-\multicolumn{1}{|l|}{Exponencial}   & -14703.1                                                  & -14783.2                                                      & 160.14 (39 gl) & 1.3e-16 & 4                                                                       \\ \hline
-\multicolumn{1}{|l|}{Log-logistica} & -13722.8                                                  & -13874.2                                                      & 302.75 (39 gl) & 1.6e-42 & 4                                                                       \\ \hline
-\multicolumn{1}{|l|}{Log-normal}    & -13726.5                                                  & -13849.5                                                      & 246.1 (39 gl)  & 7.1e-32 & 3                                                                       \\ \hline
+\multicolumn{1}{l|}{}               & \begin{tabular}[c]{@{}c@{}}Loglik \\ (modelo)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Loglik\\ (intercepto)\end{tabular} & Qui-quadrado     & P-value & \begin{tabular}[c]{@{}c@{}}Interações de\\ Newton-Raphson\end{tabular} \\ \hline
+\multicolumn{1}{|c|}{Weibul}        & -11833                                                     & -13422.7                                                      & 3179.43 (44 gl)  & 0       & 22                                                                     \\ \hline
+\multicolumn{1}{|c|}{Exponencia}    & -12593.9                                                   & -13877.8                                                      & 2567.87 (44 gl)  & 0       & 21                                                                     \\ \hline
+\multicolumn{1}{|c|}{Log-logistica} & -11721.7                                                   & -12997.2                                                      & 2551.07 (44 gl)  & 0       & 19                                                                     \\ \hline
+\multicolumn{1}{|c|}{Log-normal}    & -11661.6                                                   & -12977.9                                                      & 2632.54 (44  gl) & 0       & 17                                                                     \\ \hline
 \end{tabular}
 \end{table}
 
 \subparagraph{}
 
-O motivo pelo qual se selecionou a distribuição de probabilidade exponencial visualizada na \textbf{Figuras \ref{Figura17}} foi respectiva a análise visual e devido o resultado obtido pela razão de verossimilhança, esta que consiste na razão entre o logaritmo da verossimilhança de um modelo mais simples (que se deseja testar) e outro mais generalizado. Uma vez que esta razão segue uma distribuição qui-quadrada, pode-se ter seu p-valor calculado pela distribuição considerando o número de graus de liberdade como a diferença do número de parâmetros.
+O motivo pelo qual se selecionou a distribuição de probabilidade exponencial visualizada na \textbf{Figuras \ref{Figura17}} foi respectiva a análise visual e devido o resultado obtido pelo deviance e pela razão de verossimilhança, esta que consiste na razão entre o logaritmo da verossimilhança de um modelo mais simples (que se deseja testar) e outro mais generalizado. Uma vez que esta razão segue uma distribuição qui-quadrada, pode-se ter seu p-valor calculado pela distribuição considerando o número de graus de liberdade como a diferença do número de parâmetros.
 
 \begin{equation}
 TRV = 2.log\Big( \frac{L(\theta)_{simples}}{L(\theta)_{generalizado}}\Big)
@@ -1022,23 +989,25 @@ TRV = 2.log\Big( \frac{L(\theta)_{simples}}{L(\theta)_{generalizado}}\Big)
 
 \subparagraph{}
 
-Dessa maneira, com base nos valores presentes nas \textbf{Tabelas 3, 4, 5} e \textbf{6} observa-se que os modelos de distribuições em Weibull, Log-Logistica e Log-Normal realmente não teriam resultados significativos de P-value que comprovassem um ajuste adequado aos dados, ou seja, assim como mencionado anteriormente o ajuste realizado com a distribuição exponencial é aquele que melhor se adequa ao conjunto de dados existente.\\
+O modelo de verossimilhança acima proposto serve para testar a hipôtese de que a variável independente é relevante na predição da variável resposta, ou seja,
 
-Complementarmente as informações inseridas anteriormente, considera-se na \textbf{Tabela 2} que se o valor do parâmetro de modelagem \textbf{P} é proporcional ao parâmetro de escala, então define-se que as possíveis mudanças no \textit{hazard ratio (HR)} ao longo do tempo são emitidas em três possíveis interpretações de valores apresentadas abaixo com suas respectivas interpretações:
+$$
+H_{0} : \beta_{1} = \beta_{2} = ... = 0~~~~
+         vs
+~~~~H_{a} : \beta_{1} \neq \beta_{2} \neq ... \neq 0 
+$$
+
+\subparagraph{}
+
+Sob hipótese nula, a estatística do teste segue uma distribuição qui-quadrado com o número de graus de liberdade igual ao número de restrições impostas pela hipótese nula.\\
+
+Com base nas informações presentes inicialmente na \textbf{Tabelas 2}, considera-se que a variável independente (Classe Processual) utilizada na estruturação do modelo 2 foi consideravelmente relevante na predição da variável resposta assumindo-se um alfa de 95\%.\\
+
+Dessa maneira, também considerando-se os valores presentes nas \textbf{Tabelas 3, 4, 5} e \textbf{6} observa-se a possibilidade de quantificar a influencia de cada classe processual em relação a variável resposta. Além disso, também pode-se considerar o resultado obtido no Log(Scale) para averiguar que as distribuições em Weibull, Log-Logistica e Log-Normal realmente não teriam resultados significativos de P-value que comprovassem um ajuste adequado aos dados, ou seja, assim como mencionado anteriormente o ajuste realizado com a distribuição exponencial é aquele que melhor se adequa ao conjunto de dados existente.\\
 
 
-\begin{itemize}
-
-\item Se o parámetro de modelagem for maior que 1 \textbf{(P>1)} a \textit{hazard ratio (HR)} cresce em relação ao tempo.
-
-\item Se o parámetro de modelagem for igual a 1 \textbf{(P=1)} a \textit{hazard ratio (HR)} é constante em relação ao tempo.
-
-\item Se o parámetro de modelagem for menor que 1 \textbf{(P<1)} a \textit{hazard ratio (HR)} decresce em relação ao tempo.
-
-\end{itemize}
-
-Assim, utilizando-se como base os resultados obtidos na \textbf{Tabela 2}, observa-se que existe em todas as distribuições uma estrutura de decaimento ao longo do tempo em relação ao \textit{hazard ratio (HR)}, pois estes apresentam seus parâmetros de modelagem inferiores a 1 \textbf{(P<1)}. \\
-
+\subparagraph{}
+\subparagraph{}
 \subparagraph{}
 \subparagraph{}
 \subparagraph{}
@@ -1050,51 +1019,39 @@ Assim, utilizando-se como base os resultados obtidos na \textbf{Tabela 2}, obser
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
 \centering
-\caption{Medidas descritivas do modelo de regressão na Distribuição de Weibull}
+\caption{Medidas do modelo de regressão na Distribuição de Weibull}
 \begin{tabular}{l|l|l|l|l|}
 \cline{2-5}
-{\color[HTML]{333333} }                                                   & \multicolumn{1}{c|}{{\color[HTML]{333333} Valor}} & \multicolumn{1}{c|}{{\color[HTML]{333333} Std. Error}} & \multicolumn{1}{c|}{{\color[HTML]{333333} Z}} & \multicolumn{1}{c|}{{\color[HTML]{333333} P}} \\ \hline
-\multicolumn{1}{|l|}{Intercepto}                                          & 4.7697                                            & 0.1178                                                 & 40.47                                         & \textless 2e-16                                     \\ \hline
-\multicolumn{1}{|l|}{Alienação Fiduciária}                                & 0.0520                                            & 0.1651                                                 & 0.31                                          & 0.75277                                             \\ \hline
-\multicolumn{1}{|l|}{Anistia Política}                                    & 0.6055                                            & 0.1814                                                 & 3.34                                          & 0.00084                                             \\ \hline
-\multicolumn{1}{|l|}{Anulação}                                            & 0.0339                                            & 0.1637                                                 & 0.21                                          & 0.83580                                             \\ \hline
-\multicolumn{1}{|l|}{Aposentadoria por Tempo de Contribuição}             & 0.2798                                            & 0.2097                                                 & 1.33                                          & 0.18213                                             \\ \hline
-\multicolumn{1}{|l|}{ASSISTÊNCIA SOCIAL}                                  & 0.8319                                            & 0.2561                                                 & 3.25                                          & 0.00116                                             \\ \hline
-\multicolumn{1}{|l|}{Atualização de Conta}                                & 0.1833                                            & 0.1598                                                 & 1.15                                          & 0.25144                                             \\ \hline
-\multicolumn{1}{|l|}{Benefício Assistencial (Art. 203,V CF/88)}           & -0.2254                                           & 0.1992                                                 & -1.13                                         & 0.25779                                             \\ \hline
-\multicolumn{1}{|l|}{Causas Supervenientes à Sentença}                    & 0.7376                                            & 0.1235                                                 & 5.97                                          & 2.4e-09                                             \\ \hline
-\multicolumn{1}{|l|}{Classificação e/ou Preterição}                       & 0.3974                                            & 0.1623                                                 & 2.45                                          & 0.01437                                             \\ \hline
-\multicolumn{1}{|l|}{CND/Certidão Negativa de Débito}                     & 0.6026                                            & 0.2236                                                 & 2.69                                          & 0.00704                                             \\ \hline
-\multicolumn{1}{|l|}{Cofins}                                              & 0.1249                                            & 0.2161                                                 & 0.58                                          & 0.56341                                             \\ \hline
-\multicolumn{1}{|l|}{Concessão / Permissão / Autorização}                 & 0.0278                                            & 0.1598                                                 & 0.17                                          & 0.86180                                             \\ \hline
-\multicolumn{1}{|l|}{Contratos Bancários}                                 & 0.4092                                            & 0.1236                                                 & 3.31                                          & 0.00093                                             \\ \hline
-\multicolumn{1}{|l|}{Contribuições Previdenciárias}                       & 0.6710                                            & 0.2041                                                 & 3.29                                          & 0.00101                                             \\ \hline
-\multicolumn{1}{|l|}{Convênio}                                            & 0.6116                                            & 0.2324                                                 & 2.63                                          & 0.00849                                             \\ \hline
-\multicolumn{1}{|l|}{Energia Elétrica}                                    & 0.3483                                            & 0.1529                                                 & 2.28                                          & 0.02275                                             \\ \hline
-\multicolumn{1}{|l|}{Esbulho / Turbação / Ameaça}                         & 0.3055                                            & 0.2161                                                 & 1.41                                          & 0.15754                                             \\ \hline
-\multicolumn{1}{|l|}{FGTS/Fundo de Garantia Por Tempo de Serviço}         & 0.4398                                            & 0.1910                                                 & 2.30                                          & 0.02131                                             \\ \hline
-\multicolumn{1}{|l|}{Financiamento Público da Educação e/ou Pesquisa}     & 0.6115                                            & 0.2098                                                 & 2.91                                          & 0.00356                                             \\ \hline
-\multicolumn{1}{|l|}{FUNDEF}                                              & 0.8694                                            & 0.1566                                                 & 5.55                                          & 2.8e-08                                             \\ \hline
-\multicolumn{1}{|l|}{Fundo de Participação dos Municípios}                & 0.1920                                            & 0.1948                                                 & 0.99                                          & 0.32439                                             \\ \hline
-\multicolumn{1}{|l|}{Gratificação de Incentivo}                           & 0.3106                                            & 0.1357                                                 & 2.29                                          & 0.02207                                             \\ \hline
-\multicolumn{1}{|l|}{Gratificações de Atividade}                          & 0.5344                                            & 0.1514                                                 & 3.53                                          & 0.00042                                             \\ \hline
-\multicolumn{1}{|l|}{ICMS/ Imposto sobre Circulação de Mercadorias}       & 0.2538                                            & 0.1610                                                 & 1.58                                          & 0.11495                                             \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Material}                       & 0.4247                                            & 0.1875                                                 & 2.27                                          & 0.02346                                             \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Moral}                          & 0.7113                                            & 0.1611                                                 & 4.42                                          & 1.0e-05                                             \\ \hline
-\multicolumn{1}{|l|}{Inquérito / Processo / Recurso Administrativo}       & 0.6595                                            & 0.1787                                                 & 3.69                                          & 0.00022                                             \\ \hline
-\multicolumn{1}{|l|}{Inscrição / Documentação}                            & 0.7125                                            & 0.1516                                                 & 4.70                                          & 2.6e-06                                             \\ \hline
-\multicolumn{1}{|l|}{IRPF/Imposto de Renda de Pessoa Física}              & 0.0793                                            & 0.1426                                                 & 0.56                                          & 0.57810                                             \\ \hline
-\multicolumn{1}{|l|}{Liberação de mercadorias}                            & 0.6420                                            & 0.2236                                                 & 2.87                                          & 0.00409                                             \\ \hline
-\multicolumn{1}{|l|}{Limitação do salário-de-benefício e da renda mensal} & -0.2372                                           & 0.1763                                                 & -1.35                                         & 0.17842                                             \\ \hline
-\multicolumn{1}{|l|}{Multas e demais Sanções}                             & 0.5195                                            & 0.1506                                                 & 3.45                                          & 0.00056                                             \\ \hline
-\multicolumn{1}{|l|}{Outros}                                              & 0.5686                                            & 0.1196                                                 & 4.75                                          & 2.0e-06                                             \\ \hline
-\multicolumn{1}{|l|}{Pensão por Morte (Art. 74/9)}                        & 0.2998                                            & 0.2097                                                 & 1.43                                          & 0.15277                                             \\ \hline
-\multicolumn{1}{|l|}{PIS}                                                 & 0.4865                                            & 0.1763                                                 & 2.76                                          & 0.00579                                             \\ \hline
-\multicolumn{1}{|l|}{Reintegração}                                        & 0.4702                                            & 0.2097                                                 & 2.24                                          & 0.02498                                             \\ \hline
-\multicolumn{1}{|l|}{RMI sem incidência de Teto Limitador}                & 0.1926                                            & 0.1556                                                 & 1.24                                          & 0.21572                                             \\ \hline
-\multicolumn{1}{|l|}{Sustação/Alteração de Leilão}                        & -0.1490                                           & 0.2041                                                 & -0.73                                         & 0.46544                                             \\ \hline
-\multicolumn{1}{|l|}{Transporte Terrestre}                                & 0.3415                                            & 0.2559                                                 & 1.33                                          & 0.18206                                             \\ \hline
-\multicolumn{1}{|l|}{Log(scale)}                                          & -0.5093                                           & 0.0140                                                 & -36.37                                        & \textless 2e-16                                     \\ \hline
+                                                                  & Valor    & Std. Error & \multicolumn{1}{c|}{Z} & P-value          \\ \hline
+\multicolumn{1}{|l|}{(Intercept)}                                 & 15.2904  & 556.5059   & 0.0275                 & 0.9781           \\ \hline
+\multicolumn{1}{|l|}{Ausência de   pressupostos processuais}      & -0.9102  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Baixa   Definitiva}                          & -0.6112  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Cancelamento   de Distribuição}              & -0.9102  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Antecipação   de tutela}                     & -9.9334  & 556.5061   & -0.0178                & 0.9858           \\ \hline
+\multicolumn{1}{|l|}{Ato   ordinatorio}                           & -10.2425 & 556.5059   & -0.0184                & 0.9853           \\ \hline
+\multicolumn{1}{|l|}{Audiência}                                   & -10.363  & 556.5059   & -0.0186                & 0.9851           \\ \hline
+\multicolumn{1}{|l|}{Decurso   de Prazo}                          & -10.2927 & 556.5059   & -0.0185                & 0.9852           \\ \hline
+\multicolumn{1}{|l|}{Distribuição}                                & -9.8703  & 556.5059   & -0.0177                & 0.9858           \\ \hline
+\multicolumn{1}{|l|}{Documento}                                   & -9.8954  & 556.5059   & -0.0178                & 0.9858           \\ \hline
+\multicolumn{1}{|l|}{Expedição   de documento}                    & -10.1243 & 556.5059   & -0.0182                & 0.9855           \\ \hline
+\multicolumn{1}{|l|}{Incompetência}                               & -10.3556 & 556.506    & -0.0186                & 0.9852           \\ \hline
+\multicolumn{1}{|l|}{Juntada}                                     & -10.4857 & 556.5059   & -0.0188                & 0.985            \\ \hline
+\multicolumn{1}{|l|}{Mandado}                                     & -10.2568 & 556.5059   & -0.0184                & 0.9853           \\ \hline
+\multicolumn{1}{|l|}{Mero   expediente}                           & -10.2031 & 556.5059   & -0.0183                & 0.9854           \\ \hline
+\multicolumn{1}{|l|}{Mudança   de Classe Processual}              & -10.5661 & 556.5059   & -0.019                 & 0.9849           \\ \hline
+\multicolumn{1}{|l|}{Não-Acolhimento   de Embargos de Declaração} & -10.9019 & 556.506    & -0.0196                & 0.9844           \\ \hline
+\multicolumn{1}{|l|}{Outros}                                      & -11.0562 & 556.5061   & -0.0199                & 0.9841           \\ \hline
+\multicolumn{1}{|l|}{Perempção, litispendência ou coisa julgada}  & -10.9209 & 556.5061   & -0.0196                & 0.9843           \\ \hline
+\multicolumn{1}{|l|}{Petição}                                     & -10.2033 & 556.5059   & -0.0183                & 0.9854           \\ \hline
+\multicolumn{1}{|l|}{Recebimento}                                 & -10.4048 & 556.5059   & -0.0187                & 0.9851           \\ \hline
+\multicolumn{1}{|l|}{Redistribuição}                              & -10.292  & 556.5059   & -0.0185                & 0.9852           \\ \hline
+\multicolumn{1}{|l|}{Remessa}                                     & -10.39   & 556.5059   & -0.0187                & 0.9851           \\ \hline
+\multicolumn{1}{|l|}{Requisição   de Informações}                 & -10.4087 & 556.5061   & -0.0187                & 0.9851           \\ \hline
+\multicolumn{1}{|l|}{Desistência}                                 & -0.9102  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Improcedência}                               & -0.9102  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Julgamento em   Diligência}                  & -0.839   & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Suspensão ou   Sobrestamento}                & 1.0095   & 0          & Inf                    & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Log(scale)}                                  & -0.7679  & 0.016      & -47.8724               & \textless{}2e-16 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -1104,50 +1061,38 @@ Assim, utilizando-se como base os resultados obtidos na \textbf{Tabela 2}, obser
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
 \centering
-\caption{Medidas descritivas do modelo de regressão na Distribuição Exponencial}
+\caption{Medidas do modelo de regressão na Distribuição Exponencial}
 \begin{tabular}{l|l|l|l|l|}
 \cline{2-5}
-{\color[HTML]{333333} }                                                   & \multicolumn{1}{c|}{{\color[HTML]{333333} Valor}} & \multicolumn{1}{c|}{{\color[HTML]{333333} Std. Error}} & \multicolumn{1}{c|}{{\color[HTML]{333333} Z}} & \multicolumn{1}{c|}{{\color[HTML]{333333} P}} \\ \hline
-\multicolumn{1}{|l|}{Intercepto}                                            & 4.8366  & 0.1961     & 24.66 & \textless 2e-16 \\ \hline
-\multicolumn{1}{|l|}{Alienação Fiduciária}                                & 0.0665  & 0.2748     & 0.24  & 0.80879         \\ \hline
-\multicolumn{1}{|l|}{Anistia Política}                                    & 0.5350  & 0.3018     & 1.77  & 0.07628         \\ \hline
-\multicolumn{1}{|l|}{Anulação}                                            & 0.0115  & 0.2724     & 0.04  & 0.96623         \\ \hline
-\multicolumn{1}{|l|}{Aposentadoria por Tempo de Contribuição}             & 0.2505  & 0.3490     & 0.72  & 0.47290         \\ \hline
-\multicolumn{1}{|l|}{ASSISTÊNCIA SOCIAL}                                  & 0.4194  & 0.4258     & 0.98  & 0.32463         \\ \hline
-\multicolumn{1}{|l|}{Atualização de Conta}                                & 0.2748  & 0.2659     & 1.03  & 0.30141         \\ \hline
-\multicolumn{1}{|l|}{Benefício Assistencial (Art. 203,V CF/88)}           & -0.3202 & 0.3315     & -0.97 & 0.33401         \\ \hline
-\multicolumn{1}{|l|}{Causas Supervenientes à Sentença}                    & 1.0011  & 0.2054     & 4.87  & 1.1e-06         \\ \hline
-\multicolumn{1}{|l|}{Classificação e/ou Preterição}                       & 0.3539  & 0.2701     & 1.31  & 0.19011         \\ \hline
-\multicolumn{1}{|l|}{CND/Certidão Negativa de Débito}                     & 0.6760  & 0.3721     & 1.82  & 0.06925         \\ \hline
-\multicolumn{1}{|l|}{Cofins}                                              & 0.2080  & 0.3597     & 0.58  & 0.56305         \\ \hline
-\multicolumn{1}{|l|}{Concessão / Permissão / Autorização}                 & 0.0144  & 0.2659     & 0.05  & 0.95671         \\ \hline
-\multicolumn{1}{|l|}{Contratos Bancários}                                 & 0.5454  & 0.2057     & 2.65  & 0.00800         \\ \hline
-\multicolumn{1}{|l|}{Contribuições Previdenciárias}                       & 0.7071  & 0.3397     & 2.08  & 0.03738         \\ \hline
-\multicolumn{1}{|l|}{Convênio}                                            & 0.6959  & 0.3867     & 1.80  & 0.07195         \\ \hline
-\multicolumn{1}{|l|}{Energia Elétrica}                                    & 0.3694  & 0.2545     & 1.45  & 0.14662         \\ \hline
-\multicolumn{1}{|l|}{Esbulho / Turbação / Ameaça}                         & 0.3639  & 0.3597     & 1.01  & 0.31165         \\ \hline
-\multicolumn{1}{|l|}{FGTS/Fundo de Garantia Por Tempo de Serviço}         & 0.3014  & 0.3177     & 0.95  & 0.34282         \\ \hline
-\multicolumn{1}{|l|}{Financiamento Público da Educação e/ou Pesquisa}     & 0.4609  & 0.3490     & 1.32  & 0.18662         \\ \hline
-\multicolumn{1}{|l|}{FUNDEF}                                              & 0.9415  & 0.2605     & 3.61  & 0.00030         \\ \hline
-\multicolumn{1}{|l|}{Fundo de Participação dos Municípios}                & 0.2201  & 0.3242     & 0.68  & 0.49728         \\ \hline
-\multicolumn{1}{|l|}{Gratificação de Incentivo}                           & 0.3705  & 0.2257     & 1.64  & 0.10075         \\ \hline
-\multicolumn{1}{|l|}{Gratificações de Atividade}                          & 0.6645  & 0.2519     & 2.64  & 0.00835         \\ \hline
-\multicolumn{1}{|l|}{ICMS/ Imposto sobre Circulação de Mercadorias}       & 0.2818  & 0.2679     & 1.05  & 0.29292         \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Material}                       & 0.5658  & 0.3119     & 1.81  & 0.06966         \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Moral}                          & 0.9524  & 0.2679     & 3.55  & 0.00038         \\ \hline
-\multicolumn{1}{|l|}{Inquérito / Processo / Recurso Administrativo}       & 0.6596  & 0.2974     & 2.22  & 0.02659         \\ \hline
-\multicolumn{1}{|l|}{Inscrição / Documentação}                            & 0.4247  & 0.2519     & 1.69  & 0.09184         \\ \hline
-\multicolumn{1}{|l|}{IRPF/Imposto de Renda de Pessoa Física}              & 0.0602  & 0.2373     & 0.25  & 0.79980         \\ \hline
-\multicolumn{1}{|l|}{Liberação de mercadorias}                            & 0.5625  & 0.3721     & 1.51  & 0.13063         \\ \hline
-\multicolumn{1}{|l|}{Limitação do salário-de-benefício e da renda mensal} & -0.2703 & 0.2934     & -0.92 & 0.35698         \\ \hline
-\multicolumn{1}{|l|}{Multas e demais Sanções}                             & 0.5422  & 0.2507     & 2.16  & 0.03057         \\ \hline
-\multicolumn{1}{|l|}{Outros}                                              & 0.4794  & 0.1989     & 2.41  & 0.01594         \\ \hline
-\multicolumn{1}{|l|}{Pensão por Morte (Art. 74/9)}                        & 0.3292  & 0.3490     & 0.94  & 0.34560         \\ \hline
-\multicolumn{1}{|l|}{PIS}                                                 & 0.4804  & 0.2934     & 1.64  & 0.10158         \\ \hline
-\multicolumn{1}{|l|}{Reintegração}                                        & 0.6205  & 0.3490     & 1.78  & 0.07540         \\ \hline
-\multicolumn{1}{|l|}{RMI sem incidência de Teto Limitador}                & 0.3146  & 0.2589     & 1.21  & 0.22439         \\ \hline
-\multicolumn{1}{|l|}{Sustação/Alteração de Leilão}                        & -0.1616 & 0.3397     & -0.48 & 0.63425         \\ \hline
-\multicolumn{1}{|l|}{Transporte Terrestre}                                & 0.4610  & 0.4258     & 1.08  & 0.27896         \\ \hline
+                                                                 & Valor    & Std. Error & \multicolumn{1}{c|}{Z} & P-value          \\ \hline
+\multicolumn{1}{|l|}{(Intercept)}                                & 27.0998  & 1309.9111  & 0.0207                 & 0.9835           \\ \hline
+\multicolumn{1}{|l|}{Ausência de pressupostos processuais}       & -0.9102  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Baixa   Definitiva}                         & -0.6113  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Cancelamento   de Distribuição}             & -0.9102  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Antecipação   de tutela}                    & -21.4162 & 1309.9115  & -0.0163                & 0.987            \\ \hline
+\multicolumn{1}{|l|}{Ato   ordinatório}                          & -21.9523 & 1309.9115  & -0.0168                & 0.9866           \\ \hline
+\multicolumn{1}{|l|}{Audiência}                                  & -22.1139 & 1309.9112  & -0.0169                & 0.9865           \\ \hline
+\multicolumn{1}{|l|}{Decurso   de Prazo}                         & -22.1843 & 1309.9111  & -0.0169                & 0.9865           \\ \hline
+\multicolumn{1}{|l|}{Distribuição}                               & -21.8589 & 1309.9111  & -0.0167                & 0.9867           \\ \hline
+\multicolumn{1}{|l|}{Documento}                                  & -21.8216 & 1309.9111  & -0.0167                & 0.9867           \\ \hline
+\multicolumn{1}{|l|}{Expedição   de documento}                   & -22.0145 & 1309.9111  & -0.0168                & 0.9866           \\ \hline
+\multicolumn{1}{|l|}{Incompetência}                              & -21.9494 & 1309.9113  & -0.0168                & 0.9866           \\ \hline
+\multicolumn{1}{|l|}{Juntada}                                    & -22.3761 & 1309.9111  & -0.0171                & 0.9864           \\ \hline
+\multicolumn{1}{|l|}{Mandado}                                    & -22.0844 & 1309.9111  & -0.0169                & 0.9865           \\ \hline
+\multicolumn{1}{|l|}{Mero   expediente}                          & -22.1457 & 1309.9111  & -0.0169                & 0.9865           \\ \hline
+\multicolumn{1}{|l|}{Mudança   de Classe Processual}             & -22.4427 & 1309.9111  & -0.0171                & 0.9863           \\ \hline
+\multicolumn{1}{|l|}{Não Acolhimento de Embargos de Declaração}  & -22.7116 & 1309.9113  & -0.0173                & 0.9862           \\ \hline
+\multicolumn{1}{|l|}{Outros}                                     & -22.8657 & 1309.9115  & -0.0175                & 0.9861           \\ \hline
+\multicolumn{1}{|l|}{Perempção, litispendência ou coisa julgada} & -22.7304 & 1309.9115  & -0.0174                & 0.9862           \\ \hline
+\multicolumn{1}{|l|}{Petição}                                    & -22.0765 & 1309.9111  & -0.0169                & 0.9866           \\ \hline
+\multicolumn{1}{|l|}{Recebimento}                                & -22.1327 & 1309.9111  & -0.0169                & 0.9865           \\ \hline
+\multicolumn{1}{|l|}{Redistribuição}                             & -22.1632 & 1309.9111  & -0.0169                & 0.9865           \\ \hline
+\multicolumn{1}{|l|}{Remessa}                                    & -22.2168 & 1309.9111  & -0.017                 & 0.9865           \\ \hline
+\multicolumn{1}{|l|}{Requisição de Informações}                  & -21.6445 & 1309.9115  & -0.0165                & 0.9868           \\ \hline
+\multicolumn{1}{|l|}{Desistência}                                & -0.9102  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Improcedência}                              & -0.9102  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Julgamento em   Diligência}                 & -0.8833  & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Suspensão ou   Sobrestamento}               & 0.9009   & 0          & Inf                    & \textless{}2e-16 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -1157,51 +1102,40 @@ Assim, utilizando-se como base os resultados obtidos na \textbf{Tabela 2}, obser
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
 \centering
-\caption{Medidas descritivas do modelo de regressão na Distribuição Log-Logistica}
+\caption{Medidas do modelo de regressão na Distribuição Log-Logistica}
 \begin{tabular}{l|l|l|l|l|}
 \cline{2-5}
-{\color[HTML]{333333} }                                                   & \multicolumn{1}{c|}{Valor} & \multicolumn{1}{c|}{Std. Error} & \multicolumn{1}{c|}{Z} & \multicolumn{1}{c|}{P} \\ \hline
-\multicolumn{1}{|l|}{Intercepto}                                          & 4.5239                     & 0.0957                          & 47.29                  & \textless 2e-16              \\ \hline
-\multicolumn{1}{|l|}{Alienação Fiduciária}                                & 0.1448                     & 0.1314                          & 1.10                   & 0.27045                      \\ \hline
-\multicolumn{1}{|l|}{Anistia Política}                                    & 0.3484                     & 0.1532                          & 2.27                   & 0.02298                      \\ \hline
-\multicolumn{1}{|l|}{Anulação}                                            & 0.0808                     & 0.1339                          & 0.60                   & 0.54601                      \\ \hline
-\multicolumn{1}{|l|}{Aposentadoria por Tempo de Contribuição}             & 0.3854                     & 0.1739                          & 2.22                   & 0.02673                      \\ \hline
-\multicolumn{1}{|l|}{ASSISTÊNCIA SOCIAL}                                  & -0.0563                    & 0.2173                          & -0.26                  & 0.79556                      \\ \hline
-\multicolumn{1}{|l|}{Atualização de Conta}                                & 0.2224                     & 0.1243                          & 1.79                   & 0.07363                      \\ \hline
-\multicolumn{1}{|l|}{Benefício Assistencial (Art. 203,V CF/88)}           & -0.1368                    & 0.1640                          & -0.83                  & 0.40419                      \\ \hline
-\multicolumn{1}{|l|}{Causas Supervenientes à Sentença}                    & 0.6368                     & 0.0991                          & 6.42                   & 1.3e-10                      \\ \hline
-\multicolumn{1}{|l|}{Classificação e/ou Preterição}                       & 0.2198                     & 0.1329                          & 1.65                   & 0.09821                      \\ \hline
-\multicolumn{1}{|l|}{CND/Certidão Negativa de Débito}                     & 0.5616                     & 0.1775                          & 3.16                   & 0.00155                      \\ \hline
-\multicolumn{1}{|l|}{Cofins}                                              & 0.1314                     & 0.1735                          & 0.76                   & 0.44874                      \\ \hline
-\multicolumn{1}{|l|}{Concessão / Permissão / Autorização}                 & 0.1353                     & 0.1287                          & 1.05                   & 0.29333                      \\ \hline
-\multicolumn{1}{|l|}{Contratos Bancários}                                 & 0.3355                     & 0.0993                          & 3.38                   & 0.00073                      \\ \hline
-\multicolumn{1}{|l|}{Contribuições Previdenciárias}                       & 0.5884                     & 0.1653                          & 3.56                   & 0.00037                      \\ \hline
-\multicolumn{1}{|l|}{Convênio}                                            & 0.5299                     & 0.1822                          & 2.91                   & 0.00364                      \\ \hline
-\multicolumn{1}{|l|}{Energia Elétrica}                                    & 0.4476                     & 0.1239                          & 3.61                   & 0.00030                      \\ \hline
-\multicolumn{1}{|l|}{Esbulho / Turbação / Ameaça}                         & 0.3020                     & 0.1718                          & 1.76                   & 0.07873                      \\ \hline
-\multicolumn{1}{|l|}{FGTS/Fundo de Garantia Por Tempo de Serviço}         & 0.1671                     & 0.1515                          & 1.10                   & 0.26998                      \\ \hline
-\multicolumn{1}{|l|}{Financiamento Público da Educação e/ou Pesquisa}     & 0.1976                     & 0.1795                          & 1.10                   & 0.27094                      \\ \hline
-\multicolumn{1}{|l|}{FUNDEF}                                              & 0.8888                     & 0.1277                          & 6.96                   & 3.4e-12                      \\ \hline
-\multicolumn{1}{|l|}{Fundo de Participação dos Municípios}                & 0.2393                     & 0.1626                          & 1.47                   & 0.14103                      \\ \hline
-\multicolumn{1}{|l|}{Gratificação de Incentivo}                           & 0.3855                     & 0.1094                          & 3.52                   & 0.00042                      \\ \hline
-\multicolumn{1}{|l|}{Gratificações de Atividade}                          & 0.4853                     & 0.1195                          & 4.06                   & 4.9e-05                      \\ \hline
-\multicolumn{1}{|l|}{ICMS/ Imposto sobre Circulação de Mercadorias}       & 0.1665                     & 0.1297                          & 1.28                   & 0.19917                      \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Material}                       & 0.4195                     & 0.1458                          & 2.88                   & 0.00401                      \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Moral}                          & 0.6007                     & 0.1247                          & 4.82                   & 1.5e-06                      \\ \hline
-\multicolumn{1}{|l|}{Inquérito / Processo / Recurso Administrativo}       & 0.4598                     & 0.1460                          & 3.15                   & 0.00164                      \\ \hline
-\multicolumn{1}{|l|}{Inscrição / Documentação}                            & 0.1235                     & 0.1257                          & 0.98                   & 0.32576                      \\ \hline
-\multicolumn{1}{|l|}{IRPF/Imposto de Renda de Pessoa Física}              & 0.1371                     & 0.1158                          & 1.18                   & 0.23630                      \\ \hline
-\multicolumn{1}{|l|}{Liberação de mercadorias}                            & 0.4581                     & 0.1926                          & 2.38                   & 0.01739                      \\ \hline
-\multicolumn{1}{|l|}{Limitação do salário-de-benefício e da renda mensal} & -0.0746                    & 0.1399                          & -0.53                  & 0.59369                      \\ \hline
-\multicolumn{1}{|l|}{Multas e demais Sanções}                             & 0.4926                     & 0.1212                          & 4.06                   & 4.8e-05                      \\ \hline
-\multicolumn{1}{|l|}{Outros}                                              & 0.3132                     & 0.0971                          & 3.22                   & 0.00126                      \\ \hline
-\multicolumn{1}{|l|}{Pensão por Morte (Art. 74/9)}                        & 0.3526                     & 0.1689                          & 2.09                   & 0.03678                      \\ \hline
-\multicolumn{1}{|l|}{PIS}                                                 & 0.2097                     & 0.1403                          & 1.49                   & 0.13493                      \\ \hline
-\multicolumn{1}{|l|}{Reintegração}                                        & 0.4683                     & 0.1615                          & 2.90                   & 0.00374                      \\ \hline
-\multicolumn{1}{|l|}{RMI sem incidência de Teto Limitador}                & 0.2040                     & 0.1212                          & 1.68                   & 0.09242                      \\ \hline
-\multicolumn{1}{|l|}{Sustação/Alteração de Leilão}                        & -0.0369                    & 0.1624                          & -0.23                  & 0.82026                      \\ \hline
-\multicolumn{1}{|l|}{Transporte Terrestre}                                & 0.3572                     & 0.2041                          & 1.75                   & 0.08013                      \\ \hline
-\multicolumn{1}{|l|}{Log(scale)}                                          & -1.1318                    & 0.0170                          & -66.42                 & \textless 2e-16              \\ \hline
+                                                                 & Valor   & Std. Error & \multicolumn{1}{c|}{Z} & P-value          \\ \hline
+\multicolumn{1}{|l|}{(Intercept)}                                & 11.4169 & 729.3824   & 0.0157                 & 0.9875           \\ \hline
+\multicolumn{1}{|l|}{Ausência de pressupostos processuais}       & -0.9102 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Baixa Definitiva}                           & -0.6111 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Cancelamento de Distribuição}               & -0.9102 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Antecipação de tutela}                      & -6.3304 & 729.3825   & -0.0087                & 0.9931           \\ \hline
+\multicolumn{1}{|l|}{Ato ordinatório}                            & -6.2694 & 729.3825   & -0.0086                & 0.9931           \\ \hline
+\multicolumn{1}{|l|}{Audiência}                                  & -6.8144 & 729.3824   & -0.0093                & 0.9925           \\ \hline
+\multicolumn{1}{|l|}{Decurso   de Prazo}                         & -6.7364 & 729.3824   & -0.0092                & 0.9926           \\ \hline
+\multicolumn{1}{|l|}{Distribuição}                               & -6.36   & 729.3824   & -0.0087                & 0.993            \\ \hline
+\multicolumn{1}{|l|}{Documento}                                  & -6.3036 & 729.3824   & -0.0086                & 0.9931           \\ \hline
+\multicolumn{1}{|l|}{Expedição   de documento}                   & -6.4534 & 729.3824   & -0.0088                & 0.9929           \\ \hline
+\multicolumn{1}{|l|}{Incompetência}                              & -6.5559 & 729.3824   & -0.009                 & 0.9928           \\ \hline
+\multicolumn{1}{|l|}{Juntada}                                    & -6.7774 & 729.3824   & -0.0093                & 0.9926           \\ \hline
+\multicolumn{1}{|l|}{Mandado}                                    & -6.79   & 729.3824   & -0.0093                & 0.9926           \\ \hline
+\multicolumn{1}{|l|}{Mero expediente}                            & -6.7007 & 729.3824   & -0.0092                & 0.9927           \\ \hline
+\multicolumn{1}{|l|}{Mudança de Classe Processual}               & -6.9098 & 729.3824   & -0.0095                & 0.9924           \\ \hline
+\multicolumn{1}{|l|}{Não Acolhimento de Embargos de Declaração}  & -7.0288 & 729.3824   & -0.0096                & 0.9923           \\ \hline
+\multicolumn{1}{|l|}{Outros}                                     & -7.1828 & 729.3825   & -0.0098                & 0.9921           \\ \hline
+\multicolumn{1}{|l|}{Perempção, litispendência ou coisa julgada} & -7.0474 & 729.3825   & -0.0097                & 0.9923           \\ \hline
+\multicolumn{1}{|l|}{Petição}                                    & -6.5521 & 729.3824   & -0.009                 & 0.9928           \\ \hline
+\multicolumn{1}{|l|}{Recebimento}                                & -6.8211 & 729.3824   & -0.0094                & 0.9925           \\ \hline
+\multicolumn{1}{|l|}{Redistribuição}                             & -6.7051 & 729.3824   & -0.0092                & 0.9927           \\ \hline
+\multicolumn{1}{|l|}{Remessa}                                    & -6.7634 & 729.3824   & -0.0093                & 0.9926           \\ \hline
+\multicolumn{1}{|l|}{Requisição de Informações}                  & -6.6736 & 729.3825   & -0.0091                & 0.9927           \\ \hline
+\multicolumn{1}{|l|}{Decurso de Prazo}                           & -0.4392 & 859.9968   & -5e-04                 & 0.9996           \\ \hline
+\multicolumn{1}{|l|}{Desistência}                                & -0.9102 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Improcedência}                              & -0.9102 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Julgamento em   Diligência}                 & -0.7467 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Suspensão ou   Sobrestamento}               & 1.2185  & 0          & Inf                    & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Log(scale)}                                 & -1.2319 & 0.0177     & -69.7306               & \textless{}2e-16 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -1211,53 +1145,82 @@ Assim, utilizando-se como base os resultados obtidos na \textbf{Tabela 2}, obser
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
 \centering
-\caption{Medidas descritivas do modelo de regressão na Distribuição Log-Normal}
+\caption{Medidas do modelo de regressão na Distribuição Log-Normal}
 \begin{tabular}{l|l|l|l|l|}
 \cline{2-5}
-{\color[HTML]{333333} }                                                   & \multicolumn{1}{c|}{Valor} & \multicolumn{1}{c|}{Std. Error} & \multicolumn{1}{c|}{Z} & \multicolumn{1}{c|}{P-value} \\ \hline
-\multicolumn{1}{|l|}{Intercepto}                                          & 4.5724                     & 0.1028                          & 44.49                  & \textless 2e-16              \\ \hline
-\multicolumn{1}{|l|}{Alienação Fiduciária}                                & 0.1232                     & 0.1448                          & 0.85                   & 0.39495                      \\ \hline
-\multicolumn{1}{|l|}{Anistia Política}                                    & 0.3648                     & 0.1558                          & 2.34                   & 0.01919                      \\ \hline
-\multicolumn{1}{|l|}{Anulação}                                            & 0.0634                     & 0.1445                          & 0.44                   & 0.66067                      \\ \hline
-\multicolumn{1}{|l|}{Aposentadoria por Tempo de Contribuição}             & 0.3214                     & 0.1880                          & 1.71                   & 0.08742                      \\ \hline
-\multicolumn{1}{|l|}{ASSISTÊNCIA SOCIAL}                                  & 0.1008                     & 0.2339                          & 0.43                   & 0.66667                      \\ \hline
-\multicolumn{1}{|l|}{Atualização de Conta}                                & 0.2167                     & 0.1366                          & 1.59                   & 0.11255                      \\ \hline
-\multicolumn{1}{|l|}{Benefício Assistencial (Art. 203,V CF/88)}           & -0.1561                    & 0.1836                          & -0.85                  & 0.39528                      \\ \hline
-\multicolumn{1}{|l|}{Causas Supervenientes à Sentença}                    & 0.6109                     & 0.1061                          & 5.76                   & 8.6e-09                      \\ \hline
-\multicolumn{1}{|l|}{Classificação e/ou Preterição}                       & 0.2110                     & 0.1391                          & 1.52                   & 0.12914                      \\ \hline
-\multicolumn{1}{|l|}{CND/Certidão Negativa de Débito}                     & 0.5372                     & 0.1885                          & 2.85                   & 0.00437                      \\ \hline
-\multicolumn{1}{|l|}{Cofins}                                              & 0.1008                     & 0.1805                          & 0.56                   & 0.57672                      \\ \hline
-\multicolumn{1}{|l|}{Concessão / Permissão / Autorização}                 & 0.1044                     & 0.1415                          & 0.74                   & 0.46074                      \\ \hline
-\multicolumn{1}{|l|}{Contratos Bancários}                                 & 0.3585                     & 0.1070                          & 3.35                   & 0.00081                      \\ \hline
-\multicolumn{1}{|l|}{Contribuições Previdenciárias}                       & 0.5691                     & 0.1737                          & 3.28                   & 0.00105                      \\ \hline
-\multicolumn{1}{|l|}{Convênio}                                            & 0.4818                     & 0.1891                          & 2.55                   & 0.01083                      \\ \hline
-\multicolumn{1}{|l|}{Energia Elétrica}                                    & 0.3955                     & 0.1338                          & 2.96                   & 0.00312                      \\ \hline
-\multicolumn{1}{|l|}{Esbulho / Turbação / Ameaça}                         & 0.2844                     & 0.1842                          & 1.54                   & 0.12256                      \\ \hline
-\multicolumn{1}{|l|}{FGTS/Fundo de Garantia Por Tempo de Serviço}         & 0.2035                     & 0.1670                          & 1.22                   & 0.22304                      \\ \hline
-\multicolumn{1}{|l|}{Financiamento Público da Educação e/ou Pesquisa}     & 0.2512                     & 0.1821                          & 1.38                   & 0.16770                      \\ \hline
-\multicolumn{1}{|l|}{FUNDEF}                                              & 0.8579                     & 0.1365                          & 6.29                   & 3.3e-10                      \\ \hline
-\multicolumn{1}{|l|}{Fundo de Participação dos Municípios}                & 0.1896                     & 0.1687                          & 1.12                   & 0.26099                      \\ \hline
-\multicolumn{1}{|l|}{Gratificação de Incentivo}                           & 0.3593                     & 0.1180                          & 3.04                   & 0.00233                      \\ \hline
-\multicolumn{1}{|l|}{Gratificações de Atividade}                          & 0.4647                     & 0.1271                          & 3.66                   & 0.00026                      \\ \hline
-\multicolumn{1}{|l|}{ICMS/ Imposto sobre Circulação de Mercadorias}       & 0.1710                     & 0.1377                          & 1.24                   & 0.21431                      \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Material}                       & 0.4201                     & 0.1565                          & 2.68                   & 0.00726                      \\ \hline
-\multicolumn{1}{|l|}{Indenização por Dano Moral}                          & 0.5901                     & 0.1321                          & 4.47                   & 7.9e-06                      \\ \hline
-\multicolumn{1}{|l|}{Inquérito / Processo / Recurso Administrativo}       & 0.4488                     & 0.1510                          & 2.97                   & 0.00295                      \\ \hline
-\multicolumn{1}{|l|}{Inscrição / Documentação}                            & 0.2391                     & 0.1347                          & 1.78                   & 0.07588                      \\ \hline
-\multicolumn{1}{|l|}{IRPF/Imposto de Renda de Pessoa Física}              & 0.1180                     & 0.1252                          & 0.94                   & 0.34599                      \\ \hline
-\multicolumn{1}{|l|}{Liberação de mercadorias}                            & 0.4437                     & 0.1937                          & 2.29                   & 0.02199                      \\ \hline
-\multicolumn{1}{|l|}{Limitação do salário-de-benefício e da renda mensal} & -0.1069                    & 0.1589                          & -0.67                  & 0.50120                      \\ \hline
-\multicolumn{1}{|l|}{Multas e demais Sanções}                             & 0.4674                     & 0.1301                          & 3.59                   & 0.00033                      \\ \hline
-\multicolumn{1}{|l|}{Outros}                                              & 0.3218                     & 0.1041                          & 3.09                   & 0.00200                      \\ \hline
-\multicolumn{1}{|l|}{Pensão por Morte (Art. 74/9)}                        & 0.3180                     & 0.1811                          & 1.76                   & 0.07918                      \\ \hline
-\multicolumn{1}{|l|}{PIS}                                                 & 0.2317                     & 0.1470                          & 1.58                   & 0.11487                      \\ \hline
-\multicolumn{1}{|l|}{Reintegração}                                        & 0.4606                     & 0.1737                          & 2.65                   & 0.00801                      \\ \hline
-\multicolumn{1}{|l|}{RMI sem incidência de Teto Limitador}                & 0.2019                     & 0.1319                          & 1.53                   & 0.12589                      \\ \hline
-\multicolumn{1}{|l|}{Sustação/Alteração de Leilão}                        & -0.0614                    & 0.1818                          & -0.34                  & 0.73545                      \\ \hline
-\multicolumn{1}{|l|}{Transporte Terrestre}                                & 0.2946                     & 0.2102                          & 1.40                   & 0.16097                      \\ \hline
-\multicolumn{1}{|l|}{Log(scale)}                                          & -0.5464                    & 0.0148                          & -37.01                 & \textless 2e-16              \\ \hline
+                                                                 & Valor   & Std. Error & \multicolumn{1}{c|}{Z} & P-value          \\ \hline
+\multicolumn{1}{|l|}{(Intercept)}                                & 8.1379  & 522.548    & 0.0156                 & 0.9876           \\ \hline
+\multicolumn{1}{|l|}{Ausência de pressupostos processuais}       & -0.9102 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Baixa Definitiva}                           & -0.6106 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Cancelamento de Distribuição}               & -0.9102 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Antecipação de tutela}                      & -3.0147 & 522.5481   & -0.0058                & 0.9954           \\ \hline
+\multicolumn{1}{|l|}{Ato ordinatório}                            & -2.9904 & 522.5482   & -0.0057                & 0.9954           \\ \hline
+\multicolumn{1}{|l|}{Audiência}                                  & -3.4549 & 522.548    & -0.0066                & 0.9947           \\ \hline
+\multicolumn{1}{|l|}{Decurso de Prazo}                           & -3.427  & 522.548    & -0.0066                & 0.9948           \\ \hline
+\multicolumn{1}{|l|}{Distribuição}                               & -3.0947 & 522.548    & -0.0059                & 0.9953           \\ \hline
+\multicolumn{1}{|l|}{Documento}                                  & -3.0519 & 522.548    & -0.0058                & 0.9953           \\ \hline
+\multicolumn{1}{|l|}{Expedição de documento}                     & -3.1885 & 522.548    & -0.0061                & 0.9951           \\ \hline
+\multicolumn{1}{|l|}{Incompetência}                              & -3.2459 & 522.5481   & -0.0062                & 0.995            \\ \hline
+\multicolumn{1}{|l|}{Juntada}                                    & -3.4941 & 522.548    & -0.0067                & 0.9947           \\ \hline
+\multicolumn{1}{|l|}{Mandado}                                    & -3.4642 & 522.548    & -0.0066                & 0.9947           \\ \hline
+\multicolumn{1}{|l|}{Mero expediente}                            & -3.3929 & 522.548    & -0.0065                & 0.9948           \\ \hline
+\multicolumn{1}{|l|}{Mudança de Classe Processual}               & -3.6001 & 522.548    & -0.0069                & 0.9945           \\ \hline
+\multicolumn{1}{|l|}{Não Acolhimento de Embargos de Declaração}  & -3.7498 & 522.5481   & -0.0072                & 0.9943           \\ \hline
+\multicolumn{1}{|l|}{Outros}                                     & -3.9038 & 522.5482   & -0.0075                & 0.994            \\ \hline
+\multicolumn{1}{|l|}{Perempção, litispendência ou coisa julgada} & -3.7685 & 522.5482   & -0.0072                & 0.9942           \\ \hline
+\multicolumn{1}{|l|}{Petição}                                    & -3.2878 & 522.548    & -0.0063                & 0.995            \\ \hline
+\multicolumn{1}{|l|}{Recebimento}                                & -3.491  & 522.548    & -0.0067                & 0.9947           \\ \hline
+\multicolumn{1}{|l|}{Redistribuição}                             & -3.4188 & 522.548    & -0.0065                & 0.9948           \\ \hline
+\multicolumn{1}{|l|}{Remessa}                                    & -3.4561 & 522.548    & -0.0066                & 0.9947           \\ \hline
+\multicolumn{1}{|l|}{Requisição de Informações}                  & -3.342  & 522.5481   & -0.0064                & 0.9949           \\ \hline
+\multicolumn{1}{|l|}{Decurso de Prazo}                           & -0.0976 & 542.8299   & -2e-04                 & 0.9999           \\ \hline
+\multicolumn{1}{|l|}{Desistência}                                & -0.9102 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Improcedência}                              & -0.9102 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Julgamento em Diligência}                   & -0.5611 & 0          & -Inf                   & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Suspensão ou Sobrestamento}                 & 1.443   & 0          & Inf                    & \textless{}2e-16 \\ \hline
+\multicolumn{1}{|l|}{Log(scale)}                                 & -0.7138 & 0.0155     & -46.0684               & \textless{}2e-16 \\ \hline
 \end{tabular}
 \end{table}
+
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+\subparagraph{}
+
+Após a seleção do melhor ajuste conjuntamente com sua distribuição, gera-se o interesse de qualificar os resíduos para averiguar a qualidade do modelo proposto. Dessa maneira, abaixo na \textbf{Figura \ref{Figura177}} utilizou-se o gráfico de resíduos de Cox-Snell para realização dessa atividade.
+
+\begin{figure}[htb!]
+\caption{\it Análise de resíduos de Cox-Snell}
+\label{Figura177}
+\begin{center}
+\includegraphics[width=16cm]{Figuras/Figura18.png}
+\end{center}
+\end{figure}
+
+Considerando que a interpretação de um bom ajuste no gráfico acima se deve quando os ($e_{i}’s$) podem ser olhados como uma amostra censurada de uma distribuição exponencial padrão e, então, o gráfico de, $H(e_{i})$ versus ($e_{i}$) cria um \textit{plot} que deveria ser aproximadamente uma reta, então pode-se considerar com base no \textit{plot} acima que o modelo 1 conjuntamente com a distribuição exponencial não apresenta maiores problemas em relação aos seus resíduos. 
+
+\subparagraph{}
 
 \subsection{Análise do sistema}
 
@@ -1531,7 +1494,7 @@ Como medida para melhorar a compreensão sobre a distribuição e comportamento 
 
 \section{Referências}
 
-\begin{flushleft} \normalsize{COLONISMO, E.A.; GIOLO, S.R. ANÁLISE DE SOBREVIVÊNCIA APLICADA. SÃO PAULO: EDGARD BLUCHER, 2006.} \\
+\begin{flushleft} \normalsize{COLOSIMO, E.A.; GIOLO, S.R. ANÁLISE DE SOBREVIVÊNCIA APLICADA. SÃO PAULO: EDGARD BLUCHER, 2006.} \\
 \end{flushleft}
 
 \begin{flushleft} \normalsize{J.F. LAWLESS, ESTATISTICAL MODELS AND METHODS FOR LIFETIME DATA, JOHN WILEY & SONS, NEW YORK, 1982.} \\
@@ -1579,10 +1542,16 @@ Como medida para melhorar a compreensão sobre a distribuição e comportamento 
 \begin{flushleft} \normalsize{PACHECO ET AL.; ANTONIO ET AL., APRENDENDO R, ESCOLA NACIONAL DE SAÚDE PÚBLICA - FIOCRUZ, RIO DE JANEIRO, 2014.} \\
 \end{flushleft}
 
-\begin{flushleft} \normalsize{NAKANO, E. Y. UM CURSO DE ANÁLISE DE SOBREVIVÊNCIA. BRASÍLIA: UNIVERSIDADE DE BRASILIA, 2018.} \\
+\begin{flushleft} \normalsize{A. KAUFMANN; D. GROUCHKO; R. CRUON; MATHEMATICAL MODELS FOR STUDY OF THE REABILITY OF SYSTEMS; UNIVERSITY OF SOUTHERN CALIFORNIA; VOLUME 124; 1997.} \\
 \end{flushleft}
 
 \begin{flushleft} \normalsize{GIOLO, S. R. MODELOS DE RISCOS PROPORCIONAIS. PARANÁ: UNIVERSIDADE FEDERAL DO PARANÁ, 2018.} \\
+\end{flushleft}
+
+\begin{flushleft} \normalsize{RUPERT G. MILLER; JR. RUPERT, SURVIVAL ANALYSIS, WILEY-INTERSCIENCE, 1998.} \\
+\end{flushleft}
+
+\begin{flushleft} \normalsize{MARILIA ET AL; VALESKA ET AL., ANALISE DE SOBREVIVENCIA: TEORIA E APLICAÇÕES EM SAUDE, FIOCRUZ, 2019.} \\
 \end{flushleft}
 
 \end{document}
