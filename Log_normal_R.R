@@ -79,9 +79,9 @@ AIC(lognormal) # Esse ganhou como melhor modelo
 #                          Gráfico do modelo sem a presença das covariáveis
 ##################################################################################################
 
-fit <- survfit(Surv(Tempo, Censura) ~ 1,type="kaplan-meier",conf.type="log",data = dados)
+fit <- survfit(Surv(Tempo, Censura) ~ 1,type="kaplan-meier",data = dados)
 
-plot(fit, main="Ajuste dos modelos sem a presença de covariáveis",
+plot(fit,conf.int=FALSE, main="Ajuste dos modelos sem a presença de covariáveis",
      xlab = "Tempo", ylab = "Probabilidade de Sobrevivência")
 grid(4, 5, lty = "dotted")
 
@@ -101,8 +101,8 @@ lines(x = predict(lognormal, type = "quantile", p = seq(0.01, 0.99, by=.01))[1,]
       y = rev(seq(0.01, 0.99, by = 0.01)),
       col = "orange",lty=4)
 
-legend(650,0.8, legend=c("Weibull", "Exponencial", "Log-Logistica", "Log-Normal"),
-       col=c("red", "blue", "green","orange"), lty=1:4, cex=0.8,box.lty=0, y.intersp = 0.3, x.intersp = 0.2,
+legend(650,0.8, legend=c("Weibull", "Exponencial", "Log-Logistica", "Log-Normal","Kaplan Meier"),
+       col=c("red", "blue", "green","orange",'Black'), lty=1:4, cex=0.8,box.lty=0, y.intersp = 0.3, x.intersp = 0.2,
        xpd = TRUE, horiz=FALSE, bty = "n",
        xjust=0, yjust=0)
 
